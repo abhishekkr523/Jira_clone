@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class ChooseTempletComponent {
 
+  selectedBox: number | null = null;
+  buttonVisible: boolean = false;
+
+  selectBox(boxNumber: number): void {
+    this.selectedBox = boxNumber;
+    this.buttonVisible = true;
+  }
+
+  goWelcomePage()
+  {
+    console.log('welcome')
+  }
 }
