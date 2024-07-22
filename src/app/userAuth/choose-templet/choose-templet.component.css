@@ -104,7 +104,10 @@
      
   
       /* button css  */
-  
+  .btn{
+    background-color: rgba(33, 33, 243, 0.985);
+    color: white;
+  }
       .btn:link,
       .btn:visited {
        text-transform: uppercase;

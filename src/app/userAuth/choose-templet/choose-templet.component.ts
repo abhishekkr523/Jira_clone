@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-choose-templet',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
 })
 export class ChooseTempletComponent {
 
+
+  constructor(private router:Router){}
   selectedBox: number | null = null;
   buttonVisible: boolean = false;
 
@@ -17,6 +20,7 @@ export class ChooseTempletComponent {
 
   goWelcomePage()
   {
+ this.router.navigate(['welcomePage'])
     console.log('welcome')
   }
 }
