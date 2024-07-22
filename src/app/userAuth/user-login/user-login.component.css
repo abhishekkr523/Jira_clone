@@ -1,0 +1,12 @@
+form{
+    /* background-image: url(./assets/google.svg); */
+    width: 400px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+    padding: 32px 40px;
+}
+.btn{
+    border: 1px solid rgb(193, 199, 208);
+    border-radius: 3px;
+    color: #42526E;
+    background: rgb(255, 255, 255);
+}
