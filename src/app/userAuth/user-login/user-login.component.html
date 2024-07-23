@@ -1,13 +1,8 @@
-<div class="container-fluid d-flex align-item-center justify-content-center">
-  <img
-    src=".././assets/Wallpaper.jpg"
-    alt="img"
-    style="width: 10px; height: 10px; background-size: contain"
-  />
-  <form>
-    <div class="mb-3">
-      <h1>ATLASSIAN <img src="assets/atlassian.png" alt="img" /></h1>
-      <label for="exampleInputEmail1" class="form-label"
+<div class="container-fluid d-flex align-item-center justify-content-center" style="background-image: url(login_bg.svg); background-position: center; background-size: cover;">
+  <form class="bg-light" (ngSubmit)="onSubmit()">
+    <div class="mb-3 d-flex align-item-center justify-content-center flex-column">
+      <img src="atlassian_blue.png" alt="img" style="width: 300px; margin-bottom: 25px;"/>
+      <label for="exampleInputEmail1" class="login-to-continue form-label d-flex align-item-center justify-content-center"
         >Log in to continue</label
       >
       <input
@@ -15,30 +10,45 @@
         class="form-control"
         aria-describedby="emailHelp"
         placeholder="Enter your email"
+        [(ngModel)]="email"
+        name="email"
+        required
       />
-      <div id="emailHelp" class="form-text">
-        We'll never share your email with anyone else.
-      </div>
-      <button type="submit" class="btn btn-primary w-100 mt-3">
-        <img
-          src="assets/google.svg"
-          alt="img"
-          style="width: 10px; height: 10px"
-        />Continue
+      <button type="submit" class="btn btn-primary w-100 mt-3 mb-3 bg-primary text-light" >Continue
       </button>
-      <label for="exampleInputEmail1" class="form-label"
+      <label for="exampleInputEmail1" class="form-label d-flex align-item-center justify-content-center"
         >Or continue with</label
       >
-      <button type="submit" class="btn btn-primary w-100 mt-3">Google</button>
-      <button type="submit" class="btn btn-primary w-100 mt-3">
+      <button class="btn btn-primary w-100 text-dark fw-bold"> <img
+        src="google.svg"
+        alt="img"
+        style="width: 27px; height: 27px"
+      />Google</button>
+      <button class="btn btn-primary w-100 mt-3 text-dark fw-bold"><img
+        src="microsoft.svg"
+        alt="img"
+        style="width: 27px; height: 27px"
+      />
         Microsoft
       </button>
-      <button type="submit" class="btn btn-primary w-100 mt-3">Apple</button>
-      <button type="submit" class="btn btn-primary w-100 mt-3">Stack</button>
-      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <button class="btn btn-primary w-100 mt-3 text-dark fw-bold"><img
+        src="apple.svg"
+        alt="img"
+        style="width: 27px; height: 27px"
+      />Apple</button>
+      <button class="btn btn-primary w-100 mt-3 text-dark fw-bold"><img
+        src="slack.svg"
+        alt="img"
+        style="width: 27px; height: 27px"
+      />Stack</button>
+      <label for="exampleInputEmail1" class="form-label d-flex align-item-center justify-content-center text-primary">Can't log in . Create an account</label>
       <hr />
-      <h2>ATLASSIAN</h2>
-      <p>ibijbviloihovibjp nkji</p>
+      <h2 class="d-flex align-item-center justify-content-center"><img
+        src="atlassian_dark.png"
+        alt="img"
+        style="width: 170px;"
+      /></h2>
+      <p class="d-flex align-item-center justify-content-center text-dark more">One account for jira, Confluence, Trello and more.</p>
     </div>
   </form>
 </div>

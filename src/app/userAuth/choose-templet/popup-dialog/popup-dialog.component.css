@@ -1,0 +1,83 @@
+.mode1{
+    height: 100%;
+    display: flex;
+}
+.inner{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    column-gap: 3;
+    width: 50%;
+    padding: 4em;
+}
+.inner2{
+    margin-top: 2em;
+}
+.form-check{
+    padding: 1%;
+    outline: none;
+}
+/* .form-control{
+    border: 1px solid rgba(0, 0, 0, 0.662);
+} */
+.form-control:focus{
+border: 1px solid #2a2afce5;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    padding-right: 4em;
+}
+.button{
+    display: flex;
+    justify-content: end;
+}
+/* button{
+    background-color: #2a2afce5;
+    color:white;
+    padding: .7em;
+    border-radius: 5px;
+    border: none;
+}
+button:hover{
+    background-color:  #2a2afc;
+} */
+.form-check{
+    display: flex;
+   align-items:center;
+}
+.form-check-input,.form-check-label{
+    margin: 0 !important;
+}
+.form-check-label{
+    padding-left: 8px;
+}
+
+/* Custom styles to decrease the height of Material input */
+.custom-height .mat-form-field-flex {
+    padding-top: 4px;   /* Adjust padding to reduce height */
+    padding-bottom: 4px;
+  }
+  
+  .custom-height .mat-input-element {
+    height: 10px;       /* Adjust input height */
+    padding: 4px 0;     /* Adjust input padding */
+  }
+  
+  .custom-height .mat-form-field-underline {
+    bottom: 4px;        /* Adjust underline position if necessary */
+  }
+  
+  .custom-height .mat-form-field-wrapper {
+    padding-bottom: 4px; /* Adjust wrapper padding to match reduced height */
+  }
+  
+  .image{
+    width: 50%;
+    background-image: url('../../../../../public/jiraaa.png');
+    overflow: hidden;
+    background-position: top left;
+    background-size:cover;
+    background-repeat: no-repeat;
+    border: 1px solid #ccc;  
+  }

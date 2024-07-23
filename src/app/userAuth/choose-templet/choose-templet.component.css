@@ -1,0 +1,153 @@
+.con {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .box1 {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      width: 60%;
+      height: 24%;
+    /* margin-bottom: 30px;
+    gap: 10px; */
+  }
+  
+  .box1 h1 {
+    font-size: 50px;
+    font-weight: 900;
+  }
+  .box1 p {
+      /* font-size: 50px; */
+      text-align: center;
+      /* font-weight: 900; */
+    }
+    
+  
+  
+  .icon {
+    width: 17%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .icon img {
+    height: 45px;
+    width: 54px;
+  }
+  
+  .box2 {
+    width: 95%;
+    height: 60%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* border: 1px solid black; */
+  }
+  
+  .innerbox {
+    width: 30%;
+    height: 93%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: start;
+    /* gap: 10px; */
+    
+    padding: 2px;
+    /* border: 1px solid red; */
+    padding-bottom: 21px;
+  }
+  
+  
+  
+  .innerbox img{
+      height: 73%;
+      width: 80%;
+     margin-left: 10%;
+  }
+  .innerbox h1 {
+     /* height: 10px; */
+     width: 80%;
+     font-weight: 600;
+     padding-left: 2%;
+     
+  }
+  
+  @media (min-width: 1200px) {
+      .h3, h3,p {
+          /* font-size: 1.75rem; */
+          padding-left: 23px;
+      }
+  }
+  
+  .innerbox:hover{
+      border: .3rem  solid rgba(33, 33, 243, 0.985);
+  }
+
+  .con .box2 .innerbox.selected {
+    border: .3rem  solid rgba(33, 33, 243, 0.985);
+}
+  
+  /* button{
+      width: 30%;
+      background-color: rgba(33, 33, 243, 0.985);
+      color: white;
+      font-weight: 600;
+      padding: 5px;
+      border: none;
+      /* border: 25%; */
+     
+  
+      /* button css  */
+  .btn{
+    background-color: rgba(33, 33, 243, 0.985);
+    color: white;
+  }
+      .btn:link,
+      .btn:visited {
+       text-transform: uppercase;
+       text-decoration: none;
+       color: rgb(27, 27, 27);
+       padding: 10px 30px;
+       border: 1px solid;
+       border-radius: 1000px;
+       display: inline-block;
+       transition: all .2s;
+       position: relative;
+      }
+      
+      .btn:hover {
+       transform: translateY(-5px);
+       box-shadow: 0 10px 20px rgba(27, 27, 27, .5);
+       background-color: rgb(28, 38, 175);
+       color: white;
+      }
+      
+      .btn:active {
+       transform: translateY(-3px);
+      }
+      
+      .btn::after {
+       content: "";
+       display: inline-block;
+       height: 100%;
+       width: 100%;
+       border-radius: 100px;
+       top: 0;
+       left: 0;
+       position: absolute;
+       z-index: -1;
+       transition: all .3s;
+      }
+      
+      .btn:hover::after {
+       background-color: rgb(0, 238, 255);
+       transform: scaleX(1.4) scaleY(1.5);
+       opacity: 0;
+      }
+  
