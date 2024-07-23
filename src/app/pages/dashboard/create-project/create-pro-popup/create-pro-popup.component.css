@@ -1,0 +1,27 @@
+.header{
+    display: flex;
+    background-color: green;
+    width: 100%;
+    height: 80px;
+    padding: 0 10px 0 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+.header2{
+    display: flex;
+    justify-content: space-around;
+    background-color: aqua;
+    width: 15%;
+}
+.form-group{
+    width: 45%;
+}
+.form-group2{
+    width: 100%;
+}
+.custom-input {
+    align-items: start;
+    background-color: aqua;
+    width: 100%; /* Adjust the width as needed */
+    height: 100px; /* Adjust the height as needed */
+  }

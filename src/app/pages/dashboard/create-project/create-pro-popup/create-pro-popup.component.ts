@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrl: './create-pro-popup.component.css'
 })
 export class CreateProPopupComponent {
+  formData = {
+    name: '',
+    email: '',
+    country: ''
+  };
+  Option = ['In progress', 'Done', 'Ready to deploy'];
 
+  onSubmit(){}
 }
