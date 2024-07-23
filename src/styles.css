@@ -2,6 +2,41 @@
 
 html, body { height: 100%; }
 body { }
+
 .custom-dialog-container  {
     border-radius: 15px; /* Adjust the value as needed */
+    width: '1100px';
+    height: '650px';
+    
+  }
+  /* Small screens */
+@media (max-width: 599px) {
+    .custom-dialog-container .mat-dialog-container {
+      width: 90vw;
+      height: 90vh;
+    }
+  }
+  
+  /* Medium screens */
+  @media (min-width: 600px) and (max-width: 959px) {
+    .custom-dialog-container .mat-dialog-container {
+      width: 85vw;
+      height: 85vh;
+    }
+  }
+  
+  /* Large screens */
+  @media (min-width: 960px) and (max-width: 1279px) {
+    .custom-dialog-container .mat-dialog-container {
+      width: 70vw;
+      height: 70vh;
+    }
+  }
+  
+  /* Extra large screens */
+  @media (min-width: 1280px) {
+    .custom-dialog-container .mat-dialog-container {
+      width: 60vw;
+      height: 60vh;
+    }
   }
