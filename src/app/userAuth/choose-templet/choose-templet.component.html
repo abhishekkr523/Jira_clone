@@ -1,6 +1,6 @@
 <div class="con">
     <div class="box1">
-        <div class="icon">
+        <div class="icon" >
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcc2TZvbHh60NDISnKd4Vk-BgGqoL_JWCpIw&s" alt="">
             <h1>jira</h1>
         </div>
@@ -10,21 +10,21 @@
         </div>
     </div>
     <div class="box2">
-        <div class="innerbox" (click)="selectBox(1)" [class.selected]="selectedBox === 1">
+        <div class="innerbox" (click)="openDialog()" [class.selected]="selectedBox === 1">
             <img src="image.png" alt="">
             <h3>Project Management</h3>
             <p>Manage & track agile works plus integrate developer tool like Github</p>
         </div>
-        <div class="innerbox" (click)="selectBox(2)" [class.selected]="selectedBox === 2">
+        <div class="innerbox" (click)="openDialog()" [class.selected]="selectedBox === 2">
             <img src="kanban.png" alt="">
             <h3>Scrum</h3>
             <p>Plan, prioritize & schedule sprints using scrum framework</p>
         </div>
-        <div class="innerbox" (click)="selectBox(3)" [class.selected]="selectedBox === 3">
+        <div class="innerbox" (click)="openDialog()" [class.selected]="selectedBox === 3">
             <img src="working.png" alt="">
             <h3>Business collaboration</h3>
             <p>Manage work with list & calendar view plus get project summaries </p>
         </div>
     </div>
-    <a (click)="goWelcomePage()" class="btn" *ngIf="buttonVisible">Click Me</a>
+    <!-- <a (click)="goWelcomePage()" class="btn" *ngIf="buttonVisible">Click Me</a> -->
 </div>

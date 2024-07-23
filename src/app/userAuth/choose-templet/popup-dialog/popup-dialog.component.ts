@@ -29,6 +29,7 @@ export class PopupDialogComponent {
   onSubmit(): void {
     if (this.form.valid) {
       this.dialogRef.close(this.form.value);
+      console.log('valid')
     }
   }
 }

@@ -74,7 +74,7 @@ button:hover{
   
   .image{
     width: 50%;
-    background-image: url('/welcomeimage.png');
+    background-image: url('../../../../../public/jiraaa.png');
     overflow: hidden;
     background-position: top left;
     background-size:cover;
