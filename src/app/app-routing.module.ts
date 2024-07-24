@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PopupDialogComponent } from './userAuth/choose-templet/popup-dialog/popup-dialog.component';
 import { UserLoginComponent } from './userAuth/user-login/user-login.component';
 import { ChooseTempletComponent } from './userAuth/choose-templet/choose-templet.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 // import { WelcomePageComponent } from './userAuth/welcome-page/welcome-page.component';
 
 const routes: Routes = [
@@ -13,10 +14,10 @@ const routes: Routes = [
   },
   { path: 'user-login', component: UserLoginComponent },
   { path: 'template', component: ChooseTempletComponent },
-  // {
-  //   path:'welcomePage',
-  //   component:WelcomePageComponent
-  // }
+ {
+  path:'dashboard',
+  component:DashboardComponent
+ }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

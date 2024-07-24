@@ -14,6 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PopupDialogComponent } from './userAuth/choose-templet/popup-dialog/popup-dialog.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { HeaderComponent } from './pages/dashboard/header/header.component';
+import { SidebarComponent } from './pages/dashboard/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ChooseTempletComponent,
     // WelcomePageComponent,
     DashboardComponent,
-    PopupDialogComponent
+    PopupDialogComponent,
+    HeaderComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
