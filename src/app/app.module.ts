@@ -17,6 +17,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { HeaderComponent } from './pages/dashboard/header/header.component';
+import { SidebarComponent } from './pages/dashboard/sidebar/sidebar.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +27,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
     ChooseTempletComponent,
     // WelcomePageComponent,
     DashboardComponent,
-    PopupDialogComponent
+    PopupDialogComponent,
+    HeaderComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,169 @@
+
+  
+  .main {
+    font-family: "Lato", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100vw;
+    background-color: #fff;
+    box-shadow: 0px 10px 10px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+    padding: 0px 4px;
+    background-color: #fff;
+    height: 7vh;
+  }
+
+ .before{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* justify-content: space-between; */
+    /* width: 30% */
+ }
+ .after{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    /* justify-content: space-around; */
+ }
+  .icon {
+    width: 10%;
+    display: flex;
+    /* justify-content: space-around; */
+    gap: 13px;
+    align-items: center;
+  }
+  .icon img {
+    height: 37px;
+    width: 50px;
+  }
+  
+  .main-lin {
+    padding-top: 11px;
+    list-style-type: none;
+    display: flex;
+  }
+  .main-lin li a {
+    display: block;
+    text-decoration: none;
+    color: #444;
+    padding: 20px 20px;
+    font-weight: 700;
+    transition: 0.4s all;
+    gap: 1px;
+  }
+  
+  .main-lin li.main-drop {
+    position: relative;
+    
+  }
+  
+  .main-lin li.main-drop:hover .drop {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  
+  .main-lin li.main-drop .drop {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    padding: 20px 0;
+    top: 100%;
+    transform: translateY(50px);
+    left: 0;
+    width: 250px;
+    background-color: #fff;
+    box-shadow: 0px 10px 10px 3px rgba(0, 0, 0, 0.3);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    z-index: 111;
+    transition: 0.4s all;
+   
+  }
+  .main-lin li.main-drop .drop a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight: 400;
+  }
+  .main-drop .drop a:hover {
+    padding-left: 30px;
+  }
+  .main-lin li a:hover {
+    color: #ff3f34;
+  }
+  
+  .after-icon{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-around;
+    
+  }
+
+  .after-icon .fa-solid{
+    font-size: 20px;
+  }
+
+  .after-icon .fa-solid:hover{
+    /* border-width: 25px; */
+    /* width: 22%; */
+    /* height: auto; */
+    color: #ff3f34;
+    
+  }
+
+
+      /* upgrud button css start */
+      .btn{
+        /* background-color: rgba(33, 33, 243, 0.985); */
+        border: 1px solid black;
+        color: rgb(8, 8, 8);
+      }
+          .btn:link,
+          .btn:visited {
+           text-transform: uppercase;
+           text-decoration: none;
+           color: rgb(27, 27, 27);
+           padding: 10px 30px;
+           border: 1px solid;
+           border-radius: 1000px;
+           display: inline-block;
+           transition: all .2s;
+           position: relative;
+          }
+          
+          .btn:hover {
+           transform: translateY(-5px);
+           box-shadow: 0 10px 20px rgba(27, 27, 27, .5);
+           background-color: rgb(28, 38, 175);
+           color: white;
+          }
+          
+          .btn:active {
+           transform: translateY(-3px);
+          }
+          
+          .btn::after {
+           content: "";
+           display: inline-block;
+           height: 100%;
+           width: 100%;
+           border-radius: 100px;
+           top: 0;
+           left: 0;
+           position: absolute;
+           z-index: -1;
+           transition: all .3s;
+          }
+          
+          .btn:hover::after {
+           background-color: rgb(0, 238, 255);
+           transform: scaleX(1.4) scaleY(1.5);
+           opacity: 0;
+          }
+      
+             /* upgrud button css end */

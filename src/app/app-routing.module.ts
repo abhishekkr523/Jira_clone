@@ -5,6 +5,7 @@ import { UserLoginComponent } from './userAuth/user-login/user-login.component';
 import { ChooseTempletComponent } from './userAuth/choose-templet/choose-templet.component';
 import { CreateProPopupComponent } from './pages/dashboard/create-project/create-pro-popup/create-pro-popup.component';
 import { CreateProject } from './pages/dashboard/create-project/create-project';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 // import { WelcomePageComponent } from './userAuth/welcome-page/welcome-page.component';
 
 const routes: Routes = [

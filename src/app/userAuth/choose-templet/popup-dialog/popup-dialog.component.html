@@ -29,7 +29,9 @@
         <label for="project">Name your Project</label>
         <div class="input-group">
           <input id="project" class="form-control" placeholder="eg:- Kanban Project" name="dp" ngbDatepicker
-            #dp="ngbDatepicker" />
+            #dp="ngbDatepicker"
+           [(ngModel)]="projectName"
+            />
         </div>
       </div>
       <div class="inner2 mt-3">
@@ -56,7 +58,7 @@
     </form>
 
     <div class="button">
-      <button type="button" class="btn btn-primary">Get started</button>
+      <button type="button" class="btn btn-primary" (click)="onSubmit()">Get started</button>
     </div>
 
   </div>
