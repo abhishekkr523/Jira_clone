@@ -1,27 +1,65 @@
+
 .header{
     display: flex;
-    background-color: green;
-    width: 100%;
+    width: 73%;
     height: 80px;
+    background-color: white;
     padding: 0 10px 0 10px;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
 }
 .header2{
     display: flex;
     justify-content: space-around;
-    background-color: aqua;
     width: 15%;
 }
 .form-group{
     width: 45%;
+    
 }
 .form-group2{
     width: 100%;
 }
 .custom-input {
     align-items: start;
-    background-color: aqua;
     width: 100%; /* Adjust the width as needed */
     height: 100px; /* Adjust the height as needed */
   }
+  .inner{
+    padding-left: 2%;
+    padding-right: 2%;
+    background-color: white;
+    width:100%;
+  }
+  .container{
+    margin-top: 8%;
+    margin-bottom: 20%;
+
+  }
+  .footer{
+    display: flex;
+    width: 73%;
+    justify-content: space-between;
+    padding: 0 10px 0 10px;
+    position: fixed;
+    bottom: 46px;
+    height: 80px;
+    padding: 0 10px 0 10px;
+    background-color: white;
+
+    align-items: center;
+  }
+  .footer2{
+    display: flex;
+    justify-content: space-around;
+    width: 15%;
+  
+
+  }
+  .country{
+    border:.5px solid rgba(0, 0, 0, 0.774)
+  }
+.form-control{
+  margin-top: 10px;
+}

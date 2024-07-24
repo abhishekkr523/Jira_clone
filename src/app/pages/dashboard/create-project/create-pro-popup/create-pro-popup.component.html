@@ -1,74 +1,132 @@
-<div>
-    <div class="header">
-        <div style="background-color: blue;">
-            <h2>
-                Create issue
-            </h2>
-        </div>
-        <div class="header2">
-            <h2>-</h2>
-            <h2>+</h2>
-            <h2>=</h2>
-        </div>
-    </div>
+<div class="top">
+  <div class="header">
     <div>
-        <div class="container mt-5">
-            <form (ngSubmit)="onSubmit()">
-           <h5>Required fields are marked with an asterisk *</h5>
-              <div class="form-group">
-                <label for="country">Project</label>
-                <select class="form-control" id="country"  name="country" required>
-                  <option >sdfljansdf</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="country">Issue Type</label>
-                <select class="form-control" id="country"  name="country" required>
-                  <option >zsldkjbf</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="country">Status</label>
-                <select class="form-control" id="country"   name="country" required>
-                  <option >In Progress</option>
-                  <option >Ready to Deploy</option>
-                  <option >Done</option>
-                </select>
-              </div>
-              <div class="form-group2">
-                <label for="name">Summary</label>
-                <input type="text" class="form-control" id="name"  name="name" required>
-              </div>
-              <div class="form-group2 ">
-                <label for="name">Description</label>
-                <input type="text" class="form-control custom-input" id="name"  name="name" required>
-              </div>
-              <div class="form-group">
-                <label for="country">Project</label>
-                <select class="form-control" id="country"  name="country" required>
-                  <option >sdfljansdf</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="country">Project</label>
-                <select class="form-control" id="country"  name="country" required>
-                  <option >sdfljansdf</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="country">Project</label>
-                <select class="form-control" id="country"  name="country" required>
-                  <option >sdfljansdf</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="country">Project</label>
-                <select class="form-control" id="country"  name="country" required>
-                  <option >sdfljansdf</option>
-                </select>
-              </div>
-            </form>
-          </div>
-          
+      <h2>
+        Create issue
+      </h2>
     </div>
+    <div class="header2">
+      <h2>{{coffie}}</h2>
+      <h2>{{cancel}}</h2>
+    </div>
+  </div>
+  <div class="inner">
+    <div class="container ">
+      <form (ngSubmit)="onSubmit()">
+        <h5>Required fields are marked with an asterisk *</h5>
+        <div class="form-group">
+          <label for="country">Project</label>
+          <select class="form-control" id="country" name="country" required>
+            <option>sdfljansdf</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="country">Issue Type</label>
+          <select class="form-control" id="country" name="country" required>
+            <option>zsldkjbf</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="country">Status</label>
+          <select class="form-control" id="country" name="country" required>
+            <option>In Progress</option>
+            <option>Ready to Deploy</option>
+            <option>Done</option>
+          </select>
+        </div>
+        <div class="form-group2">
+          <label for="name">Summary</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group2 ">
+          <label for="name">Description</label>
+          <input type="text" class="form-control custom-input" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="country">Assignee</label>
+          <select class="form-control" id="country" name="country" required>
+            <option>sdfljansdf</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="country">Labels</label>
+          <select class="form-control" id="country" name="country" required>
+            <option>sdfljansdf</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="country">Parent</label>
+          <select class="form-control" id="country" name="country" required>
+            <option>sdfljansdf</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="country">Sprint</label>
+          <select class="form-control" id="country" name="country" required>
+            <option>sdfljansdf</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="country">Story points estimate</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="country">Reporter</label>
+          <select class="form-control" id="country" name="country" required>
+            <option>sdfljansdf</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="country">Attachment</label>
+          <div id="country">
+            <label style="cursor: pointer;" for="Upload">
+              <img [src]="imageUrl?imageUrl:'add image icon.png'"
+                style="max-width: 80px; margin-bottom: 30px;"></label>
+            <input type="file" (click)="onFileSelected($event)" id="Upload" class="d-none" (change)="onFileSelected($event)" >
+          </div>
+        </div>
+        <div class="form-group" id="extra">
+          <label for="country">Linked Issue</label>
+          <select class="form-control" id="country" name="country" required>
+            <option>blocks</option>
+            <option>ia block by</option>
+            <option>clones</option>
+            <option>is cloned by</option>
+            <option>duplicates</option>
+            <option>is duplicated by</option>
+            <option>reviews</option>
+            <option>is reviewed by</option>
+            <option>causes</option>
+            <option>is caused by</option>
+            <option>related to</option>
+          </select>
+          <select class="form-control" id="country" name="country" required>
+            <option *ngFor="let i of Option">{{i}}</option>
+          </select>
+          <p *ngIf="Option.length === 0" class="no-match">No match found</p>
+        </div>
+        <div class="form-group">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="country">
+          <label for="country">Flagged</label>
+          
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+  <div class="footer">
+    <div style=" width: 45%;">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+        <label class="form-check-label" for="flexRadioDefault1">
+          Not familiar
+        </label>
+      </div>
+    </div>
+    <div class="footer2">
+      <button>Cancel</button>
+      <button class="btn btn-primary">Create</button>
+    </div>
+  </div>
 </div>

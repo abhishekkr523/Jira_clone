@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,7 +14,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PopupDialogComponent } from './userAuth/choose-templet/popup-dialog/popup-dialog.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,11 +34,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    FontAwesomeModule,
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    library.add(fas);
+  }
+ }
