@@ -18,7 +18,11 @@ const routes: Routes = [
   { path: 'template', component: ChooseTempletComponent },
   {path:'create',component:CreateProject,children:[
     {path:'',component:CreateProPopupComponent}
-  ]}
+  ]},
+  {
+    path:'dashboard',
+    component:DashboardComponent
+   }
  
   // {
   //   path:'welcomePage',

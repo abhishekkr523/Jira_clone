@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { faCancel, faCoffee } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-create-pro-popup',
@@ -16,7 +17,7 @@ export class CreateProPopupComponent {
   };
   Option = ['In progress', 'Done', 'Ready to deploy'];
 faCoffee: any;
-
+constructor(private dialog:MatDialogRef<CreateProPopupComponent>){}
   onSubmit(){}
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -29,5 +30,8 @@ faCoffee: any;
         // console.log("ImageUrl",this.imageUrl)
       };
     }
+    }
+    onCloseDialog():void{
+      this.dialog.close()
     }
 }
