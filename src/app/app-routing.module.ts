@@ -4,6 +4,7 @@ import { PopupDialogComponent } from './userAuth/choose-templet/popup-dialog/pop
 import { UserLoginComponent } from './userAuth/user-login/user-login.component';
 import { ChooseTempletComponent } from './userAuth/choose-templet/choose-templet.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
 // import { WelcomePageComponent } from './userAuth/welcome-page/welcome-page.component';
 
 const routes: Routes = [
@@ -14,10 +15,14 @@ const routes: Routes = [
   },
   { path: 'user-login', component: UserLoginComponent },
   { path: 'template', component: ChooseTempletComponent },
- {
-  path:'dashboard',
-  component:DashboardComponent
- }
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+  },
+  {
+    path:'create-project',
+    component:CreateProjectComponent
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

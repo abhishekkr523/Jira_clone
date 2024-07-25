@@ -16,6 +16,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { HeaderComponent } from './pages/dashboard/header/header.component';
 import { SidebarComponent } from './pages/dashboard/sidebar/sidebar.component';
+import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SidebarComponent } from './pages/dashboard/sidebar/sidebar.component';
     DashboardComponent,
     PopupDialogComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    CreateProjectComponent
   ],
   imports: [
     BrowserModule,
