@@ -1,0 +1,10 @@
+.butnn{
+    display: flex;
+    justify-content: space-around;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+h3{
+    padding-top: 2px;
+}

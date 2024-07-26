@@ -5,6 +5,7 @@ import { UserLoginComponent } from './userAuth/user-login/user-login.component';
 import { ChooseTempletComponent } from './userAuth/choose-templet/choose-templet.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
+import { AllProjectNameComponent } from './pages/dashboard/project/all-project-name/all-project-name.component';
 // import { WelcomePageComponent } from './userAuth/welcome-page/welcome-page.component';
 
 const routes: Routes = [
@@ -22,6 +23,9 @@ const routes: Routes = [
   {
     path:'create-project',
     component:CreateProjectComponent
+  },{
+    path:'showAllProjects',
+    component:AllProjectNameComponent
   }
 ];
 @NgModule({

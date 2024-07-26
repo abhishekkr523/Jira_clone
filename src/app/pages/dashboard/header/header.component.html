@@ -26,7 +26,22 @@
               Projects
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-              <li><a class="dropdown-item" >View All Projects</a></li>
+              star project
+              <li *ngFor="let impProject of importantProjects ; let i= index">
+               
+                <div>
+                  {{impProject.name}} ({{impProject.key}}) 
+                </div>
+
+              </li>
+              Resent 
+              <li *ngFor="let project of projects; let i = index">
+                
+                <div>
+                   {{project.name}} ({{project.key}})
+                </div>
+              </li>
+              <li><a class="dropdown-item" routerLink="/showAllProjects" >View All Projects</a></li>
               <li><a class="dropdown-item" routerLink="/create-project" >Create Project</a></li>
               
             </ul>

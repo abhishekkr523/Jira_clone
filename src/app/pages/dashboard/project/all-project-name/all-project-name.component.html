@@ -1,0 +1,60 @@
+<app-header></app-header>
+
+<div class="box">
+    <div class="heading">
+        <h2>Project</h2>
+        <button type="button" class="btn btn-primary" routerLink="/create-project">create-project</button>
+    </div>
+    <div class="search">
+        <input type="text" name="" id="" placeholder="Search Project.." [(ngModel)]="searchProduct"
+            (input)="filterProjects()">
+    </div>
+    <div class="table">
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <!-- <i class="fa fa-arrow-up"></i>
+                        <i class="fa fa-arrow-down"></i> -->
+                        <i class="fa-solid fa-star" (click)="importantProjectFilter()"
+                        [ngClass]="{'star-active': showOnlyImportant, 'star-inactive': !showOnlyImportant}"
+                        ></i></th>
+                    <th scope="col">Project Name
+                       
+                    </th>
+                    <th scope="col">Key</th>
+                    <th scope="col">Lead</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let project of filteredProjects; let i = index">
+                    <td scope="row"><i class="fa-solid fa-star"
+                        [ngClass]="{'star-color': isImportant(project)}"
+                        (click)="star(project)">
+                        
+                        </i></td>
+                    <td> <img
+                            src="https://abhishekkr523.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10413?size=xxlarge"
+                            alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;">{{project.name}}
+                    </td>
+                    <td>{{project.key}}</td>
+                    <td>tarunPareta</td>
+                    <td>Team-managed software</td>
+                    <td>
+                        <i (click)="toggleTrashDiv(i)" class="fa-duotone fa-solid fa-ellipsis"></i>
+                        <div *ngIf="selectedProjectIndex === i" class="trash-div">
+                            <button (click)="moveToTrash()">Move to Trash</button>
+                        </div>
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <hr>
+</div>
