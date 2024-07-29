@@ -1,0 +1,90 @@
+/* .outer-container{
+width: 90vw;
+}
+.right-container{
+display: flex;
+width: 70vw;
+height: 70vh;
+}
+.right-container{
+    display: flex;
+    width: 200vw;
+    height: 70vh;
+    } */
+.main-container {
+  width: 100%;
+  height: 100vh;
+  .dialog-header {
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    nav {
+      ul {
+        li {
+          padding: 9px;
+          font-size: 19px;
+        }
+      }
+    }
+  }
+  .mat-typography {
+    height: 90%;
+    display: flex;
+    .container-left {
+      width: 63%;
+      height: 100%;
+      overflow-x: auto;
+    overflow-y: auto;
+      
+      .input-field {
+        width: 100%;
+        height: 185px;
+        &:hover {
+          outline: none;
+        }
+      }
+    }
+    .container-right {
+      width: 37%;
+      height: 100%;
+      padding-left: 30px;
+      overflow-x: auto;
+    overflow-y: auto;
+      .accordion {
+        //    .no-box-shadow {
+        //       box-shadow: none !important;
+        //   }
+        .accordion-item {
+          .accordion-button {
+            box-shadow: none;
+            color:none;
+            background-color: transparent;
+            &:hover {
+              box-shadow: none !important;
+              color:none;
+              background-color: transparent;
+            }
+            // &:not{
+            //    color: red !important;
+            // }
+            &:not(.collapsed){
+               color: black;
+            }
+          }
+        }
+
+        //   .no-box-shadow:active {
+        //       box-shadow: none !important;
+        //   }
+
+        .label {
+          width: 51%;
+        }
+        .field {
+          width: 49%;
+        }
+      }
+    }
+  }
+}

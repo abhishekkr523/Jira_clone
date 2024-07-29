@@ -14,7 +14,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PopupDialogComponent } from './userAuth/choose-templet/popup-dialog/popup-dialog.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
+import { BacklogComponent } from './pages/backlog/backlog.component';
+import { BoardComponent } from './pages/board/board.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { InitialPipe } from './initial.pipe';
+import { MatSelectModule } from '@angular/material/select';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { TaskDetailsComponent } from './pages/task-details/task-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +28,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ChooseTempletComponent,
     // WelcomePageComponent,
     DashboardComponent,
-    PopupDialogComponent
+    PopupDialogComponent,
+    BacklogComponent,
+    BoardComponent,
+    InitialPipe,
+    TaskDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +42,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    DragDropModule,
+    MatSelectModule,SelectDropDownModule
   ],
   providers: [
     provideClientHydration()
