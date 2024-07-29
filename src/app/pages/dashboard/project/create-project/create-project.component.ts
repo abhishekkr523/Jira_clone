@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 // import { HotToastService } from '@ngxpert/hot-toast';
 import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs';
+import { DataServiceService } from '../../../../service/data-service.service';
 
 @Component({
   selector: 'app-create-project',
@@ -14,7 +15,7 @@ import { map } from 'rxjs';
 export class CreateProjectComponent implements OnInit {
 
 
-  constructor(private router : Router,private toast:ToastrService) { }
+  constructor(private router : Router,private toast:ToastrService,private dataService:DataServiceService) { }
   projectName: FormControl = new FormControl('', [
     Validators.required,
 
@@ -46,6 +47,10 @@ export class CreateProjectComponent implements OnInit {
         isStar: Boolean(false),
       };
       existingProjects.push(projectDetails);
+
+      this.dataService.projectsSubject.next(existingProjects);
+      this.dataService.updateProjects(existingProjects);
+
       localStorage.setItem('projects', JSON.stringify(existingProjects));
 
       

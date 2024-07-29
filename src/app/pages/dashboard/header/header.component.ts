@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataServiceService } from '../../../service/data-service.service';
 
 @Component({
   selector: 'app-header',
@@ -18,33 +19,18 @@ export class HeaderComponent implements OnInit {
     this.activeLink = target;
   }
 
-  ngOnInit(): void {
-    this.resentProject()
-    this.loadImportantProjects()
-  }
-
-
   projects: any[] = [];
-  resentProject() {
-    if(typeof Storage !== "undefined")
-    {
-      const storedProjects = localStorage.getItem('projects');
-      if (storedProjects) {
-        this.projects = JSON.parse(storedProjects);
-        // this.filteredProjects = [...this.projects];
-
-      }
-    }
-  }
-
   importantProjects: any[] = [];
 
-  loadImportantProjects() {
-    if (typeof Storage !== 'undefined') {
-      const storedProjects = localStorage.getItem('importantProjects');
-      if (storedProjects) {
-        this.importantProjects = JSON.parse(storedProjects);
-      }
-    }
+  constructor(private projectService: DataServiceService) {}
+
+  ngOnInit() {
+    this.projectService.projectsSubject.subscribe((projects: any) => {
+      this.projects = projects;
+    });
+
+    this.projectService.importantProjectsSubject.subscribe((importantProjects: any) => {
+      this.importantProjects = importantProjects;
+    });
   }
 }

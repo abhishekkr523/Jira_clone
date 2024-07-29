@@ -26,21 +26,27 @@
               Projects
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-              star project
+              <p>star project</p>
               <li *ngFor="let impProject of importantProjects ; let i= index">
                
                 <div>
-                  {{impProject.name}} ({{impProject.key}}) 
+                  <img 
+                  src="https://abhishekkr523.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10413?size=xxlarge"
+                  alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;">  {{impProject.name}} ({{impProject.key}}) 
                 </div>
 
               </li>
-              Resent 
+              <hr>
+              <p >Resent </p>
               <li *ngFor="let project of projects; let i = index">
                 
                 <div>
-                   {{project.name}} ({{project.key}})
+                  <img 
+                  src="https://abhishekkr523.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10413?size=xxlarge"
+                  alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;">  {{project.name}} ({{project.key}})
                 </div>
               </li>
+              <hr>
               <li><a class="dropdown-item" routerLink="/showAllProjects" >View All Projects</a></li>
               <li><a class="dropdown-item" routerLink="/create-project" >Create Project</a></li>
               

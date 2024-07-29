@@ -35,7 +35,7 @@ export class PopupDialogComponent {
    
       this.dialogRef.close(this.projectName);
      
-      this.service.projectNameSubject.next(this.projectName);
+      // this.service.projectNameSubject.next(this.projectName);
       console.log('valid',this.projectName);
       this.router.navigate(['dashboard']);
     

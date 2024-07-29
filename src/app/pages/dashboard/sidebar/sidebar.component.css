@@ -11,9 +11,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 0.2px solid rgba(98, 96, 96, 0.448);
+    border-right: 0.2px solid rgba(98, 96, 96, 0.448);
  }
  
+ label{
+   /* font-size: medium; */
+   font-weight: 200;
+ }
  .logo {
     /* background-color: rgb(195, 195, 195); */
     height: 90px;

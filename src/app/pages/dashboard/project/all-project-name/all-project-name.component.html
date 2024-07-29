@@ -16,11 +16,14 @@
             <thead>
                 <tr>
                     <th scope="col">
-                        <!-- <i class="fa fa-arrow-up"></i>
-                        <i class="fa fa-arrow-down"></i> -->
-                        <i class="fa-solid fa-star" (click)="importantProjectFilter()"
+                       
+                        <!-- <i class="fa-solid fa-star" (click)="importantProjectFilter()"
                         [ngClass]="{'star-active': showOnlyImportant, 'star-inactive': !showOnlyImportant}"
-                        ></i></th>
+                        ></i> -->
+
+                        <i class="fa-solid fa-star"  ></i>
+                    
+                    </th>
                     <th scope="col">Project Name
                        
                     </th>
@@ -47,7 +50,7 @@
                     <td>
                         <i (click)="toggleTrashDiv(i)" class="fa-duotone fa-solid fa-ellipsis"></i>
                         <div *ngIf="selectedProjectIndex === i" class="trash-div">
-                            <button (click)="moveToTrash()">Move to Trash</button>
+                            <button (click)="moveToTrash()" >Move to Trash</button>
                         </div>
 
                     </td>

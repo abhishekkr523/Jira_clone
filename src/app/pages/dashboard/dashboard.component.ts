@@ -13,9 +13,9 @@ constructor(private service : DataServiceService){}
 
 projectName:any
  ngOnInit(): void {
-     this.service.projectNameSubject.subscribe((data)=>{
-       this.projectName=data
-     })
+    //  this.service.projectNameSubject.subscribe((data)=>{
+    //    this.projectName=data
+    //  })
  }
 
 }
