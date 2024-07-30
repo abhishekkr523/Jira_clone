@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +7,9 @@ import { Subject } from 'rxjs';
 export class DataServiceService {
 
   constructor() { }
+  isVisible=new BehaviorSubject<boolean>(false)
 
-  projectNameSubject = new Subject<any>()
+  projectNameSubject = new Subject<string>()
 
  
 }

@@ -1,4 +1,7 @@
 
+.mat-dialog-content::-webkit-scrollbar {
+  width: 2px; /* Adjust the width of the vertical scrollbar */
+}
 .header{
     display: flex;
     width: 73%;
@@ -8,7 +11,8 @@
     justify-content: space-between;
     align-items: center;
     position: fixed;
-    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,'Fira Sans','Droid Sans','Helvetica Neue',sans-serif;
+    z-index: 500;
+   
 }
 .header2{
     display: flex;
@@ -17,7 +21,7 @@
 }
 .form-group{
     width: 45%;
-    
+    margin: 10px;
 }
 
 .form-group2{
@@ -34,11 +38,11 @@
     padding-right: 2%;
     background-color: white;
     width:100%;
+    
   }
   .container{
     margin-top: 8%;
-    margin-bottom: 20%;
-
+    margin-bottom: 10%;
   }
   .footer{
     display: flex;
@@ -46,10 +50,11 @@
     justify-content: space-between;
     padding: 0 10px 0 10px;
     position: fixed;
-    bottom: 46px;
+    bottom: 47px;
+
     height: 80px;
     padding: 0 10px 0 10px;
-    background-color: white;
+    background-color:white;
 
     align-items: center;
   }
@@ -61,7 +66,8 @@
 
   }
   .country{
-    border:.5px solid rgba(0, 0, 0, 0.774)
+    border:.5px solid rgba(0, 0, 0, 0.774);
+    margin: 10px;
   }
 .form-control{
   margin-top: 10px;
@@ -69,4 +75,29 @@
 .but{
   border: 0;
   background-color: white;
+}
+.but:hover{
+  background-color:  #f5f5f5
+}
+.formLa{
+  display: flex;
+  justify-content: start;
+flex-wrap: wrap;
+/* align-items: start; */
+}
+.bot{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+ng-select{
+  border: .8px solid rgb(206, 212, 218)  ;
+  border-radius: 4px;
+}
+.star{
+  color: red;
+  margin-left: 2px;
+}
+.invalid-control{
+  border: .8px solid red;
+  
 }

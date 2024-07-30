@@ -11,12 +11,14 @@ export class SidebarComponent implements OnInit{
   constructor(private service : DataServiceService){}
   
   
-  projectName:any
+  projectName:string=''
    ngOnInit(): void {
-       this.service.projectNameSubject.subscribe((data:any)=>{
-        console.log('projectName',data)
-         this.projectName=data
-       })
+    console.log("first",this.projectName)
+    this.service.projectNameSubject.subscribe((data)=>{
+      console.log('projectName asdlkjfhlakjshdf',data)
+      this.projectName=data
+      console.log("last",this.projectName)
+    })
 
 
        

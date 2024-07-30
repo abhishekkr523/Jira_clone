@@ -20,7 +20,16 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { HeaderComponent } from './pages/dashboard/header/header.component';
 import { SidebarComponent } from './pages/dashboard/sidebar/sidebar.component';
 import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
-
+import { CommonModule } from '@angular/common';
+import { CreateProPopupComponent } from './pages/dashboard/create-project/create-pro-popup/create-pro-popup.component';
+import { CreateProjectModule } from './pages/dashboard/create-project/create-project.module';
+import {QuillModule} from 'ngx-quill';
+import { SprintComponent } from './pages/dashboard/sprint/sprint.component'
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CompletePopUpComponent } from './pages/dashboard/sprint/complete-pop-up/complete-pop-up.component';
+import { EditPopUpComponent } from './pages/dashboard/sprint/edit-pop-up/edit-pop-up.component';
+import { EditdialogComponent } from './pages/dashboard/sprint/edit-pop-up/editdialog/editdialog.component';
+import { DeletedialogComponent } from './pages/dashboard/sprint/edit-pop-up/deletedialog/deletedialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,18 +40,25 @@ import { CreateProjectComponent } from './pages/dashboard/project/create-project
     PopupDialogComponent,
     HeaderComponent,
     SidebarComponent,
-    CreateProjectComponent
+    CreateProjectComponent,
+    SprintComponent,
+    CompletePopUpComponent,
+    EditPopUpComponent,
+    EditdialogComponent,
+    DeletedialogComponent,
+    
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, MatDialogModule,
+    AppRoutingModule,
+    MatDialogModule,
     MatButtonModule,
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
     MatFormFieldModule,
-    FontAwesomeModule,
+    FontAwesomeModule,CommonModule,CreateProjectModule,QuillModule.forRoot(),NgSelectModule
   ],
   providers: [
     provideClientHydration(),

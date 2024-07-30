@@ -1,115 +1,113 @@
-<div class="top">
-  <div class="header">
+<div class="top" >
+  <div class="header" >
     <div>
       <h2>
         Create issue
       </h2>
     </div>
     <div class="header2">
-      <button class="fa-solid fa-minus but " ></button>
-      <button class="fa-solid fa-minimize but "></button>
+      
       <button class="fa-solid fa-multiply but" (click)="onCloseDialog()"></button>
   
     </div>
   </div>
   <div class="inner">
     <div class="container ">
-      <form (ngSubmit)="onSubmit()">
-        <h5>Required fields are marked with an asterisk *</h5>
+      <form [formGroup]="registerProject" class="formLa"  >
+        <h5 style="flex-basis: 900px;">Required fields are marked with an asterisk <span class="star">*</span></h5>
         <div class="form-group">
-          <label for="country">Project</label>
-          <select class="form-control" id="country" name="country" required>
+         
+          <label for="project" style="margin-top: 5px;margin-bottom: 5px;">Project<span class="star">*</span></label>
+        <ng-select  id="project"  formControlName="ProjectName">
+          <ng-option *ngFor="let pro of projects" [value]="pro">{{pro}}</ng-option>
+        </ng-select>
+        <div *ngIf="registerProject.get('ProjectName')!.invalid &&( registerProject.get('ProjectName')?.touched || registerProject.get('ProjectName')?.dirty)">
+          <span *ngIf="registerProject.get('ProjectName')?.errors!['required']" style="color: red;"> Select Project </span>
+        </div>
+          <!-- <select class="form-control form-select" id="country" formControlName ="ProjectName" required>
+            <option>Scrum-2</option>
+          </select> -->
+        </div>
+        <div class="form-group">
+          <label for="issueType">Issue Type <span class="star">*</span></label>
+          <select class="form-control form-select" id="issueType"  formControlName="IssueType" >
+            <option *ngFor="let type of issue">{{type}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select class="form-control form-select" id="status" formControlName="status" >
+           <option *ngFor="let one of status"> {{one}}</option>
+          </select>
+        </div>
+        <div class="form-group2 " style="margin-left:7px ;">
+          <label for="summary">Summary<span class="star">*</span></label>
+          <input type="text" class="form-control" [ngClass]="{'invalid-control': registerProject.get('summary')?.invalid && registerProject.get('summary')?.touched}" formControlName="summary" id="summary" >
+          <div *ngIf="registerProject.get('summary')?.touched || registerProject.get('summary')?.dirty ">
+            <span *ngIf="registerProject.get('summary')?.errors!['required']" style="color: red;">Summary is required</span>
+          </div>
+        </div>
+        <div class="form-group2 " style="margin-left:7px ;">
+          <label for="description">Description</label>
+          <quill-editor  id="description" [styles]="{'height':'300px'}" ></quill-editor>
+        </div>
+        <div class="form-group">
+          <label for="assign">Assignee</label>
+          <select class="form-control form-select" id="assign" formControlName="Assign" >
             <option>sdfljansdf</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="country">Issue Type</label>
-          <select class="form-control" id="country" name="country" required>
-            <option>zsldkjbf</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="country">Status</label>
-          <select class="form-control" id="country" name="country" required>
-            <option>In Progress</option>
-            <option>Ready to Deploy</option>
-            <option>Done</option>
-          </select>
-        </div>
-        <div class="form-group2">
-          <label for="name">Summary</label>
-          <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-        <div class="form-group2 ">
-          <label for="name">Description</label>
-          <input type="text" class="form-control custom-input" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-          <label for="country">Assignee</label>
-          <select class="form-control" id="country" name="country" required>
+          <label for="label">Labels</label>
+          <select class="form-control form-select" id="label" formControlName="Label" >
             <option>sdfljansdf</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="country">Labels</label>
-          <select class="form-control" id="country" name="country" required>
+          <label for="parent">Parent</label>
+          <select class="form-control form-select" id="parent" >
             <option>sdfljansdf</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="country">Parent</label>
-          <select class="form-control" id="country" name="country" required>
+          <label for="sprint">Sprint</label>
+          <select class="form-control form-select" id="sprint" formControlName="sprint" >
             <option>sdfljansdf</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="country">Sprint</label>
-          <select class="form-control" id="country" name="country" required>
+          <label for="timePoint">Story points estimate</label>
+          <input type="number" class="form-control " id="timePoint" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="reporter">Reporter<span class="star">*</span></label>
+          <select class="form-control form-select" id="reporter" >
             <option>sdfljansdf</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="country">Story points estimate</label>
-          <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-          <label for="country">Reporter</label>
-          <select class="form-control" id="country" name="country" required>
-            <option>sdfljansdf</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="country">Attachment</label>
-          <div id="country">
+          <label for="attachment">Attachment</label>
+          <div id="attachment">
             <label style="cursor: pointer;" for="Upload">
               <img [src]="imageUrl?imageUrl:'add image icon.png'"
-                style="max-width: 80px; margin-bottom: 30px;"></label>
+                style="max-width: 120px; margin-bottom: 30px;"></label>
             <input type="file" (click)="onFileSelected($event)" id="Upload" class="d-none" (change)="onFileSelected($event)" >
           </div>
         </div>
         <div class="form-group" id="extra">
-          <label for="country">Linked Issue</label>
-          <select class="form-control" id="country" name="country" required>
-            <option>blocks</option>
-            <option>ia block by</option>
-            <option>clones</option>
-            <option>is cloned by</option>
-            <option>duplicates</option>
-            <option>is duplicated by</option>
-            <option>reviews</option>
-            <option>is reviewed by</option>
-            <option>causes</option>
-            <option>is caused by</option>
-            <option>related to</option>
+          <label for="linkedIssue">Linked Issue</label>
+          <select class="form-control form-select" id="linkedIssue" >
+            <option *ngFor="let issue of linkedIssue">{{issue}}</option>
+            
           </select>
-          <select class="form-control" id="country" name="country" required>
+          <select class="form-control" id="linkedIssue" >
             <option *ngFor="let i of Option">{{i}}</option>
           </select>
           <p *ngIf="Option.length === 0" class="no-match">No match found</p>
         </div>
         <div class="form-group">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="country">
-          <label for="country">Flagged</label>
+          <input class="form-check-input bot" type="radio" name="flexRadioDefault" id="flagged">
+          <label for="flagged">Flagged</label>
           
         </div>
 
@@ -120,15 +118,15 @@
   <div class="footer">
     <div style=" width: 45%;">
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+        <input class="form-check-input bot" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
         <label class="form-check-label" for="flexRadioDefault1">
-          Not familiar
+          Create another issue
         </label>
       </div>
     </div>
     <div class="footer2">
       <button class="but" >Cancel</button>
-      <button class="btn btn-primary">Create</button>
+      <button class="btn btn-primary" (click)="onSubmit()">Create</button>
     </div>
   </div>
 </div>

@@ -1,0 +1,39 @@
+.search{
+border: 0;
+outline: none;
+width: 90%;
+}
+::ng-deep .ng-dropdown-panel {
+    height: 100px;
+    max-width: 900px; /* Adjust the height as needed */
+    overflow-y: auto;
+  }
+  .drop{
+    width: 95%;
+    margin-top: 30px;
+    /* background-color: aqua; */
+    height: 500px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .select{
+    width: 100%;
+  }
+  .option{
+    width: 100%;
+    position: absolute;
+    margin-top: 10px;
+  }
+  .in2{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-basis: 15%;
+    position: relative;
+  }
+  .but{
+    background-color: rgba(9, 30, 66, 0.08);
+    border: 0;
+    border-radius: 4px;
+  }
+  

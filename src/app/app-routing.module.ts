@@ -7,6 +7,7 @@ import { CreateProPopupComponent } from './pages/dashboard/create-project/create
 import { CreateProject } from './pages/dashboard/create-project/create-project';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
+import { SprintComponent } from './pages/dashboard/sprint/sprint.component';
 // import { WelcomePageComponent } from './userAuth/welcome-page/welcome-page.component';
 
 const routes: Routes = [
@@ -23,7 +24,11 @@ const routes: Routes = [
   {
     path:'dashboard',
     component:DashboardComponent
-   }
+   },
+  {
+    path:'sprint',
+    component:SprintComponent
+   },
  
   // {
   //   path:'welcomePage',

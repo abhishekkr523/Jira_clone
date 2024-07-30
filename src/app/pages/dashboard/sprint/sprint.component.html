@@ -1,0 +1,25 @@
+<div style="width: 80%; height: 600px;margin-left: 20%; display: flex; flex-direction: column; position: relative;">
+    <div>
+        <h2 style="margin-bottom: 20px;">Sprint</h2>
+    </div>
+    <div style="border: .8px solid black; border-radius: 4px; width: 30%; ">
+        <fa-icon [icon]="searchIcon" ></fa-icon>
+        <input type="text" placeholder="Search" class="search">
+    </div>
+    <div class="drop">
+        <div style="width: 70%;">
+            <ng-select class="select" >
+                <fa-icon [icon]="cancel"></fa-icon>
+                <ng-option class="option">alsjkdfhakj</ng-option>
+                <ng-template ng-label-tmp let-item="item">
+                    <i [class]="item.icon"></i> {{ item.label }}
+                  </ng-template>
+            </ng-select>
+        </div>
+        <div class="in2">
+            <button class="but" (click)="openDialog()">Complete Sprint</button>
+            <button class="but" (click)="openDialog2()"><fa-icon [icon]="horizontal"></fa-icon></button>
+        </div>
+    </div>
+
+</div>
