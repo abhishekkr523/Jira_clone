@@ -68,8 +68,17 @@ img{
     color: black;
   }
   
+  .leader{
+    width: 26px;
+    height: 26px;
+    background-color: rgb(16, 230, 226);
+    border-radius: 50%;
+    text-align: center;
+    margin: -1px 6px 2px 0px;
+  }
   
-  
-  
+  .data{
+    display: flex;
+  }
   
   

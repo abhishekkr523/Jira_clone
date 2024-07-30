@@ -9,17 +9,27 @@ export class DataServiceService {
 
    projectsSubject = new BehaviorSubject<Project[]>([]);
    importantProjectsSubject = new BehaviorSubject<Project[]>([]);
-
-  // Observable streams
-  // projects$ = this.projectsSubject.asObservable();
-  // importantProjects$ = this.importantProjectsSubject.asObservable();
+  //  selectedProjectSubject = new BehaviorSubject<any>(null);
+   selectedProjectSubject = new BehaviorSubject<Project | null>(this.getSelectedProjectFromLocalStorage());
+   selectedProject$ = this.selectedProjectSubject.asObservable();
 
   constructor() {
     this.loadProjects();
     this.loadImportantProjects();
+    
+   
   }
 
-  private loadProjects() {
+
+  getSelectedProjectFromLocalStorage() {
+   if(typeof Storage !== 'undefined') {
+   {
+    const project = localStorage.getItem('selectedProject');
+    return project ? JSON.parse(project) : null;
+   }
+  }
+}
+   loadProjects() {
     if (typeof Storage !== 'undefined') {
       const storedProjects = localStorage.getItem('projects');
       if (storedProjects) {
@@ -28,7 +38,7 @@ export class DataServiceService {
     }
   }
 
-  private loadImportantProjects() {
+   loadImportantProjects() {
     if (typeof Storage !== 'undefined') {
       const storedProjects = localStorage.getItem('importantProjects');
       if (storedProjects) {
@@ -50,4 +60,8 @@ export class DataServiceService {
   }
 
  
+// active projects 
+
+
+
 }

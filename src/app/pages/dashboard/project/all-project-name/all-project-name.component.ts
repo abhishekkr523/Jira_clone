@@ -75,7 +75,7 @@ export class AllProjectNameComponent implements OnInit {
   projects: Project[] = [];
   ngOnInit(): void {
     this.loadProjects();
-
+    this.getStoredEmail()
     this.loadImportantProjects();
   // Initialize filteredProjects with all projects
   this.filteredProjects = [...this.projects,...this.importantProjects];
@@ -101,18 +101,7 @@ export class AllProjectNameComponent implements OnInit {
   }
 
 
-  // importantProjects: Project[] = [];
-  // toggleImportant(index: number): void {
-  //   const project = this.projects[index];
-  //   project.isStar = !project.isStar;
-  //   if (project.isStar) {
-  //     this.importantProjects.push(project);
-  //   } else {
-  //     this.importantProjects = this.importantProjects.filter(p => p.projectKey !== project.projectKey);
-  //   }
-  //   this.saveImportantProjects();
-  // }
- 
+  
 
  
   
@@ -130,6 +119,7 @@ export class AllProjectNameComponent implements OnInit {
       
     );
   }
+
 
 
 
@@ -240,7 +230,19 @@ export class AllProjectNameComponent implements OnInit {
     }
   }
 
-  // filterout important project end
+  //  get  email from local storage 
+
+  leader: string | null = '';
+  getStoredEmail(): void {
+   if(typeof Storage !== 'undefined') {
+    this.leader = localStorage.getItem('userLogin');
+    if (this.leader) {
+      console.log('Retrieved email from local storage:', this.leader);
+    } else {
+      console.log('No email found in local storage');
+    }
+   }
+  }
 
 
  

@@ -28,6 +28,8 @@ export class CreateProjectComponent implements OnInit {
   keyValue: any = '';
 
   ngOnInit() {
+    this.getStoredEmail()
+
     this.projectName.valueChanges.subscribe((data: any) => {
       this.keyValue = this.generateProjectKey(data);
     });
@@ -92,5 +94,20 @@ export class CreateProjectComponent implements OnInit {
       alert('Please fix the errors in the form before saving.');
     }
 
+  }
+
+
+  // get user from local storage 
+
+  leader: string | null = '';
+  getStoredEmail(): void {
+   if(typeof Storage !== 'undefined') {
+    this.leader = localStorage.getItem('userLogin');
+    if (this.leader) {
+      console.log('Retrieved email from local storage:', this.leader);
+    } else {
+      console.log('No email found in local storage');
+    }
+   }
   }
 }

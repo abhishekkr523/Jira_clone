@@ -37,6 +37,8 @@ import { TaskDetailsComponent } from './pages/task-details/task-details.componen
 import {MatMenuModule} from '@angular/material/menu';
 // import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import { NewInitialPipe } from './pages/dashboard/project/all-project-name/new-initial.pipe';
+import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +55,9 @@ import {MatIconModule} from '@angular/material/icon';
     BacklogComponent,
     BoardComponent,
     InitialPipe,
-    TaskDetailsComponent
+    NewInitialPipe,
+    TaskDetailsComponent,
+    NewInitialPipe
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,8 @@ import {MatIconModule} from '@angular/material/icon';
     DragDropModule,
     MatSelectModule,SelectDropDownModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule
   ],
   providers: [
     provideClientHydration(),

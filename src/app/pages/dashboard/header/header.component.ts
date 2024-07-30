@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DataServiceService } from '../../../service/data-service.service';
 import { Project, ProjectList } from '../../../user.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css',
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
   activeLink: HTMLElement | null = null;
@@ -23,9 +24,14 @@ export class HeaderComponent implements OnInit {
   Normalprojects: Project[] = [];
   importantProjects: Project[] = [];
 
-  constructor(private projectService: DataServiceService) {}
+  // selectProjectData : any= [...this.Normalprojects,...this.importantProjects]
+
+  constructor(private projectService: DataServiceService,
+    private toster: ToastrService,
+  ) {}
 
   ngOnInit() {
+    // this.selectProject(this.importantProjects[0]);
     this.projectService.projectsSubject.subscribe((projects: Project[]) => {
       this.Normalprojects = projects;
     });
@@ -33,5 +39,15 @@ export class HeaderComponent implements OnInit {
     this.projectService.importantProjectsSubject.subscribe((importantProjects: Project[]) => {
       this.importantProjects = importantProjects;
     });
+  }
+
+  // select project 
+  selectProject(project:Project)
+  {
+   this.projectService.selectedProjectSubject.next(project);
+  //  console.log('bahubali',project)
+   this.toster.success('Project Selected')
+   localStorage.setItem('selectedProject', JSON.stringify(project));
+    
   }
 }
