@@ -1,0 +1,20 @@
+.icon{
+    color: #DE350B ;
+    margin-right: 10px;
+}
+.top{
+    padding: 5%;
+}
+.bot{
+    display: flex;
+    justify-content: end;
+}
+.but{
+    margin-right: 4px;
+    border: 0;
+    border-radius: 3px;
+}
+.top2{
+    display: flex;
+    align-items: center;
+}

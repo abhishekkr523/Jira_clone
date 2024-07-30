@@ -1,77 +1,75 @@
-<nav class="main">
-    <!-- <a href="#" class="main-logo"
-      ><i class="material-icons">fastfood</i> foodRoad</a
-    > -->
-   <div class="before">
-    <div class="icon" >
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <div class="icon" >
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcc2TZvbHh60NDISnKd4Vk-BgGqoL_JWCpIw&s" alt="">
         <h1>jira</h1>
     </div>
-    <ul class="main-lin">
-      <li class="main-drop">
-        <a href="#">Your Work</a>
-        <div class="drop">
-          <a href="#">Assigne To Me</a>
-          <a href="#">Resent</a>
-          <a href="#">Boards</a>
-        </div>
-      </li>
-      <li class="main-drop">
-        <a href="#">Projects</a>
-        <div class="drop">
-          <a href="#">View All Projects</a>
-          <a href="#">Create New</a>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+          
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" (click)="setActive($event)"  id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Your Work
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+              <li><a class="dropdown-item" >Assigne To Me</a></li>
+              <li><a class="dropdown-item" >Resent</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" >Board</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" (click)="setActive($event)"  id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Projects
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+              <li><a class="dropdown-item" >View All Projects</a></li>
+              <li><a class="dropdown-item" routerLink="/create-project" >Create Project</a></li>
+              
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" (click)="setActive($event)"  id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dashboards
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+              <li><a class="dropdown-item" >View All Dashboards</a></li>
+              <li><a class="dropdown-item" >Create Dashboards</a></li>
+             
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" (click)="setActive($event)"  id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Teams
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+              <li><a class="dropdown-item" ><i class="fa-solid fa-plus"></i>Invite Peoples To Jira</a></li>
+              <li><a class="dropdown-item" ><i class="fa-solid fa-people-group"></i>Create a Team</a></li>
+              
+            </ul>
+          </li>
+          <button type="button" class="btn btn-primary" (click)="openDialog()">Create</button>
          
-        </div>
-      </li>
-      <li class="main-drop">
-        <a href="#">Filters</a>
-        <div class="drop">
-          <a href="#">View All Filters</a>
-          <a href="#">View All Issues</a>
-         
-        </div>
-      </li>
-      <li class="main-drop">
-        <a href="#">Dashboards</a>
-        <div class="drop">
-          <a href="#">View All Dashboards</a>
-          <a href="#">Create Dashboards</a>
+        </ul>
         
+        <div class="after">
+          <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+            </form>
+         <div class="after-icon">
+          <i class="fa-solid fa-bell"></i>
+          <i class="fa-solid fa-question"></i>
+          <i class="fa-solid fa-gear"></i>
+          <i class="fa-solid fa-user"></i>
+         </div>
         </div>
-      </li>
-      <li class="main-drop">
-        <a href="#">Teams</a>
-        <div class="drop">
-          <a href="#"><i class="fa-solid fa-plus"></i>Invite Peoples To Jira</a>
-          <a href="#"><i class="fa-solid fa-people-group"></i>Create a Team</a>
         
-        </div>
-      </li>
-      <li class="main-drop">
-        <a href="#">Apps</a>
-        <div class="drop">
-          <!-- <a href="#">Paneer Chill Dry</a>
-          <a href="#">Paneer Garlic</a>
-          <a href="#">Veg Garlic</a>
-          <a href="#">Veg Chilli</a> -->
-        </div>
-      </li>
-    </ul>
-    <button type="button" class="btn btn-primary" (click)="openDialog()">Create</button>
-   </div>
-
-    <!-- <a  class="btn" >Upgrad</a> -->
-  <div class="after">
-    <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-      </form>
-   <div class="after-icon">
-    <i class="fa-solid fa-bell"></i>
-    <i class="fa-solid fa-question"></i>
-    <i class="fa-solid fa-gear"></i>
-    <i class="fa-solid fa-user"></i>
-   </div>
-  </div>
+      </div>
+    </div>
   </nav>
+  <hr>
+  

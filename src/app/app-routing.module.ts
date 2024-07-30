@@ -6,6 +6,7 @@ import { ChooseTempletComponent } from './userAuth/choose-templet/choose-templet
 import { CreateProPopupComponent } from './pages/dashboard/create-project/create-pro-popup/create-pro-popup.component';
 import { CreateProject } from './pages/dashboard/create-project/create-project';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
 // import { WelcomePageComponent } from './userAuth/welcome-page/welcome-page.component';
 
 const routes: Routes = [
@@ -28,6 +29,14 @@ const routes: Routes = [
   //   path:'welcomePage',
   //   component:WelcomePageComponent
   // }
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+  },
+  {
+    path:'create-project',
+    component:CreateProjectComponent
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

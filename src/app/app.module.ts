@@ -19,6 +19,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { HeaderComponent } from './pages/dashboard/header/header.component';
 import { SidebarComponent } from './pages/dashboard/sidebar/sidebar.component';
+import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SidebarComponent } from './pages/dashboard/sidebar/sidebar.component';
     DashboardComponent,
     PopupDialogComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    CreateProjectComponent
   ],
   imports: [
     BrowserModule,
