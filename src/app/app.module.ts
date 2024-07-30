@@ -21,6 +21,9 @@ import { InitialPipe } from './initial.pipe';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { TaskDetailsComponent } from './pages/task-details/task-details.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+// import {MatButtonModule} from '@angular/material/button';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +47,9 @@ import { TaskDetailsComponent } from './pages/task-details/task-details.componen
     NgbModule,
     MatFormFieldModule,
     DragDropModule,
-    MatSelectModule,SelectDropDownModule
+    MatSelectModule,SelectDropDownModule,
+    MatIconModule,
+    MatMenuModule,
   ],
   providers: [
     provideClientHydration()

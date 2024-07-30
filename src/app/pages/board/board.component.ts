@@ -1,9 +1,5 @@
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskDetailsComponent } from '../task-details/task-details.component';
 
@@ -15,8 +11,10 @@ import { TaskDetailsComponent } from '../task-details/task-details.component';
 export class BoardComponent implements OnInit {
   add: boolean = false;
   plus: boolean = true;
+  flag:boolean=true;
   titleInput: any;
   createIssue: boolean = false;
+  filteredColumns : any[]= []; // To store filtered columns
 
   columns = [
     {
@@ -24,14 +22,19 @@ export class BoardComponent implements OnInit {
       showInput: false,
       tasks: [
         {
-          taskName: 'John Doe',
-          project_name: 'Developer',
-          assignee: 'Abhishek kummar',
+          taskName: 'ui design',
+          project_name: 'Jira_clone',
+          assignee: 'Tarun pareta',
         },
         {
-          taskName: 'John Doe',
-          project_name: 'Developer',
-          assignee: 'krishna rai',
+          taskName: 'use reactive form',
+          project_name: 'Jira_clone',
+          assignee: 'Abhishek kumar',
+        },
+        {
+          taskName: 'filter implementation',
+          project_name: 'Jira_clone',
+          assignee: 'Krishna rai',
         },
       ],
     },
@@ -74,9 +77,13 @@ export class BoardComponent implements OnInit {
     },
   ];
 
+  peoples = ["Abhishek kumar", "Krishna rai", "Tarun pareta"];
+
   ngOnInit(): void {
     this.loadColumnsFromLocalStorage();
+    this.filteredColumns = [...this.columns]; // Initialize filteredColumns
   }
+
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
@@ -120,16 +127,35 @@ export class BoardComponent implements OnInit {
     }
     this.plus = true;
   }
+
   create_issue(i: number) {
-    // this.createIssue = true;
     this.columns.forEach((item, ind) => {
       item.showInput = ind === i;
-      // console.log(`${ind}>>${ind===i}`)
     });
-    console.log(i);
   }
+
   create() {
     this.createIssue = false;
+  }
+
+  filterByAssignee(assignee: string) {
+    console.log(assignee)
+    const normalizedAssignee = assignee.trim().toLowerCase();
+
+    this.filteredColumns = this.columns.map(column => ({
+      ...column,
+      tasks: column.tasks.filter(task => task.assignee.trim().toLowerCase() === normalizedAssignee)
+    }));
+    console.log(this.filteredColumns);
+    console.log(this.columns);
+    // this.columns=this.filteredColumns
+    this.flag=false;
+  }
+  clearFilter(){
+    this.flag=true;
+    console.log("lll")
+    this.loadColumnsFromLocalStorage();
+
   }
 
   saveColumnsToLocalStorage() {
@@ -140,7 +166,9 @@ export class BoardComponent implements OnInit {
     const savedColumns = localStorage.getItem('columns');
     if (savedColumns) {
       this.columns = JSON.parse(savedColumns);
+      this.filteredColumns = [...this.columns]; // Initialize filteredColumns
     }
+    console.log("ll",this.columns)
   }
 
   constructor(public dialog: MatDialog) {}

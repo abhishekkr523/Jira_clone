@@ -44,8 +44,11 @@
     <div class="px-3 py-2 border-bottom mb-3">
       <div class="container-fluid d-flex flex-wrap justify-content-between">
         <div class="row w-100 sub-heading">
-          <form class="col-2 mb-2 " role="search">
-            <i class="fa-solid fa-magnifying-glass d-flex justify-content-center align-item-center" style="align-items: center;"></i>
+          <form class="col-2 mb-2" role="search">
+            <i
+              class="fa-solid fa-magnifying-glass d-flex justify-content-center align-item-center"
+              style="align-items: center"
+            ></i>
             <input
               type="search"
               class="form-control border-0"
@@ -53,13 +56,27 @@
               aria-label="Search"
             />
           </form>
-          <div class="drop-down_container col-3">
-            <div class="user-circle">
+          <div class="drop-down_container col-5  d-flex align-item-center justify-content-center" style="align-items: center;">
+            <div class="c-profile__list">
+              <a
+                *ngFor="let person of peoples"
+                class="c-profile"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+                (click)="filterByAssignee(person)"
+              >
+                {{ person | initial }}
+              </a>
+            </div>
+            <div class="user-circle btn-light text-dark">
               <i class="fa-solid fa-user-plus"></i>
             </div>
             <div class="dropdown">
               <button
-                class="btn dropdown-toggle"
+                class="btn dropdown-toggle btn-light text-dark"
                 type="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -76,7 +93,7 @@
             </div>
             <div class="dropdown">
               <button
-                class="btn dropdown-toggle"
+                class="btn dropdown-toggle  btn-light text-dark"
                 type="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -91,8 +108,9 @@
                 </li>
               </ul>
             </div>
+            <button class="btn btn-light text-dark" (click)="clearFilter()" style="    height: 39px;"> clear filter</button>
           </div>
-          <div class="text-end col-7">
+          <div class="text-end col-5 d-flex align-item-center justify-content-center">
             <button type="button" class="btn btn-light text-dark me-2">
               <i class="fa-solid fa-cloud-arrow-up"></i>Import work
             </button>
@@ -110,8 +128,12 @@
   <div class="scroll-container px-4">
     <div cdkDropListGroup class="d-flex">
       <div
-        *ngFor="let column of columns; trackBy: trackByFn; index as i"
-        class="example-container" 
+        *ngFor="
+          let column of flag ? columns : filteredColumns;
+          trackBy: trackByFn;
+          index as i
+        "
+        class="example-container"
       >
         <p>{{ column.title }}</p>
         <div
@@ -123,37 +145,41 @@
           <div
             *ngFor="let item of column.tasks; trackBy: trackByFn"
             class="example-box"
-            cdkDrag 
+            cdkDrag
           >
-          <div  (click)="openDialog(item)">
-            <div class="task">
-              <span
-                >{{ item.taskName }}<i class="fa-solid fa-pencil ml-2"></i
-              ></span>
-              <button>
-                <i class="fa-solid fa-ellipsis m-0"></i>
-              </button>
-            </div>
-            <div class="project">
-              {{ item.project_name }}
-              <span>{{ item.assignee! | initial }}</span>
-            </div>
+            <div (click)="openDialog(item)">
+              <div class="task">
+                <span
+                  >{{ item.taskName }}<i class="fa-solid fa-pencil ml-2"></i
+                ></span>
+                <button>
+                  <i class="fa-solid fa-ellipsis m-0"></i>
+                </button>
+              </div>
+              <div class="project">
+                {{ item.project_name }}
+                <span>{{ item.assignee! | initial }}</span>
+              </div>
             </div>
           </div>
           <div class="createIssue">
-           <button class="" style="border: none;" (click)="create_issue(i)">Create issue</button>
-            <div class="issueForm" *ngIf="column.showInput" >
-                <input type="text" style="width: 100%;">
-                
-                <div class="actionArea d-flex justify-content-between">
-                    <select class="form-select" style="width: 62px;">
-                        <option><i class="fa-solid fa-xmark"></i></option>
-                        <option ><img src="google.svg" alt=""></option>
-                        <option>😊</option>
-                        <option>4</option>
-                      </select>
-                    <button type="button" style="border: none;" (click)="create()">Create</button>
-                </div>
+            <button class="" style="border: none" (click)="create_issue(i)">
+              Create issue
+            </button>
+            <div class="issueForm" *ngIf="column.showInput">
+              <input type="text" style="width: 100%" />
+
+              <div class="actionArea d-flex justify-content-between">
+                <select class="form-select" style="width: 62px">
+                  <option><i class="fa-solid fa-xmark"></i></option>
+                  <option><img src="google.svg" alt="" /></option>
+                  <option>😊</option>
+                  <option>4</option>
+                </select>
+                <button type="button" style="border: none" (click)="create()">
+                  Create
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -223,4 +249,10 @@
       </div>
     </div>
   </div>
+
+  <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
 </div>
