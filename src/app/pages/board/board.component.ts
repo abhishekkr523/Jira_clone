@@ -75,6 +75,7 @@ export class BoardComponent implements OnInit {
         },
       ],
     },
+    
   ];
 
   peoples = ["Abhishek kumar", "Krishna rai", "Tarun pareta"];
