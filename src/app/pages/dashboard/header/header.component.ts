@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataServiceService } from '../../../service/data-service.service';
+import { Project, ProjectList } from '../../../user.interface';
 
 @Component({
   selector: 'app-header',
@@ -19,17 +20,17 @@ export class HeaderComponent implements OnInit {
     this.activeLink = target;
   }
 
-  projects: any[] = [];
-  importantProjects: any[] = [];
+  Normalprojects: Project[] = [];
+  importantProjects: Project[] = [];
 
   constructor(private projectService: DataServiceService) {}
 
   ngOnInit() {
-    this.projectService.projectsSubject.subscribe((projects: any) => {
-      this.projects = projects;
+    this.projectService.projectsSubject.subscribe((projects: Project[]) => {
+      this.Normalprojects = projects;
     });
 
-    this.projectService.importantProjectsSubject.subscribe((importantProjects: any) => {
+    this.projectService.importantProjectsSubject.subscribe((importantProjects: Project[]) => {
       this.importantProjects = importantProjects;
     });
   }

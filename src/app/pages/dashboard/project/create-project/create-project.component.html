@@ -8,7 +8,7 @@
             </div>
             <div class="input-teg">
                 <label for="">Name <span>*</span></label>
-                <input type="text"  [formControl]="projectName">
+                <input type="text"  [formControl]="projectName" >
                 <span style="color: red;"
                     *ngIf=" projectName?.invalid && projectName?.touched && projectName?.dirty">
                     <span *ngIf="projectName?.errors?.['required']">This field is required</span>

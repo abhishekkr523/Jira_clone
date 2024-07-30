@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-small-pop-up',
   templateUrl: './small-pop-up.component.html',
-  styleUrl: './small-pop-up.component.css'
+  styleUrl: './small-pop-up.component.scss'
 })
 export class SmallPopUpComponent {
 

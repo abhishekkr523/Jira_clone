@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs';
 import { DataServiceService } from '../../../../service/data-service.service';
+import {  Project, ProjectList } from '../../../../user.interface';
+
 
 @Component({
   selector: 'app-create-project',
@@ -14,6 +16,7 @@ import { DataServiceService } from '../../../../service/data-service.service';
 })
 export class CreateProjectComponent implements OnInit {
 
+  projects: ProjectList = { projects: [] };
 
   constructor(private router : Router,private toast:ToastrService,private dataService:DataServiceService) { }
   projectName: FormControl = new FormControl('', [
@@ -28,6 +31,8 @@ export class CreateProjectComponent implements OnInit {
     this.projectName.valueChanges.subscribe((data: any) => {
       this.keyValue = this.generateProjectKey(data);
     });
+
+    
   }
 
   generateProjectKey(name: string) {
@@ -40,13 +45,37 @@ export class CreateProjectComponent implements OnInit {
   saveToLocalStorage(): void {
     if (this.projectName.valid) {
 
-      let existingProjects = JSON.parse(localStorage.getItem('projects') || '[]');
-      const projectDetails = {
-        name: this.projectName.value,
-        key: this.keyValue,
-        isStar: Boolean(false),
+// console.log(this.projectName.value)
+
+      let existingProjects:Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
+   
+      const newProject: Project = {
+        projectId: Date.now(), // Using Date.now() for unique project ID
+        projectName: this.projectName.value,
+        projectKey: this.keyValue,
+        isStar: false,
+        sprints: [
+          {
+            sprintId: 0,
+            sprintName: '',
+            tasks: [
+              {
+                taskId: 0,
+                taskName: '',
+                description: '',
+                assignee: '',
+                status: '',
+                storyPoints: '',
+              },
+            ],
+          },
+        ],
       };
-      existingProjects.push(projectDetails);
+
+
+      existingProjects.push(newProject);
+      // this.projects = { projects: existingProjects };
+      // this.projects=existingProjects
 
       this.dataService.projectsSubject.next(existingProjects);
       this.dataService.updateProjects(existingProjects);

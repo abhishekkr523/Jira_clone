@@ -6,7 +6,11 @@ import { ChooseTempletComponent } from './userAuth/choose-templet/choose-templet
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
 import { AllProjectNameComponent } from './pages/dashboard/project/all-project-name/all-project-name.component';
+import { BacklogComponent } from './pages/backlog/backlog.component';
+import { BoardComponent } from './pages/board/board.component';
+import { TaskDetailsComponent } from './pages/task-details/task-details.component';
 // import { WelcomePageComponent } from './userAuth/welcome-page/welcome-page.component';
+
 
 const routes: Routes = [
   { path: '', component: UserLoginComponent },
@@ -26,7 +30,12 @@ const routes: Routes = [
   },{
     path:'showAllProjects',
     component:AllProjectNameComponent
-  }
+  },
+   { path:'backlog',
+    component:BacklogComponent
+  },
+  {path:"board", component:BoardComponent},
+  {path:"taskDetails", component:TaskDetailsComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

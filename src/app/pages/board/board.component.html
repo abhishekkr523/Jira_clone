@@ -1,0 +1,226 @@
+<div class="outer-container">
+  <header>
+    <nav class="container-fluid" aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0 px-3">
+        <li class="breadcrumb-item"><a href="#">Projects</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Board</li>
+      </ol>
+    </nav>
+    <div class="px-3 text-bg-dark border-bottom">
+      <div class="container-fluid">
+        <div
+          class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+        >
+          <a
+            href="/"
+            class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none text-dark"
+            style="font-size: 30px; font-weight: 500"
+          >
+            Board
+          </a>
+
+          <ul
+            class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small"
+          >
+            <li>
+              <a href="#" class="nav-link text-secondary">
+                <i class="fa-solid fa-share-nodes"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link text-secondary">
+                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link text-secondary">
+                <i class="fa-solid fa-grip"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="px-3 py-2 border-bottom mb-3">
+      <div class="container-fluid d-flex flex-wrap justify-content-between">
+        <div class="row w-100 sub-heading">
+          <form class="col-2 mb-2 " role="search">
+            <i class="fa-solid fa-magnifying-glass d-flex justify-content-center align-item-center" style="align-items: center;"></i>
+            <input
+              type="search"
+              class="form-control border-0"
+              placeholder="Search..."
+              aria-label="Search"
+            />
+          </form>
+          <div class="drop-down_container col-3">
+            <div class="user-circle">
+              <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <div class="dropdown">
+              <button
+                class="btn dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Epic
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+              </ul>
+            </div>
+            <div class="dropdown">
+              <button
+                class="btn dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Type
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="text-end col-7">
+            <button type="button" class="btn btn-light text-dark me-2">
+              <i class="fa-solid fa-cloud-arrow-up"></i>Import work
+            </button>
+            <button type="button" class="btn btn-light text-dark me-2">
+              <i class="fa-solid fa-chart-line"></i>Insights
+            </button>
+            <button type="button" class="btn btn-light text-dark me-2">
+              <i class="fa-solid fa-sliders"></i>View setting
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="scroll-container px-4">
+    <div cdkDropListGroup class="d-flex">
+      <div
+        *ngFor="let column of columns; trackBy: trackByFn; index as i"
+        class="example-container" 
+      >
+        <p>{{ column.title }}</p>
+        <div
+          cdkDropList
+          [cdkDropListData]="column.tasks"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div
+            *ngFor="let item of column.tasks; trackBy: trackByFn"
+            class="example-box"
+            cdkDrag 
+          >
+          <div  (click)="openDialog(item)">
+            <div class="task">
+              <span
+                >{{ item.taskName }}<i class="fa-solid fa-pencil ml-2"></i
+              ></span>
+              <button>
+                <i class="fa-solid fa-ellipsis m-0"></i>
+              </button>
+            </div>
+            <div class="project">
+              {{ item.project_name }}
+              <span>{{ item.assignee! | initial }}</span>
+            </div>
+            </div>
+          </div>
+          <div class="createIssue">
+           <button class="" style="border: none;" (click)="create_issue(i)">Create issue</button>
+            <div class="issueForm" *ngIf="column.showInput" >
+                <input type="text" style="width: 100%;">
+                
+                <div class="actionArea d-flex justify-content-between">
+                    <select class="form-select" style="width: 62px;">
+                        <option><i class="fa-solid fa-xmark"></i></option>
+                        <option ><img src="google.svg" alt=""></option>
+                        <option>😊</option>
+                        <option>4</option>
+                      </select>
+                    <button type="button" style="border: none;" (click)="create()">Create</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        *ngIf="plus"
+        (click)="addColumn()"
+        style="
+          width: 28px;
+          height: 28px;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          border: none;
+        "
+      >
+        <i class="fa-solid fa-plus"></i>
+      </button>
+      <div *ngIf="add" class="column-name d-flex flex-column align-items-end">
+        <input
+          type="text"
+          [(ngModel)]="titleInput"
+          placeholder="Enter column name"
+        />
+        <div class="action-btn d-flex">
+          <button
+            (click)="saveColumn()"
+            style="
+              box-shadow: rgba(14, 63, 126, 0.06) 0px 0px 0px 1px,
+                rgba(42, 51, 70, 0.03) 0px 1px 1px -0.5px,
+                rgba(42, 51, 70, 0.04) 0px 2px 2px -1px,
+                rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px,
+                rgba(42, 51, 70, 0.03) 0px 5px 5px -2.5px,
+                rgba(42, 51, 70, 0.03) 0px 10px 10px -5px,
+                rgba(42, 51, 70, 0.03) 0px 24px 24px -8px;
+              width: 28px;
+              height: 28px;
+              align-items: center;
+              display: flex;
+              justify-content: center;
+              border: none;
+            "
+          >
+            <i class="fa-solid fa-check"></i>
+          </button>
+          <button
+            (click)="cancelColumn()"
+            style="
+              box-shadow: rgba(14, 63, 126, 0.06) 0px 0px 0px 1px,
+                rgba(42, 51, 70, 0.03) 0px 1px 1px -0.5px,
+                rgba(42, 51, 70, 0.04) 0px 2px 2px -1px,
+                rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px,
+                rgba(42, 51, 70, 0.03) 0px 5px 5px -2.5px,
+                rgba(42, 51, 70, 0.03) 0px 10px 10px -5px,
+                rgba(42, 51, 70, 0.03) 0px 24px 24px -8px;
+              width: 28px;
+              height: 28px;
+              align-items: center;
+              display: flex;
+              justify-content: center;
+              border: none;
+            "
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

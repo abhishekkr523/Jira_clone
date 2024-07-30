@@ -4,11 +4,14 @@ import { PopupDialogComponent } from '../../../../userAuth/choose-templet/popup-
 import { SmallPopUpComponent } from './small-pop-up/small-pop-up.component';
 import { ToastrService } from 'ngx-toastr';
 import { DataServiceService } from '../../../../service/data-service.service';
+import { Project } from '../../../../user.interface';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-all-project-name',
   templateUrl: './all-project-name.component.html',
-  styleUrl: './all-project-name.component.css',
+  styleUrl: './all-project-name.component.scss',
 })
 export class AllProjectNameComponent implements OnInit {
   showTrashDiv: boolean = false;
@@ -20,15 +23,21 @@ export class AllProjectNameComponent implements OnInit {
     private toster: ToastrService,
     private dataService: DataServiceService
   ) {}
+
   selectedProjectIndex: number | null = null;
 
   toggleTrashDiv(index: number): void {
     if (this.selectedProjectIndex === index) {
       this.selectedProjectIndex = null;
+      // console.log('same',this.selectedProjectIndex);
     } else {
       this.selectedProjectIndex = index;
+      // console.log('sannnme',this.selectedProjectIndex);
     }
   }
+
+
+  
   moveToTrash(): void {
     const dialogRef = this.dialog.open(SmallPopUpComponent, {
       width: '400px',
@@ -36,9 +45,10 @@ export class AllProjectNameComponent implements OnInit {
       maxWidth: 'none',
       panelClass: 'custom-dialog-container',
       data: {
-        project: this.filteredProjects[this.selectedProjectIndex as number],
+        project: this.projects[this.selectedProjectIndex as number],
         index: this.selectedProjectIndex,
       },
+      
     });
     // this.showTrashDiv = false
 
@@ -58,35 +68,26 @@ export class AllProjectNameComponent implements OnInit {
     });
     this.dataService.updateProjects(this.projects);
     this.dataService.updateImportantProjects(this.importantProjects);
+    
   }
 
-  // show in html page
-  // projects: any[] = [
-  //   {
-  //    normalProject:[
-  //     {
-  //       name:'',
-  //       key:'',
-  //       isstar:false
-  //     }
-  //    ]
-  //   },
-  //   {
-  //     importantProjects:[
-  //       {
-  //         name:'',
-  //         key:'',
-  //         isstar:true
-  //       }
-  //     ]
-  //   }
-  // ];
-
-  projects: any[] = [];
+ 
+  projects: Project[] = [];
   ngOnInit(): void {
     this.loadProjects();
 
     this.loadImportantProjects();
+  // Initialize filteredProjects with all projects
+  this.filteredProjects = [...this.projects,...this.importantProjects];
+
+  // Set up search functionality
+  this.searchControl.valueChanges.pipe(
+    debounceTime(300),
+    distinctUntilChanged(),
+    map(searchTerm => this.filterProjects(searchTerm))
+  ).subscribe(filteredProjects => {
+    this.filteredProjects = filteredProjects;
+  });
   }
   loadProjects(): void {
     // Retrieve projects from localStorage
@@ -94,31 +95,84 @@ export class AllProjectNameComponent implements OnInit {
       const storedProjects = localStorage.getItem('projects');
       if (storedProjects) {
         this.projects = JSON.parse(storedProjects);
-        this.filteredProjects = [...this.projects];
+        this.filteredProjects = [...this.projects,...this.importantProjects];
       }
     }
   }
 
+
+  // importantProjects: Project[] = [];
+  // toggleImportant(index: number): void {
+  //   const project = this.projects[index];
+  //   project.isStar = !project.isStar;
+  //   if (project.isStar) {
+  //     this.importantProjects.push(project);
+  //   } else {
+  //     this.importantProjects = this.importantProjects.filter(p => p.projectKey !== project.projectKey);
+  //   }
+  //   this.saveImportantProjects();
+  // }
+ 
+
+ 
+  
+
+  searchControl: FormControl = new FormControl('');
+  filteredProjects: Project[] = [];
+
+
+
+  
+  filterProjects(searchTerm: string): Project[] {
+    return this.projects.filter(project =>
+      project.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.projectKey.toLowerCase().includes(searchTerm.toLowerCase()) 
+      
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   //search project start
 
-  searchProduct: any;
-  filteredProjects: any[] = [];
+  // searchProduct: any;
+  // filteredProjects: Project[] = [];
 
-  filterProjects(): void {
+  // filterProjects(): void {
     
-    if (!this.searchProduct) {
-      this.filteredProjects = [...this.projects];
-    } else {
-      this.filteredProjects = this.projects.filter((project) =>
-        project.name.toLowerCase().includes(this.searchProduct.toLowerCase())
-      );
-    }
-  }
+  //   if (!this.searchProduct) {
+  //     this.filteredProjects = [...this.projects];
+  //   } else {
+  //     this.filteredProjects = this.projects.filter((project) =>
+  //       project.projectName.toLowerCase().includes(this.searchProduct.toLowerCase())
+  //     );
+  //   }
+  // }
   // search project end
 
   ///star icon
 
-  importantProjects: any[] = [];
+  importantProjects: Project[] = [] ;
   // Load important projects from local storage
   loadImportantProjects() {
     if (typeof Storage !== 'undefined') {
@@ -126,13 +180,13 @@ export class AllProjectNameComponent implements OnInit {
       this.importantProjects = importantProjects
         ? JSON.parse(importantProjects)
         : [];
-        // console.log(this.importantProjects)
+        this.filteredProjects = [...this.projects,...this.importantProjects];
     }
   }
 
   // Check if a project is in the important list
-  isImportant(project: any): boolean {
-    return this.importantProjects.find((p) => p.key === project.key);
+  isImportant(project: Project) {
+    return this.importantProjects.find((p) => p.projectKey === project.projectKey);
   }
 
   // important project  start
@@ -140,17 +194,19 @@ export class AllProjectNameComponent implements OnInit {
     if (this.isImportant(project)) {
       // Remove from important list
       this.importantProjects = this.importantProjects.filter(
-        (p) => p.key !== project.key
+        (p) => p.projectKey !== project.projectKey
       );
-      this.projects.push(project);
+         this.projects.push(project);    
+      
 
       this.toster.success('Project marked as simple');
     } else {
       // Add to important list
       this.importantProjects.push(project);
+
       this.dataService.importantProjectsSubject.next(this.importantProjects);
 
-      this.projects = this.projects.filter((p) => p.key !== project.key);
+      this.projects = this.projects.filter((p:Project) => p.projectKey !== project.projectKey);
       this.toster.warning('important Project');
     }
 
@@ -164,23 +220,29 @@ export class AllProjectNameComponent implements OnInit {
     this.dataService.updateProjects(this.projects);
     this.dataService.updateImportantProjects(this.importantProjects);
 
-  //  this.filterProjects()
+  // this.loadImportantProjects()
+  
   }
 
   //important project end
 
   // filterout important project start
-  // showOnlyImportant: boolean = false;
-  // importantProjectFilter() {
-  //   this.showOnlyImportant = !this.showOnlyImportant;
-  //   if (this.showOnlyImportant) {
-  //     this.filteredProjects = this.filteredProjects
-  //       .slice()
-  //       .sort((a, b) => (this.isImportant(b) ? 1 : -1));
-  //   } else {
-  //     this.filteredProjects = [...this.projects];
-  //   }
-  // }
+  showOnlyImportant: boolean = false;
+  importantProjectFilter() {
+    this.showOnlyImportant = !this.showOnlyImportant;
+    if (this.showOnlyImportant) {
+      this.filteredProjects = this.filteredProjects
+        .slice()
+        .sort((a, b) => (this.isImportant(b) ? 1 : -1));
+    } else {
+      // this.filteredProjects = [...this.projects];
+      this.filteredProjects = [...this.projects,...this.importantProjects];
+    }
+  }
 
   // filterout important project end
+
+
+ 
+
 }

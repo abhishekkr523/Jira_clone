@@ -1,0 +1,270 @@
+<div class="container-fluid main-container">
+  <form [formGroup]="taskForm">
+    <div class="dialog-header">
+      <nav
+        class="container-fluid d-flex justify-content-between align-item-center"
+        aria-label="breadcrumb"
+      >
+        <ol class="breadcrumb mb-0 px-3 bg-transparent">
+          <li class="breadcrumb-item" style="font-size: 13px">
+            <a href="#"><i class="fa-solid fa-pencil ml-2"></i>Add epic</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">Scrum</li>
+        </ol>
+        <ul
+          style="
+            display: flex;
+            list-style: none;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+          "
+        >
+          <li><i class="fa-solid fa-unlock"></i></li>
+          <li><i class="fa-regular fa-eye"></i></li>
+          <li><i class="fa-regular fa-thumbs-up"></i></li>
+          <li><i class="fa-solid fa-share-nodes"></i></li>
+          <li><i class="fa-solid fa-ellipsis"></i></li>
+          <li mat-dialog-close><i class="fa-solid fa-xmark"></i></li>
+        </ul>
+      </nav>
+    </div>
+    <mat-dialog-content class="mat-typography">
+      <div class="container-left">
+        <div
+          class="task-name"
+          style="font-size: 22px; font-weight: 500; padding-bottom: 17px"
+        >
+         <input formControlName="taskName" type="text" placeholder="Task Name....">
+        </div>
+        <div
+          class="btn_group d-flex justify-content-between px-3"
+          style="font-size: 15px"
+        >
+          <button
+            style="
+              border: none;
+              background-color: #e9ecef;
+              padding: 0px 11px 0px 11px;
+              border-radius: 3px;
+            "
+          >
+            <i class="fa-solid fa-paperclip" style="padding-right: 4px"></i
+            >Attach
+          </button>
+          <button
+            style="
+              border: none;
+              background-color: #e9ecef;
+              padding: 0px 12px 0px 8px;
+              border-radius: 3px;
+            "
+          >
+            <img
+              src="treeNode.png"
+              alt=""
+              style="width: 28px; background: none"
+            />Add a child issue
+          </button>
+          <div class="dropdown" style="border: none; background-color: #e9ecef">
+            <button
+              class="btn dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span style="font-size: 15px; color: black"
+                ><i class="fa-solid fa-link" style="padding-right: 4px"></i>Link
+                issue</span
+              >
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
+          <div class="dropdown" style="border: none; background-color: #e9ecef">
+            <button
+              class="btn dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span style="font-size: 15px; color: black">Create</span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
+          <button
+            style="
+              border: none;
+              background-color: #e9ecef;
+              padding: 0px 14px 0px 14px;
+              border-radius: 3px;
+            "
+          >
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+        </div>
+        <div class="description-box">
+          <h5
+            style="
+              font-size: 16px;
+              padding-top: 20px;
+              margin: 0px;
+              line-height: 22px;
+            "
+          >
+            Description
+          </h5>
+          <textarea
+          formControlName="description"
+            placeholder="Enter your description here..."
+            class="input-field"
+          ></textarea>
+          <div>
+            <button class="btn btn-primary" (click)="onSave()">Save</button>
+            <button class="btn">cancel</button>
+          </div>
+        </div>
+
+        <div class="linked-issue">
+          <div
+            class="linked-section d-flex justify-content-between align-item-center"
+          >
+            <span>Linked issue</span><i class="fa-solid fa-plus"></i>
+          </div>
+          <p>is blocked by</p>
+        </div>
+      </div>
+      <div class="container-right">
+        <div class="d-flex py-2">
+          <div class="dropdown" style="border: none; background-color: #e9ecef">
+            <button
+              class="btn dropdown-toggle btn-primary"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span>In Progress</span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
+          <div class="dropdown" style="border: none; background-color: #e9ecef">
+            <button
+              class="btn dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span>Action</span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card py-2">
+          <h5 class="card-title">Pinned fields</h5>
+          <p class="card-text">
+            Click on the next to a field label to start pinning.
+          </p>
+        </div>
+        <div class="accordion py-2" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header m-0" id="headingOne">
+              <button
+                class="accordion-button collapsed p-0"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                Details
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              class="accordion-collapse collapse show"
+              aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+                <div class="assign d-flex py-2">
+                  <div class="label">Assignee</div>
+                  <div class="field"><input  formControlName="assignee" type="text"></div>
+                </div>
+                <div class="labels d-flex py-2">
+                  <div class="label">Label</div>
+                  <div class="field"><input  formControlName="labels" type="text"></div>
+                </div>
+                <div class="parent d-flex py-2">
+                  <div class="label">Parent</div>
+                  <div class="field"><input  formControlName="parent" type="text"></div>
+                </div>
+                <div class="sprint d-flex py-2">
+                  <div class="label">Sprint</div>
+                  <div class="field"><input  formControlName="sprint" type="text"></div>
+                </div>
+                <div class="points d-flex py-2">
+                  <div class="label">Story point estimate</div>
+                  <div class="field"><input  formControlName="storyPoints" type="number"></div>
+                </div>
+                <div class="reporter d-flex py-2">
+                  <div class="label">Reporter</div>
+                  <div class="field"><input  formControlName="reporter" type="text"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion py-2" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header m-0" id="headingTwo">
+              <button
+                class="accordion-button p-0 bg-transparent no-box-shadow"
+                style="color: none"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="true"
+                aria-controls="collapseTwo"
+              >
+                Automation
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              class="accordion-collapse collapse show"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+                <p>Recent rule runs</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-dialog-content>
+    <!-- <mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions> -->
+  </form>
+</div>

@@ -27,6 +27,16 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 // import { HotToastModule } from '@ngneat/hot-toast';
+import { BacklogComponent } from './pages/backlog/backlog.component';
+import { BoardComponent } from './pages/board/board.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { InitialPipe } from './initial.pipe';
+import { MatSelectModule } from '@angular/material/select';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { TaskDetailsComponent } from './pages/task-details/task-details.component';
+import {MatMenuModule} from '@angular/material/menu';
+// import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +50,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     CreateProjectComponent,
     AllProjectNameComponent,
     SmallPopUpComponent,
+    BacklogComponent,
+    BoardComponent,
+    InitialPipe,
+    TaskDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +68,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     ToastrModule.forRoot(),
    
     BrowserAnimationsModule,
+    DragDropModule,
+    MatSelectModule,SelectDropDownModule,
+    MatMenuModule,
+    MatIconModule
   ],
   providers: [
     provideClientHydration(),

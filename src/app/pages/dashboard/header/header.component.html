@@ -32,18 +32,20 @@
                 <div>
                   <img 
                   src="https://abhishekkr523.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10413?size=xxlarge"
-                  alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;">  {{impProject.name}} ({{impProject.key}}) 
+                  alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;"> 
+                   {{impProject.projectName}} ({{impProject.projectKey}}) 
                 </div>
 
               </li>
               <hr>
               <p >Resent </p>
-              <li *ngFor="let project of projects; let i = index">
+              <li *ngFor="let project of Normalprojects; let i = index">
                 
                 <div>
                   <img 
                   src="https://abhishekkr523.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10413?size=xxlarge"
-                  alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;">  {{project.name}} ({{project.key}})
+                  alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;"> 
+                   {{project.projectName}} ({{project.projectKey}})
                 </div>
               </li>
               <hr>

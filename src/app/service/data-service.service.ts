@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { Project, ProjectList } from '../user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataServiceService {
 
-   projectsSubject = new BehaviorSubject<any[]>([]);
-   importantProjectsSubject = new BehaviorSubject<any[]>([]);
+   projectsSubject = new BehaviorSubject<Project[]>([]);
+   importantProjectsSubject = new BehaviorSubject<Project[]>([]);
 
   // Observable streams
-  projects$ = this.projectsSubject.asObservable();
-  importantProjects$ = this.importantProjectsSubject.asObservable();
+  // projects$ = this.projectsSubject.asObservable();
+  // importantProjects$ = this.importantProjectsSubject.asObservable();
 
   constructor() {
     this.loadProjects();
