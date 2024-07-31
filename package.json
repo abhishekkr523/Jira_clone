@@ -40,9 +40,9 @@
     "express": "^4.18.2",
     "jquery": "^3.7.1",
     "ngx-quill": "^26.0.5",
-    "quill": "^2.0.2",
     "ngx-select-dropdown": "^3.3.2",
     "ngx-toastr": "^19.0.0",
+    "quill": "^2.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "^0.14.8"

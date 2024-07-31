@@ -2,11 +2,13 @@
 @import '@fortawesome/fontawesome-free/css/all.css';
 
 /* styles.css */
+/* Import mixins */
+@import "./mixsin.scss";
 
 
-
-html, body { height: 100%; }
-body { }
+html, body {
+   height: 100%;
+   }
 
 .mdc-dialog--open .mat-mdc-dialog-surface, .mdc-dialog--closing .mat-mdc-dialog-surface{
   border-radius: 0;
@@ -34,8 +36,7 @@ body { }
 }
 
 
-/* Import mixins */
-@import "./mixsin.scss";
+
 
 :root {
   --color-primary:rgb(10, 10, 234);

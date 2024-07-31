@@ -7,21 +7,18 @@ import { Project } from '../../../user.interface';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent implements OnInit {
-  constructor(private service: DataServiceService) {}
+export class SidebarComponent implements OnInit{
+
+  constructor(private service : DataServiceService){}
   selectedProject: Project | null = null;
-
+  
+  projectName:any
    ngOnInit(): void {
-    console.log("first",this.projectName)
-    this.service.projectNameSubject.subscribe((data)=>{
-      console.log('projectName asdlkjfhlakjshdf',data)
-      this.projectName=data
-      console.log("last",this.projectName)
-    })
-
-
-       
-   
+       this.service.projectNameSubject.subscribe((data:any)=>{
+        console.log('projectName',data)
+         this.projectName=data
+       })
+        
     this.service.selectedProjectSubject.subscribe((project:Project | null) => {
       if (project) {
         // console.log('tarun',project);
@@ -29,6 +26,7 @@ export class SidebarComponent implements OnInit {
       }
      
     })
-  }
 
-}
+
+       
+}}
