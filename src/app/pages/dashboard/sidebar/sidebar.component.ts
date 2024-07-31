@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { DataServiceService } from '../../../service/data-service.service';
+import { Project } from '../../../user.interface';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent implements OnInit{
+export class SidebarComponent implements OnInit {
+  constructor(private service: DataServiceService) {}
+  selectedProject: Project | null = null;
 
-  constructor(private service : DataServiceService){}
-  
-  
-  projectName:string=''
    ngOnInit(): void {
     console.log("first",this.projectName)
     this.service.projectNameSubject.subscribe((data)=>{
@@ -22,7 +21,14 @@ export class SidebarComponent implements OnInit{
 
 
        
-}
-
+   
+    this.service.selectedProjectSubject.subscribe((project:Project | null) => {
+      if (project) {
+        // console.log('tarun',project);
+        this.selectedProject = project;
+      }
+     
+    })
+  }
 
 }

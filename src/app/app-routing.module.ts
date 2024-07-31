@@ -8,7 +8,12 @@ import { CreateProject } from './pages/dashboard/create-project/create-project';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
 import { SprintComponent } from './pages/dashboard/sprint/sprint.component';
+import { AllProjectNameComponent } from './pages/dashboard/project/all-project-name/all-project-name.component';
+import { BacklogComponent } from './pages/backlog/backlog.component';
+import { BoardComponent } from './pages/board/board.component';
+import { TaskDetailsComponent } from './pages/task-details/task-details.component';
 // import { WelcomePageComponent } from './userAuth/welcome-page/welcome-page.component';
+
 
 const routes: Routes = [
   { path: '', component: UserLoginComponent },
@@ -41,7 +46,15 @@ const routes: Routes = [
   {
     path:'create-project',
     component:CreateProjectComponent
-  }
+  },{
+    path:'showAllProjects',
+    component:AllProjectNameComponent
+  },
+   { path:'backlog',
+    component:BacklogComponent
+  },
+  {path:"board", component:BoardComponent},
+  {path:"taskDetails", component:TaskDetailsComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

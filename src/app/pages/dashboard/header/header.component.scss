@@ -1,0 +1,158 @@
+
+
+ .after{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    /* justify-content: space-around; */
+ }
+  .icon {
+    width: 6%;
+    display: flex;
+    /* justify-content: center; */
+    gap: 5px;
+    align-items: center;
+    padding-left: 0px;
+  }
+  .icon h1{
+font-weight: 400;
+font-size: 25px;
+  }
+  .icon img {
+    height: 29px;
+    /* width: 31px; */
+  }
+  
+  .after-icon{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-around;
+    
+  }
+
+  .after-icon .fa-solid{
+    font-size: 20px;
+  }
+
+  .after-icon .fa-solid:hover{
+    /* border-width: 25px; */
+    /* width: 22%; */
+    /* height: auto; */
+    color: #ff3f34;
+    
+  }
+
+
+  hr {
+    margin: 0rem 0;
+    color: inherit;
+    background-color: currentColor;
+    border: 0;
+    opacity: .25;
+}
+
+.nav-link{
+  font-weight: 400;
+  font-size: 18px;
+}
+          
+.nav-link:hover{
+  background-color: lightgrey;
+}
+
+
+
+.active-link {
+  color: blue !important;
+}
+
+
+button{
+  margin-left: 40px;
+}
+
+/* new css start */
+
+/* Base styling for the dropdown menu */
+.dropdown-menu {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width: 300px; /* Adjust width as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Section headers styling */
+/* .dropdown-menu li:first-child,
+.dropdown-menu li:nth-child(3) {
+  font-weight: bold;
+  padding: 8px 10px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  margin-top: 5px;
+} */
+
+/* Styling for individual project items */
+.dropdown-menu li div {
+  padding: 8px 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+/* Hover effect for project items */
+.dropdown-menu li div:hover {
+  background-color: #e9ecef;
+}
+
+/* Styling for links in the dropdown */
+.dropdown-menu .dropdown-item {
+  display: block;
+  padding: 8px 10px;
+  color: #007bff;
+  text-decoration: none;
+  border-radius: 3px;
+  margin: 5px 0;
+}
+
+/* Hover effect for links */
+.dropdown-menu .dropdown-item:hover {
+  background-color: #f1f1f1;
+  color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dropdown-menu {
+    width: 100%;
+  }
+}
+
+/* Additional styling for the dropdown toggle */
+.nav-link.dropdown-toggle {
+  cursor: pointer;
+}
+
+
+/* new css end  */
+
+p{
+  font-weight: 500;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  color: #313030;
+}
+
+.dropdown-menu img{
+  width: 11%;
+  padding-right: 1px;
+}
+
+.fa-star{
+  color: yellow;
+  padding-left: 43%;
+}

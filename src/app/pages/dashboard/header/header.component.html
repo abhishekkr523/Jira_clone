@@ -1,11 +1,94 @@
-
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <div class="icon" >
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcc2TZvbHh60NDISnKd4Vk-BgGqoL_JWCpIw&s" alt="">
-        <h1>jira</h1>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="icon">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcc2TZvbHh60NDISnKd4Vk-BgGqoL_JWCpIw&s" alt="">
+      <h1>jira</h1>
     </div>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Your Work
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item">Assigne To Me</a></li>
+            <li><a class="dropdown-item">Resent</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item">Board</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Projects
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <p>star project</p>
+            <li *ngFor="let impProject of importantProjects ; let i= index">
+
+              <div (click)="selectProject(impProject)">
+                <img
+                  src="https://abhishekkr523.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10413?size=xxlarge"
+                  alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;">
+                {{impProject.projectName}} ({{impProject.projectKey}})
+                 <i class="fa-solid fa-star"></i>
+              </div>
+
+            </li>
+            <hr>
+            <p>Resent </p>
+            <li *ngFor="let project of Normalprojects; let i = index">
+
+              <div (click)="selectProject(project)">
+                <img
+                  src="https://abhishekkr523.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10413?size=xxlarge"
+                  alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;">
+                {{project.projectName}} ({{project.projectKey}})
+              </div>
+            </li>
+            <hr>
+            <li><a class="dropdown-item" routerLink="/showAllProjects">View All Projects</a></li>
+            <li><a class="dropdown-item" routerLink="/create-project">Create Project</a></li>
+
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Dashboards
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item">View All Dashboards</a></li>
+            <li><a class="dropdown-item">Create Dashboards</a></li>
+
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Teams
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item"><i class="fa-solid fa-plus"></i>Invite Peoples To Jira</a></li>
+            <li><a class="dropdown-item"><i class="fa-solid fa-people-group"></i>Create a Team</a></li>
+
+          </ul>
+        </li>
+        <button type="button" class="btn btn-primary">Create</button>
+
+      </ul>
+
+      <div class="after">
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+        </form>
+        <div class="after-icon">
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
           
@@ -65,11 +148,10 @@
           <i class="fa-solid fa-question"></i>
           <i class="fa-solid fa-gear"></i>
           <i class="fa-solid fa-user"></i>
-         </div>
         </div>
-        
       </div>
+
     </div>
-  </nav>
-  <hr>
-  
+  </div>
+</nav>
+<hr>

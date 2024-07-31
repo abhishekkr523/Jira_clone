@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@fortawesome/fontawesome-free/css/all.css';
 
+/* styles.css */
 
 
 
@@ -30,4 +31,55 @@ body { }
 
 ::ng-deep .mat-option {
   height: 40px; /* Adjust the height of the options */
+}
+
+
+/* Import mixins */
+@import "./mixsin.scss";
+
+:root {
+  --color-primary:rgb(10, 10, 234);
+  --color-secondary: rgb(17, 234, 155);
+  --color-white: #fffff;
+  --fontweight-bold: 500px;
+  --fontweight-bold: 900px;
+  --bg-color:#F4F5F7;
+  --hover-color-gray:rgb(223, 231, 232);
+  --hover-color-lightgray:rgb(237, 241, 241);
+}
+
+/* Global styles */
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+}
+.custom-dialog-container {
+  border-radius: 15px; /* Adjust the value as needed */
 }
