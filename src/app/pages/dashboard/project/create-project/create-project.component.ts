@@ -43,6 +43,7 @@ export class CreateProjectComponent implements OnInit {
     let digit = name.replace(/\D/g, '');
     return firstLetter + digit;
   }
+  startDate!: string;
 
   saveToLocalStorage(): void {
     if (this.projectName.valid) {
@@ -50,7 +51,8 @@ export class CreateProjectComponent implements OnInit {
 // console.log(this.projectName.value)
 
       let existingProjects:Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
-   
+      const startDate = new Date(this.startDate);
+      const endDate = new Date(startDate);
       const newProject: Project = {
         projectId: Date.now(), // Using Date.now() for unique project ID
         projectName: this.projectName.value,
@@ -60,6 +62,10 @@ export class CreateProjectComponent implements OnInit {
           {
             sprintId: 0,
             sprintName: '',
+            startDate,
+            duration:1,
+            endDate,
+            summary:'',
             tasks: [
               {
                 taskId: 0,

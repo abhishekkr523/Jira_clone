@@ -93,7 +93,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatSelectModule,SelectDropDownModule,
     MatMenuModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [
     provideClientHydration(),

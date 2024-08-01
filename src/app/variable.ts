@@ -1,4 +1,4 @@
-export interface Project{
+export interface Projects{
     ProjectName:string,
     IssueType:string,
     status:string|undefined,

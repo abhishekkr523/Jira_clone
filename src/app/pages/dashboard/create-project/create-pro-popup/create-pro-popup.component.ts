@@ -4,6 +4,8 @@ import { faCancel, faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { DataServiceService } from '../../../../service/data-service.service';
 import { StorageService } from '../../../../service/storage.service';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { Project } from '../../../../user.interface';
+import { json } from 'stream/consumers';
 @Component({
   selector: 'app-create-pro-popup',
   templateUrl: './create-pro-popup.component.html',
@@ -25,7 +27,7 @@ export class CreateProPopupComponent implements OnInit{
   isVisible2:boolean=false
 
   registerProject!:FormGroup
-  projects=['pro1','pro2']
+  projects:string[]=[]
   editorContent:string=''
   isMinimized:boolean=false
 
@@ -50,6 +52,7 @@ ngOnInit(): void {
     LinkedIssue:['',],
     CreateAnotherIssue:['',],
   });
+this.getProjectsFromLocalStorage()
 }
   onSubmit(){
      console.log("asdkfjakjs")
@@ -61,6 +64,13 @@ ngOnInit(): void {
     } else {
       console.log('Form is invalid');
       this.dialog.close();
+    }
+  }
+  getProjectsFromLocalStorage(){
+    if (typeof Storage !== 'undefined') {
+      const projects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
+    this.projects = projects.map(project => project.projectName);
+    
     }
   }
   

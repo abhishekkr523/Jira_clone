@@ -1,6 +1,6 @@
 .goal{
     width: 100%;
-    height: 80px;
+    height: 50px;
 }
 #goal{
     height: 100%;
@@ -10,6 +10,7 @@
 .action{
     display: flex;
     justify-content: end;
+    margin-top: 20px;
 
 }
 .edit{
@@ -17,7 +18,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 100%;
 }
 .input{
