@@ -26,18 +26,24 @@ export class ChooseTempletComponent {
 //     console.log('welcome')
 //   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(PopupDialogComponent, {
-      width: '1100px',
-      height: '650px',
-      maxWidth:'none',
-      panelClass: 'custom-dialog-container',
-      data: { name: '', email: '' }
-    });
+  // openDialog(): void {
+  //   const dialogRef = this.dialog.open(PopupDialogComponent, {
+  //     width: '1100px',
+  //     height: '650px',
+  //     maxWidth:'none',
+  //     panelClass: 'custom-dialog-container',
+  //     data: { name: '', email: '' }
+  //   });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log('Form data:', result);
-    });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //     console.log('Form data:', result);
+  //   });
+  // }
+
+  openDialog()
+  {
+   this.router.navigate(['/dashboard'])
   }
+
 }

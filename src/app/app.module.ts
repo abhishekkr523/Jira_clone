@@ -39,6 +39,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import { NewInitialPipe } from './pages/dashboard/project/all-project-name/new-initial.pipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { LogoutPopUpComponent } from './pages/dashboard/header/logout-pop-up/logout-pop-up.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +58,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     InitialPipe,
     NewInitialPipe,
     TaskDetailsComponent,
-    NewInitialPipe
+    NewInitialPipe,
+    LogoutPopUpComponent
   ],
   imports: [
     BrowserModule,

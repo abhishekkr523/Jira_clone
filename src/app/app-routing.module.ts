@@ -9,11 +9,14 @@ import { AllProjectNameComponent } from './pages/dashboard/project/all-project-n
 import { BacklogComponent } from './pages/backlog/backlog.component';
 import { BoardComponent } from './pages/board/board.component';
 import { TaskDetailsComponent } from './pages/task-details/task-details.component';
+
 // import { WelcomePageComponent } from './userAuth/welcome-page/welcome-page.component';
 
 
 const routes: Routes = [
-  { path: '', component: UserLoginComponent },
+  { path: '', redirectTo: '/user-login', pathMatch: 'full' },
+  
+
   {
     path: 'popup',
     component: PopupDialogComponent,
@@ -23,6 +26,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    
   },
   {
     path:'create-project',

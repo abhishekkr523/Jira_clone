@@ -4,14 +4,15 @@
  ***********************/
  
  aside {
-    position: fixed;
-    width: 280px;
+   
+    width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-right: 0.2px solid rgba(98, 96, 96, 0.448);
+    
  }
  
  label{

@@ -8,13 +8,21 @@ import { Project } from '../../user.interface';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit{
-
-constructor(private service : DataServiceService){}
+  boardFullScreen = false;
+constructor(private fullScreenService : DataServiceService){
+  this.fullScreenService.isFullScreen$.subscribe(isFullScreen => {
+    this.boardFullScreen = isFullScreen;
+  });
+}
 
 
 
  ngOnInit(): void {
   
  }
+
+ 
+
+ 
 
 }

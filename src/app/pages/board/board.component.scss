@@ -1,9 +1,19 @@
 // @import 'mixsin.scss';
+// .full-screen  {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100vw !important;
+//   height: 100vh !important;
+//   z-index: 9999;
+//   background-color: white;
+//   padding: 0 !important; /* Ensure background covers other content */
+// }
 
 .outer-container {
-  width: 100vw;
+  width: 100%;
   height: 100%;
-  padding-left: 17.3%;
+  // padding-left: 17.3%;
   // overflow: hidden;
 
   header {

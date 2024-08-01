@@ -1,13 +1,15 @@
-<div class="outer-container">
+<div class="outer-container"
+[class.full-screen]="isFullScreen"
+ >
   <header>
-    <nav class="container-fluid" aria-label="breadcrumb">
+    <nav class="container-fluid p-0" aria-label="breadcrumb">
       <ol class="breadcrumb mb-0 px-3">
         <li class="breadcrumb-item"><a href="#">Projects</a></li>
         <li class="breadcrumb-item active" aria-current="page">Board</li>
       </ol>
     </nav>
     <div class="px-3 text-bg-dark border-bottom">
-      <div class="container-fluid">
+      <div class="container-fluid ">
         <div
           class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
         >
@@ -30,12 +32,15 @@
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-secondary">
+              <a class="nav-link text-secondary">
                 <i 
-              
+                (click)="toggleFullScreen()"
                 matTooltipPosition="above"
-                matTooltip="Enter full Screen"
-                class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                [matTooltip]="iconChange ? 'Exit full Screen' : 'Enter full Screen'"
+               
+                [class]="iconChange ? 'fa-solid fa-down-left-and-up-right-to-center' : 'fa-solid fa-up-right-and-down-left-from-center'"
+                
+                ></i>
               </a>
             </li>
             <li>

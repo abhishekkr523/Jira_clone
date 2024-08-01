@@ -60,7 +60,13 @@ export class DataServiceService {
   }
 
  
-// active projects 
+// for zoom the screen 
+private isFullScreenSubject = new BehaviorSubject<boolean>(false);
+  isFullScreen$ = this.isFullScreenSubject.asObservable();
+
+  setFullScreen(isFullScreen: boolean) {
+    this.isFullScreenSubject.next(isFullScreen);
+  } 
 
 
 

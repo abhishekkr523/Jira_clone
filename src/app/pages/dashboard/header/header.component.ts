@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DataServiceService } from '../../../service/data-service.service';
 import { Project, ProjectList } from '../../../user.interface';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LogoutPopUpComponent } from './logout-pop-up/logout-pop-up.component';
 
 @Component({
   selector: 'app-header',
@@ -28,6 +30,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private projectService: DataServiceService,
     private toster: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -49,5 +52,15 @@ export class HeaderComponent implements OnInit {
    this.toster.success('Project Selected')
    localStorage.setItem('selectedProject', JSON.stringify(project));
     
+  }
+
+
+
+  // logout
+
+  logOut() {
+    this.dialog.open(LogoutPopUpComponent, {
+      width: '250px'
+    });
   }
 }
