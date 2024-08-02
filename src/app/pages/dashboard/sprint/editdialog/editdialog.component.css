@@ -1,0 +1,34 @@
+.goal{
+    width: 100%;
+    height: 50px;
+}
+#goal{
+    height: 100%;
+    width: 100%;
+
+}
+.action{
+    display: flex;
+    justify-content: end;
+    gap: 12px;
+    margin-top: 64px;
+
+}
+.edit{
+    padding: 5%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: 100%;
+}
+.input{
+    display: flex;
+    flex-direction: column;
+}
+.but{
+    border: 0;
+    outline: none;
+    margin: 4px;
+    border-radius: 3px;
+}

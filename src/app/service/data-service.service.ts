@@ -7,6 +7,9 @@ import { Project, ProjectList } from '../user.interface';
 })
 export class DataServiceService {
 
+  isVisible=new BehaviorSubject<boolean>(false)
+
+  projectNameSubject = new Subject<string>()
    projectsSubject = new BehaviorSubject<Project[]>([]);
    importantProjectsSubject = new BehaviorSubject<Project[]>([]);
   //  selectedProjectSubject = new BehaviorSubject<any>(null);

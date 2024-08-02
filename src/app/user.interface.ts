@@ -10,7 +10,12 @@ export interface Task {
   export interface Sprint {
     sprintId: number;
     sprintName: string;
+    startDate:Date;
+    duration:number;
+    endDate:Date;
+    summary:string;
     tasks: Task[];
+    
   }
   
   export interface Project {

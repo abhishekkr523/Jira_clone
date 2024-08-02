@@ -1,0 +1,106 @@
+
+.mat-dialog-content::-webkit-scrollbar {
+  width: 2px; /* Adjust the width of the vertical scrollbar */
+}
+.header{
+    display: flex;
+    width: 73%;
+    height: 80px;
+    background-color: white;
+    padding: 0 10px 0 10px;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 500;
+   
+}
+.header2{
+    display: flex;
+    justify-content: space-around;
+    width: 15%;
+}
+.form-group{
+    width: 45%;
+    margin: 10px;
+}
+
+.form-group2{
+    width: 100%;
+    margin-top: 10px;
+}
+.custom-input {
+    align-items: start;
+    width: 100%; /* Adjust the width as needed */
+    height: 100px; /* Adjust the height as needed */
+  }
+  .inner{
+    padding-left: 2%;
+    padding-right: 2%;
+    background-color: white;
+    width:100%;
+    
+  }
+  .container{
+    margin-top: 8%;
+    margin-bottom: 10%;
+  }
+  .footer{
+    display: flex;
+    width: 73%;
+    justify-content: space-between;
+    padding: 0 10px 0 10px;
+    position: fixed;
+    bottom: 47px;
+
+    height: 80px;
+    padding: 0 10px 0 10px;
+    background-color:white;
+
+    align-items: center;
+  }
+  .footer2{
+    display: flex;
+    justify-content: space-around;
+    width: 15%;
+  
+
+  }
+  .country{
+    border:.5px solid rgba(0, 0, 0, 0.774);
+    margin: 10px;
+  }
+.form-control{
+  margin-top: 10px;
+}
+.but{
+  border: 0;
+  background-color: white;
+}
+.but:hover{
+  background-color:  #f5f5f5
+}
+.formLa{
+  display: flex;
+  justify-content: start;
+flex-wrap: wrap;
+/* align-items: start; */
+}
+.bot{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#bot{
+  margin-left: 30px;
+}
+ng-select{
+  border: .8px solid rgb(206, 212, 218)  ;
+  border-radius: 4px;
+}
+.star{
+  color: red;
+  margin-left: 2px;
+}
+.invalid-control{
+  border: .8px solid red;
+  
+}
