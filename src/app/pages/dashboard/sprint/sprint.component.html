@@ -89,17 +89,16 @@
             </div>
         </div>
     </header>
-    <div class="createSprint">
-        <p>Backlog</p>
-        <button (click)="createSprint()">Create Sprint</button>
-      </div>
+   
       
       <div class="sprintList" *ngFor="let sprint of selectProject.sprints">
         <div class="title">
           <div class="sprint">
-            <p>{{ sprint.sprintName }}</p>
+            <p class="name">{{ sprint.sprintName }}</p>
+           <div class="pencil">
             <i class="fas fa-pencil" (click)="openEditDialog(sprint)"></i>
             <p>Add dates</p>
+           </div>
           </div>
           <div class="tripleDot">
             <button mat-button [matMenuTriggerFor]="menu"><i class="fa-duotone fa-solid fa-ellipsis"></i></button>
@@ -114,7 +113,18 @@
         </select> -->
       </div>
       
-      
+      <div class="createSprint">
+        <p>Backlog</p>
+
+       <div class="back">
+        <div class="count">
+            <span class="css1">0</span>
+            <span class="css2">0</span>
+            <span class="css3">0</span>
+            </div>
+            <button (click)="createSprint()">Create Sprint</button>
+       </div>
+      </div>
 
 
 

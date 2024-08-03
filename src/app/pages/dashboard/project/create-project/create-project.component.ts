@@ -59,24 +59,24 @@ export class CreateProjectComponent implements OnInit {
         projectKey: this.keyValue,
         isStar: false,
         sprints: [
-          {
-            sprintId: 0,
-            sprintName: '',
-            startDate,
-            duration:1,
-            endDate,
-            summary:'',
-            tasks: [
-              {
-                taskId: 0,
-                taskName: '',
-                description: '',
-                assignee: '',
-                status: '',
-                storyPoints: '',
-              },
-            ],
-          },
+          // {
+          //   sprintId: 0,
+          //   sprintName: '',
+          //   startDate,
+          //   duration:1,
+          //   endDate,
+          //   summary:'',
+          //   tasks: [
+          //     {
+          //       taskId: 0,
+          //       taskName: '',
+          //       description: '',
+          //       assignee: '',
+          //       status: '',
+          //       storyPoints: '',
+          //     },
+          //   ],
+          // },
         ],
       };
 

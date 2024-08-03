@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-sprint',
   templateUrl: './sprint.component.html',
-  styleUrl: './sprint.component.css'
+  styleUrl: './sprint.component.scss'
 })
 export class SprintComponent  implements OnInit{
 
@@ -64,7 +64,7 @@ getNextSprintName(): string {
   return `Sprint ${sprintCount}`;
 }
 createSprint() {
-  let newSprint: Sprint = {
+  const newSprint: Sprint = {
     sprintName: this.getNextSprintName(),
     sprintId: Date.now(),
     startDate: new Date(),
@@ -72,7 +72,7 @@ createSprint() {
     endDate: new Date(),
     summary: '',
     tasks: []
-  } || {};
+  } ;
   
   this.selectProject.sprints.push(newSprint);
   this.toast.success('Sprint created successfully');
