@@ -52,6 +52,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import { NewInitialPipe } from './pages/dashboard/project/all-project-name/new-initial.pipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { EditBacklogComponent } from './pages/dashboard/sprint/edit-backlog/edit-backlog.component';
+import { DeleteBacklogComponent } from './pages/dashboard/sprint/delete-backlog/delete-backlog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,7 +78,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     InitialPipe,
     NewInitialPipe,
     TaskDetailsComponent,
-    NewInitialPipe
+    NewInitialPipe,
+    EditBacklogComponent,
+    DeleteBacklogComponent
   ],
   imports: [
     BrowserModule,

@@ -28,12 +28,15 @@ const routes: Routes = [
   ]},
   {
     path:'dashboard',
-    component:DashboardComponent
-   },
-  {
-    path:'sprint',
-    component:SprintComponent
-   },
+    component:DashboardComponent,
+    children:[
+      {
+        path:'sprint',
+        component:SprintComponent
+       },
+    ]
+  },  
+  
  
   // {
   //   path:'welcomePage',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { Project, ProjectList } from '../user.interface';
+import { Project, ProjectList, Sprint } from '../user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -62,9 +62,29 @@ export class DataServiceService {
     localStorage.setItem('importantProjects', JSON.stringify(importantProjects));
   }
 
+// Add a new sprint to a specific project
+addSprintToProject(projectId: number, newSprint: Sprint): void {
+  // Retrieve the existing projects from local storage
+  const projects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
+
+  // Find the project by ID
+  const project = projects.find(proj => proj.projectId === projectId);
+  if (project) {
+    // Push the new sprint into the project's sprints array
+    project.sprints.push(newSprint);
+    
+    // Save the updated projects array back to local storage
+    localStorage.setItem('projects', JSON.stringify(projects));
+  } else {
+    console.error(`Project with ID ${projectId} not found.`);
+  }
  
-// active projects 
-
-
+}
+  // Get sprints for a specific project
+  getSprintsByProjectId(projectId: number): Sprint[] | null {
+    const projects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
+    const project = projects.find(proj => proj.projectId === projectId);
+    return project ? project.sprints : null;
+  }
 
 }
