@@ -1,0 +1,177 @@
+
+ /***********************
+ ** Start Sidebar Menu **
+ ***********************/
+ 
+ aside {
+    position: fixed;
+    width: 280px;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 0.2px solid rgba(98, 96, 96, 0.448);
+ }
+ 
+ label{
+   /* font-size: medium; */
+   font-weight: 200;
+ }
+ .logo {
+    /* background-color: rgb(195, 195, 195); */
+    height: 90px;
+    font-family: sans-serif;
+    font-size: 22px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+ }
+ .logo img{
+    height: 36px;
+    width: 35px;
+ }
+ .logo span span {
+    color: rgb(25, 118, 210);
+ }
+ 
+ .logo select {
+    display: block;
+    height: 20px;
+    margin-top: 22px;
+    width: 40px;
+    font-size: 10px;
+    text-transform: capitalize;
+ }
+ 
+ ul li label i:first-child {
+    color: rgb(119, 119, 119);
+ }
+ 
+ /* Start Radio inputs */
+ input[name="menu"],
+ input[name=dropdowns]{
+    display: none;
+ }
+ 
+ input[type=radio]:checked ~ label {
+    color: rgb(124, 179, 66);
+ }
+ 
+ input[type=radio]:checked ~ label > i:first-child {
+    color: rgb(124, 179, 66);
+ }
+ 
+ input:not(checked) ~ label {
+    color: rgb(60, 33, 33);
+    padding-left: 35px;
+ }
+ /* End Radio inputs */
+ 
+ 
+ /* Start Checkbox inputs */
+ input[type=checkbox]:checked ~ ul {
+    display: block;
+ }
+ 
+ #uparrow,
+ #downarrow {
+    float: right;
+ }
+ 
+ input[name=dropdowns]:checked ~ label > #downarrow {
+    display: none;
+ }
+ 
+ input[name=dropdowns]:checked ~ label > #uparrow {
+    display: inline-block;
+ }
+ 
+ input[name=dropdowns]:not(checked) ~ label > #uparrow {
+    display: none;
+ }
+ 
+ /* End Checkbox inputs */
+ 
+ /* Start Menu */
+ 
+ ul li {
+    font-family: Roboto, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 20px;
+    text-transform: capitalize;
+ }
+ 
+ ul li label i {
+    width: 50px;
+    margin-right: 5px;
+    text-align: center;
+ }
+ 
+ ul li label {
+    display: inline-block;
+    width: 240px;
+ }
+ 
+ ul li label:hover {
+    cursor: pointer;
+ }
+ 
+ .main {
+    list-style-type: none;
+    padding-left: 0;
+ }
+ 
+ .drop {
+    display: none;
+ }
+ 
+ .drop li {
+    display: block;
+    font-size: 14px;
+    padding-left: 20px;
+    display: flex;
+    gap: 11px;
+ }
+
+ .drop li:hover {
+    color: #3437ffda;
+    padding-left: 30px;
+    cursor: pointer;
+    background-color: lightgrey;
+    width: 50%;
+    height: 10%;
+ }
+ 
+ .drop li label {
+    width: 105px;
+ }
+ 
+ /* End Menu */
+ 
+ /***********************
+ ** End Sidebar Menu   **
+ ***********************/
+ 
+
+
+ .para{
+    padding-bottom: 46%;
+    padding-left: 12px;
+ }
+
+
+
+ .layout {
+   width: 1366px;
+   height: 768px;
+ 
+   display: grid;
+   grid:
+     "sidebar body" 1fr
+     / auto 1fr;
+   gap: 8px 0px;
+ }
+ 
+ .sidebar { grid-area: sidebar; }
+ .body { grid-area: body; }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-login',
@@ -7,15 +8,21 @@ import { Router } from '@angular/router';
   styleUrl: './user-login.component.css'
 })
 export class UserLoginComponent {
-  email!: string;
+  // email!: string;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router , private toast:ToastrService ) {}
 
-  onSubmit(): void {
-    if (this.email === 'user@gmail.com') {
-      this.router.navigate(['/template']);
+  email: string = '';
+
+  onSubmit(emailForm: any) {
+    if (emailForm.valid) {
+      localStorage.setItem('userLogin', this.email);
+    
+      this.toast.success('Successfully Login ');
+      this.router.navigate(['/dashboard']);
     } else {
-      alert('Invalid email address');
+     
+      this.toast.success('Invalid email ');
     }
   }
 }

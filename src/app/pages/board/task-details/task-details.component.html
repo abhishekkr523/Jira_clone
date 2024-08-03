@@ -35,7 +35,11 @@
           class="task-name"
           style="font-size: 22px; font-weight: 500; padding-bottom: 17px"
         >
-         <input formControlName="taskName" type="text" placeholder="Task Name....">
+          <input
+            formControlName="taskName"
+            type="text"
+            placeholder="Task Name...."
+          />
         </div>
         <div
           class="btn_group d-flex justify-content-between px-3"
@@ -124,7 +128,7 @@
             Description
           </h5>
           <textarea
-          formControlName="description"
+            formControlName="description"
             placeholder="Enter your description here..."
             class="input-field"
           ></textarea>
@@ -145,22 +149,9 @@
       </div>
       <div class="container-right">
         <div class="d-flex py-2">
-          <div class="dropdown" style="border: none; background-color: #e9ecef">
-            <button
-              class="btn dropdown-toggle btn-primary"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <span>In Progress</span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </div>
+          <select class="form-select" aria-label="Default select example">
+            <option *ngFor="let item of columnTitle" selected>{{item.title}}</option>
+          </select>
           <div class="dropdown" style="border: none; background-color: #e9ecef">
             <button
               class="btn dropdown-toggle"
@@ -207,27 +198,47 @@
               <div class="accordion-body">
                 <div class="assign d-flex py-2">
                   <div class="label">Assignee</div>
-                  <div class="field"><input  formControlName="assignee" type="text"></div>
+                  <div class="field">
+                    <select
+                      formControlName="assignee"
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option *ngFor="let item of peoples" [value]="item">
+                        {{ item }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
                 <div class="labels d-flex py-2">
                   <div class="label">Label</div>
-                  <div class="field"><input  formControlName="labels" type="text"></div>
+                  <div class="field">
+                    <input formControlName="labels" type="text" />
+                  </div>
                 </div>
                 <div class="parent d-flex py-2">
                   <div class="label">Parent</div>
-                  <div class="field"><input  formControlName="parent" type="text"></div>
+                  <div class="field">
+                    <input formControlName="parent" type="text" />
+                  </div>
                 </div>
                 <div class="sprint d-flex py-2">
                   <div class="label">Sprint</div>
-                  <div class="field"><input  formControlName="sprint" type="text"></div>
+                  <div class="field">
+                    <input formControlName="sprint" type="text" />
+                  </div>
                 </div>
                 <div class="points d-flex py-2">
                   <div class="label">Story point estimate</div>
-                  <div class="field"><input  formControlName="storyPoints" type="number"></div>
+                  <div class="field">
+                    <input formControlName="storyPoints" type="number" />
+                  </div>
                 </div>
                 <div class="reporter d-flex py-2">
                   <div class="label">Reporter</div>
-                  <div class="field"><input  formControlName="reporter" type="text"></div>
+                  <div class="field">
+                    <input formControlName="reporter" type="text" />
+                  </div>
                 </div>
               </div>
             </div>

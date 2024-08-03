@@ -1,8 +1,11 @@
 
 @import "../../../mixsin.scss";
 .outer-container {
-  width: 100%;
+  width: 100vw;
   height: 100%;
+  padding-left: 17.3%;
+  // overflow: hidden;
+
   header {
     .sub-heading {
         form{
@@ -248,4 +251,16 @@ $black: #2c2c54;
 	to {
 		opacity: 1;
 	}
+}
+
+
+
+// .mat-mdc-dialog-surface {
+//   border-radius: 0px;
+// }
+// .custom-dialog-container{
+//   border-radius: 0px;
+// }
+::ng-deep .custom-dialog-container .mat-mdc-dialog-surface{
+  border-radius: 0px !important;
 }

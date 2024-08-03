@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
-import { TaskDetailsComponent } from '../task-details/task-details.component';
+import { TaskDetailsComponent } from './task-details/task-details.component';
+import { Router } from '@angular/router';
+import { AddPeopleDialogComponent } from './add-people-dialog/add-people-dialog.component';
+import { DataServiceService } from '../../service/data-service.service';
 
 @Component({
   selector: 'app-board',
@@ -11,10 +18,10 @@ import { TaskDetailsComponent } from '../task-details/task-details.component';
 export class BoardComponent implements OnInit {
   add: boolean = false;
   plus: boolean = true;
-  flag:boolean=true;
+  flag: boolean = true;
   titleInput: any;
   createIssue: boolean = false;
-  filteredColumns : any[]= []; // To store filtered columns
+  filteredColumns: any[] = []; // To store filtered columns
 
   columns = [
     {
@@ -75,14 +82,31 @@ export class BoardComponent implements OnInit {
         },
       ],
     },
-    
   ];
 
-  peoples = ["Abhishek kumar", "Krishna rai", "Tarun pareta"];
-
+  peoples = ['Abhishek kumar', 'Krishna rai', 'Tarun pareta'];
+  peopleList: any[] = [];
+  constructor(
+    public dialog: MatDialog,
+    private router: Router,
+    private srv: DataServiceService
+  ) {}
   ngOnInit(): void {
     this.loadColumnsFromLocalStorage();
     this.filteredColumns = [...this.columns]; // Initialize filteredColumns
+    this.srv.peoples.subscribe((people) => {
+      this.peopleList = people.map(person => ({
+        ...person,
+        color: this.getRandomColor()
+      }));
+    });
+    
+    const savedPeopleList = localStorage.getItem('addPeopleList');
+    if (savedPeopleList) {
+      this.peopleList = JSON.parse(savedPeopleList);
+    }
+
+    this.srv.columns.next(this.columns);
   }
 
   drop(event: CdkDragDrop<any[]>) {
@@ -127,6 +151,10 @@ export class BoardComponent implements OnInit {
       this.add = false;
     }
     this.plus = true;
+    this.srv.columns.next(this.columns);
+    this.srv.columns.subscribe(abc=>{
+      console.log("oo",abc)
+    })
   }
 
   create_issue(i: number) {
@@ -140,23 +168,24 @@ export class BoardComponent implements OnInit {
   }
 
   filterByAssignee(assignee: string) {
-    console.log(assignee)
+    console.log(assignee);
     const normalizedAssignee = assignee.trim().toLowerCase();
 
-    this.filteredColumns = this.columns.map(column => ({
+    this.filteredColumns = this.columns.map((column) => ({
       ...column,
-      tasks: column.tasks.filter(task => task.assignee.trim().toLowerCase() === normalizedAssignee)
+      tasks: column.tasks.filter(
+        (task) => task.assignee.trim().toLowerCase() === normalizedAssignee
+      ),
     }));
     console.log(this.filteredColumns);
     console.log(this.columns);
     // this.columns=this.filteredColumns
-    this.flag=false;
+    this.flag = false;
   }
-  clearFilter(){
-    this.flag=true;
-    console.log("lll")
+  clearFilter() {
+    this.flag = true;
+    console.log('lll');
     this.loadColumnsFromLocalStorage();
-
   }
 
   saveColumnsToLocalStorage() {
@@ -164,15 +193,21 @@ export class BoardComponent implements OnInit {
   }
 
   loadColumnsFromLocalStorage() {
-    const savedColumns = localStorage.getItem('columns');
-    if (savedColumns) {
-      this.columns = JSON.parse(savedColumns);
-      this.filteredColumns = [...this.columns]; // Initialize filteredColumns
+    if (typeof Storage !== 'undefined') {
+      const savedColumns = localStorage.getItem('columns');
+      if (savedColumns) {
+        this.columns = JSON.parse(savedColumns);
+        this.filteredColumns = [...this.columns]; // Initialize filteredColumns
+        if (typeof Storage !== 'undefined') {
+          const savedColumns = localStorage.getItem('columns');
+          if (savedColumns) {
+            this.columns = JSON.parse(savedColumns);
+          }
+        }
+        console.log('ll', this.columns);
+      }
     }
-    console.log("ll",this.columns)
   }
-
-  constructor(public dialog: MatDialog) {}
 
   openDialog(data: any) {
     const dialogRef = this.dialog.open(TaskDetailsComponent, {
@@ -186,5 +221,27 @@ export class BoardComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+  addPeople() {
+    const dialogRef = this.dialog.open(AddPeopleDialogComponent, {
+      maxWidth: '26vw',
+      height: '58vh',
+      // maxWidth: 'none',
+      // borderRadious:"3",
+      panelClass: 'custom-dialog-container',
+      // data: data,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }

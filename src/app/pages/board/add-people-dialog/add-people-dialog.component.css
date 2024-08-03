@@ -1,0 +1,41 @@
+.option{
+    display: flex;
+    flex-direction: column;
+}
+.container-fluid{
+    padding: 20px;
+    overflow: hidden;
+    .header{
+        font-size: 20px;
+        font-weight: 500;
+    }
+    .option{
+        padding: 10px 0px 10px 0px;
+        label{
+            font-size: 13px;
+            margin: 0px;
+        }
+        input{
+            height: 40px;
+        }
+        .btn-group{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .btn{
+                border: 1px solid rgb(199, 196, 196);
+            }
+        }
+        span{
+            font-size: 11px;
+            padding: 10px 0px;
+        }
+    }
+}
+
+.buttons{
+display: flex;
+align-items: center;
+justify-content: right;
+}
