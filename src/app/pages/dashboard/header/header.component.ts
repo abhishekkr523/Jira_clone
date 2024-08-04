@@ -4,6 +4,8 @@ import { DataServiceService } from '../../../service/data-service.service';
 import { Component, OnInit } from '@angular/core';
 import { Project, ProjectList } from '../../../user.interface';
 import { ToastrService } from 'ngx-toastr';
+import {  MatDialogRef } from '@angular/material/dialog';
+import { LogoutPopUpComponent } from './logout-pop-up/logout-pop-up.component';
 
 @Component({
   selector: 'app-header',
@@ -21,8 +23,10 @@ export class HeaderComponent implements OnInit {
 
 
   constructor(private projectService: DataServiceService,
-    private toster: ToastrService, private dialog: MatDialog, private serv: DataServiceService
-  ) { }
+    private toster: ToastrService,
+    private dialog: MatDialog
+  ) {}
+
   ngOnInit() {
     // this.selectProject(this.importantProjects[0]);
     this.projectService.projectsSubject.subscribe((projects: Project[]) => {
@@ -35,7 +39,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.serv.isVisible.next(true)
+    // this.serv.isVisible.next(true)
     const dialogRef = this.dialog.open(CreateProPopupComponent, {
       width: '1100px',
       height: '650px',
@@ -43,7 +47,7 @@ export class HeaderComponent implements OnInit {
       panelClass: 'custom-dialog-container',
       data: { name: '', email: '' }
     });
-    this.serv.isVisible.next(true)
+    // this.serv.isVisible.next(true)
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
@@ -55,6 +59,16 @@ export class HeaderComponent implements OnInit {
 
     // selectProjectData : any= [...this.Normalprojects,...this.importantProjects]
 
+  }
+
+
+
+  // logout
+
+  logOut() {
+    this.dialog.open(LogoutPopUpComponent, {
+      width: '250px'
+    });
   }
   setActive(event: Event) {
     if (this.activeLink) {

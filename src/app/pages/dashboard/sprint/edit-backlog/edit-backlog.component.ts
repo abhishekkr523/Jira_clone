@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EditdialogComponent } from '../edit-pop-up/editdialog/editdialog.component';
+import { EditdialogComponent } from '../editdialog/editdialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SprintComponent } from '../sprint.component';
 import { DeleteBacklogComponent } from '../delete-backlog/delete-backlog.component';

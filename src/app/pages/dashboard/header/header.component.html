@@ -32,9 +32,7 @@
             <li *ngFor="let impProject of importantProjects ; let i= index">
 
               <div (click)="selectProject(impProject)">
-                <img
-                  src="https://abhishekkr523.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10413?size=xxlarge"
-                  alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;">
+                <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10425?size=medium" alt="">
                 {{impProject.projectName}} ({{impProject.projectKey}})
                  <i class="fa-solid fa-star"></i>
               </div>
@@ -45,9 +43,7 @@
             <li *ngFor="let project of Normalprojects; let i = index">
 
               <div (click)="selectProject(project)">
-                <img
-                  src="https://abhishekkr523.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10413?size=xxlarge"
-                  alt="" aria-hidden="true" class="css-1gr7gcv" style="border-radius: 2px;">
+                <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10403?size=medium" alt="">
                 {{project.projectName}} ({{project.projectKey}})
               </div>
             </li>
@@ -92,7 +88,14 @@
           <i class="fa-solid fa-bell"></i>
           <i class="fa-solid fa-question"></i>
           <i class="fa-solid fa-gear"></i>
-          <i class="fa-solid fa-user"></i>
+          <i 
+          matTooltipPosition="above"
+                matTooltip="layout"
+          class="fa-solid fa-user"
+          (click)="logOut()"
+          ></i>
+
+          
         </div>
       </div>
 

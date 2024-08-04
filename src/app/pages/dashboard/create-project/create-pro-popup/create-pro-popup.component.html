@@ -17,8 +17,8 @@
         <h5 style="flex-basis: 900px;">Required fields are marked with an asterisk <span class="star">*</span></h5>
         <div class="form-group">
           <label for="project" style="margin-top: 5px;margin-bottom: 13px;">Project<span class="star">*</span></label>
-          <ng-select id="project" formControlName="ProjectName">
-            <ng-option *ngFor="let pro of projects" [value]="pro">{{pro}}</ng-option>
+          <ng-select id="project" formControlName="ProjectName" (change)="onProjectSelect($event)">
+            <ng-option *ngFor="let pro of projects" [value]="pro.projectId">{{pro.projectName}}</ng-option>
           </ng-select>
           <div
             *ngIf="registerProject.get('ProjectName')!.invalid &&( registerProject.get('ProjectName')?.touched || registerProject.get('ProjectName')?.dirty)">
@@ -74,7 +74,7 @@
         <div class="form-group">
           <label for="sprint">Sprint</label>
           <select class="form-control form-select" id="sprint" formControlName="sprint">
-            <option value="sprint">sdfljansdf</option>
+            <option *ngFor="let sprint of sprints" value="sprint">{{sprint.sprintName}}</option>
           </select>
         </div>
         <div class="form-group">

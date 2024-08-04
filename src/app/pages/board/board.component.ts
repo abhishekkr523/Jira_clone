@@ -3,9 +3,10 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskDetailsComponent } from '../task-details/task-details.component';
+import { DataServiceService } from '../../service/data-service.service';
 
 @Component({
   selector: 'app-board',
@@ -145,7 +146,11 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private fullScreenService:DataServiceService) {
+    this.fullScreenService.isFullScreen$.subscribe(isFullScreen => {
+          this.isFullScreen = isFullScreen;
+        });
+  }
 
   openDialog(data: any) {
     const dialogRef = this.dialog.open(TaskDetailsComponent, {
@@ -161,6 +166,15 @@ export class BoardComponent implements OnInit {
     });
   }
 
+//full screen
+
+isFullScreen = false;
 
 
+iconChange: boolean = false;
+
+toggleFullScreen() {
+  this.iconChange = !this.iconChange;
+    this.fullScreenService.setFullScreen(!this.isFullScreen);
+  }
 }

@@ -19,7 +19,7 @@ export class UserLoginComponent {
       localStorage.setItem('userLogin', this.email);
     
       this.toast.success('Successfully Login ');
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/template']);
     } else {
      
       this.toast.success('Invalid email ');

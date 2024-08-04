@@ -70,10 +70,21 @@ export class CreateProjectComponent implements OnInit {
               {
                 taskId: 0,
                 taskName: '',
-                description: '',
-                assignee: '',
-                status: '',
+                ProjectName:'',
+                IssueType: '',
                 storyPoints: '',
+                status:'',
+                summary: '',
+                description: '',
+                Assign: '',
+                attachment:'',
+                Label: '',
+                Parent: '',
+                sprint: '',
+                Time:'',
+                Reporter:'',
+                LinkedIssue:'',
+                CreateAnotherIssue:'',
               },
             ],
           },
@@ -84,11 +95,11 @@ export class CreateProjectComponent implements OnInit {
       existingProjects.push(newProject);
       // this.projects = { projects: existingProjects };
       // this.projects=existingProjects
+      localStorage.setItem('projects', JSON.stringify(existingProjects));
 
       this.dataService.projectsSubject.next(existingProjects);
       this.dataService.updateProjects(existingProjects);
 
-      localStorage.setItem('projects', JSON.stringify(existingProjects));
 
       
 

@@ -4,7 +4,7 @@ import { faCancel, faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { DataServiceService } from '../../../../service/data-service.service';
 import { StorageService } from '../../../../service/storage.service';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
-import { Issue, Project } from '../../../../user.interface';
+import { Issue, Project, Sprint, Task } from '../../../../user.interface';
 import { json } from 'stream/consumers';
 @Component({
   selector: 'app-create-pro-popup',
@@ -26,11 +26,15 @@ export class CreateProPopupComponent implements OnInit {
   faCoffee: any;
   isVisible2: boolean = false
   registerProject!: FormGroup
-  projects: string[] = []
+  // projects: string[] = []
   editorContent: string = ''
   isMinimized: boolean = false
   reporter = ['krishna', 'tarun', 'abhishek']
   issueArray: any[] = []
+  projects: Project[] = [];
+  selectedProjectId: number | null = null;
+  sprints: Sprint[] = [];
+  tasks: Task[] = [];
 
   constructor(private dialog: MatDialogRef<CreateProPopupComponent>, private serv: DataServiceService, private localStorageService: StorageService, private fb: FormBuilder) {
 
@@ -53,10 +57,14 @@ export class CreateProPopupComponent implements OnInit {
       LinkedIssue: ['',],
       CreateAnotherIssue: ['',],
     });
-    this.getProjectsFromLocalStorage()
+    this.loadProjects()
+    // this.getProjectsFromLocalStorage()
     let existingData = this.localStorageService.getItem('Issue');
     console.log(existingData)
     console.log(typeof existingData)
+  }
+  loadProjects(): void {
+    this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
   }
   onSubmit() {
     if (this.registerProject.valid) {
@@ -79,14 +87,14 @@ export class CreateProPopupComponent implements OnInit {
       this.dialog.close();
     }
   }
-  getProjectsFromLocalStorage() {
-    if (typeof Storage !== 'undefined') {
-      const projects: Project[] = this.localStorageService.getItem('projects')
-      console.log(projects)
-      this.projects = projects.map(project => project.projectName);
+  // getProjectsFromLocalStorage() {
+  //   if (typeof Storage !== 'undefined') {
+  //     const projects: Project[] = this.localStorageService.getItem('projects')
+  //     console.log(projects)
+  //     this.projects = projects.map(project => project.projectName);
 
-    }
-  }
+  //   }
+  // }
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -112,5 +120,27 @@ export class CreateProPopupComponent implements OnInit {
   }
   toggleMinimize() {
     this.isMinimized = !this.isMinimized;
+  }
+  onProjectSelect(selectedProjectId: number): void {
+    // const selectElement = event.target as HTMLSelectElement; // Cast event target to HTMLSelectElement
+    // const projectId = Number(selectElement.value);
+    // console.log('Selected Project ID:', projectId);
+    this.selectedProjectId = selectedProjectId;
+    this.sprints = this.getSprintsByProjectId(selectedProjectId);
+    console.log(this.sprints,"hjojojo")
+    // this.tasks = this.getAllTasksByProjectId(projectId);
+  }
+  getSprintsByProjectId(projectId: number): Sprint[] {
+    const project = this.projects.find(proj => proj.projectId === projectId);
+    return project ? project.sprints : [];
+  }
+
+  getAllTasksByProjectId(projectId: number): Task[] {
+    const project = this.projects.find(proj => proj.projectId === projectId);
+    if (project) {
+      // Flatten all tasks from sprints
+      return project.sprints.flatMap(sprint => sprint.tasks);
+    }
+    return [];
   }
 }

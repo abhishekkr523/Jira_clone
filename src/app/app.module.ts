@@ -30,9 +30,9 @@ import {QuillModule} from 'ngx-quill';
 import { SprintComponent } from './pages/dashboard/sprint/sprint.component'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CompletePopUpComponent } from './pages/dashboard/sprint/complete-pop-up/complete-pop-up.component';
-import { EditPopUpComponent } from './pages/dashboard/sprint/edit-pop-up/edit-pop-up.component';
-import { EditdialogComponent } from './pages/dashboard/sprint/edit-pop-up/editdialog/editdialog.component';
-import { DeletedialogComponent } from './pages/dashboard/sprint/edit-pop-up/deletedialog/deletedialog.component';
+// import { EditPopUpComponent } from './pages/dashboard/sprint/edit-pop-up/edit-pop-up.component';
+import { EditdialogComponent } from './pages/dashboard/sprint/editdialog/editdialog.component';
+import { DeletedialogComponent } from './pages/dashboard/sprint/deletedialog/deletedialog.component';
 import { AllProjectNameComponent } from './pages/dashboard/project/all-project-name/all-project-name.component';
 import { SmallPopUpComponent } from './pages/dashboard/project/all-project-name/small-pop-up/small-pop-up.component';
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
@@ -54,6 +54,10 @@ import { NewInitialPipe } from './pages/dashboard/project/all-project-name/new-i
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { EditBacklogComponent } from './pages/dashboard/sprint/edit-backlog/edit-backlog.component';
 import { DeleteBacklogComponent } from './pages/dashboard/sprint/delete-backlog/delete-backlog.component';
+import { LogoutPopUpComponent } from './pages/dashboard/header/logout-pop-up/logout-pop-up.component';
+
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+// import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,7 +71,7 @@ import { DeleteBacklogComponent } from './pages/dashboard/sprint/delete-backlog/
     CreateProjectComponent,
     SprintComponent,
     CompletePopUpComponent,
-    EditPopUpComponent,
+    // EditPopUpComponent,
     EditdialogComponent,
     DeletedialogComponent,
     
@@ -80,7 +84,10 @@ import { DeleteBacklogComponent } from './pages/dashboard/sprint/delete-backlog/
     TaskDetailsComponent,
     NewInitialPipe,
     EditBacklogComponent,
-    DeleteBacklogComponent
+    DeleteBacklogComponent,
+    LogoutPopUpComponent,
+   
+   
   ],
   imports: [
     BrowserModule,
@@ -99,9 +106,12 @@ import { DeleteBacklogComponent } from './pages/dashboard/sprint/delete-backlog/
     MatIconModule,
     MatTooltipModule,ToastrModule.forRoot({
       timeOut: 3000,
-      positionClass: 'toast-bottom-right',
+      // positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+
+    MatAutocompleteModule,
+    MatFormFieldModule,
   ],
   providers: [
     provideClientHydration(),
