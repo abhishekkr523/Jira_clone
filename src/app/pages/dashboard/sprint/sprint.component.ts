@@ -53,7 +53,7 @@ ngOnInit(): void {
     ...(projectFromProjects || {}),
     ...(projectFromImportantProjects || {})
   };
-      
+      console.log("selected project",this.selectProject.sprints)
   }
 }
 

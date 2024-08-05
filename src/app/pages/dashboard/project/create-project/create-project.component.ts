@@ -58,37 +58,7 @@ export class CreateProjectComponent implements OnInit {
         projectName: this.projectName.value,
         projectKey: this.keyValue,
         isStar: false,
-        sprints: [
-          {
-            sprintId: 0,
-            sprintName: '',
-            startDate,
-            duration:1,
-            endDate,
-            summary:'',
-            tasks: [
-              {
-                taskId: 0,
-                taskName: '',
-                ProjectName:'',
-                IssueType: '',
-                storyPoints: '',
-                status:'',
-                summary: '',
-                description: '',
-                Assign: '',
-                attachment:'',
-                Label: '',
-                Parent: '',
-                sprint: '',
-                Time:'',
-                Reporter:'',
-                LinkedIssue:'',
-                CreateAnotherIssue:'',
-              },
-            ],
-          },
-        ],
+        sprints: [ ],
       };
 
 

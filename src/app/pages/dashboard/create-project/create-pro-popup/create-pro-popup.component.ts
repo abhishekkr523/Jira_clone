@@ -33,22 +33,23 @@ export class CreateProPopupComponent implements OnInit {
   reporter = ['krishna', 'tarun', 'abhishek']
   issueArray: any[] = []
   projects: Project[] = [];
+  selectedProject3: Project[] = []
   selectedProjectId: number | null = null;
   sprints: Sprint[] = [];
   tasks: Task[] = [];
   selectedSprintId: number | null = null;
-  findproject:Project|undefined
-  selectSprint: { task: Task[], [key: string]: any } = { task: [] };
-  constructor(private dialog: MatDialogRef<CreateProPopupComponent>,private toast:ToastrService, private serv: DataServiceService, private localStorageService: StorageService, private fb: FormBuilder) {
+  findproject: Project | undefined
+  selectProject: { sprints: Sprint[], [key: string]: any } = { sprints: [] };  
+  constructor(private dialog: MatDialogRef<CreateProPopupComponent>, private toast: ToastrService, private serv: DataServiceService, private localStorageService: StorageService, private fb: FormBuilder) {
 
 
   }
   ngOnInit(): void {
     this.registerProject = this.fb.group({
-      taskId:[''],
+      taskId: [''],
       ProjectName: ['', [Validators.required]],
       IssueType: ['', [Validators.required]],
-      storyPoints: ['', ],
+      storyPoints: ['',],
       status: ['',],
       summary: ['', [Validators.required]],
       description: ['',],
@@ -56,22 +57,19 @@ export class CreateProPopupComponent implements OnInit {
       attachment: [''],
       Label: ['',],
       Parent: ['',],
-      sprint: ['',[Validators.required]],
+      sprint: ['', [Validators.required]],
       Time: ['',],
       Reporter: ['', [Validators.required]],
       LinkedIssue: ['',],
       CreateAnotherIssue: ['',],
     });
     this.loadProjects()
-    // this.getProjectsFromLocalStorage()
-    let existingData = this.localStorageService.getItem('Issue');
-    console.log(existingData)
-    console.log(typeof existingData)
+   
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
   }
-  
+
   // getProjectsFromLocalStorage() {
   //   if (typeof Storage !== 'undefined') {
   //     const projects: Project[] = this.localStorageService.getItem('projects')
@@ -103,35 +101,26 @@ export class CreateProPopupComponent implements OnInit {
     })
     this.dialog.close();
   }
- 
+
   onProjectSelect(selectedProjectId: number): void {
     // const selectElement = event.target as HTMLSelectElement; // Cast event target to HTMLSelectElement
     // const projectId = Number(selectElement.value);
     // console.log('Selected Project ID:', projectId);
     this.selectedProjectId = selectedProjectId;
     this.sprints = this.getSprintsByProjectId(selectedProjectId);
-    console.log(this.sprints,"hjojojo")
     // this.tasks = this.getAllTasksByProjectId(projectId);
   }
   getSprintsByProjectId(projectId: number): Sprint[] {
-      this.findproject = this.projects.find(proj => proj.projectId === projectId);
-      
-    
+    this.findproject = this.projects.find(proj => proj.projectId === projectId);
+
+
     return this.findproject ? this.findproject.sprints : [];
   }
 
-  getAllTasksByProjectId(projectId: number): Task[] {
-    const project = this.projects.find(proj => proj.projectId === projectId);
-    if (project) {
-      // Flatten all tasks from sprints
-      return project.sprints.flatMap(sprint => sprint.tasks);
-    }
-    return [];
-  }
+
   addTaskToSprint(): void {
     const selectedSprintId2 = this.registerProject.value.sprint; // Retrieve the selected sprint ID
-    console.log(selectedSprintId2,"sprintid")
-const getProjectName= this.findproject?.projectName?? 'Hello world';
+    const getProjectName = this.findproject?.projectName ?? 'Hello world';
     if (this.registerProject.valid && this.selectedProjectId && selectedSprintId2) {
       const newTask: Task = {
         taskId: Math.floor(Math.random() * 1000), // Generate a random ID 
@@ -159,9 +148,9 @@ const getProjectName= this.findproject?.projectName?? 'Hello world';
         if (sprint) {
           sprint.tasks.push(newTask);
           // Save updated projects to local storage
-          localStorage.setItem('selectedProject', JSON.stringify(this.projects));
-this.toast.success('Issue is added')
-            this.dialog.close()
+          localStorage.setItem('selectedProject', JSON.stringify(project));
+          this.toast.success('Issue is added')
+          this.dialog.close()
         }
       }
 
@@ -170,4 +159,52 @@ this.toast.success('Issue is added')
       // Close your modal here (e.g., using a modal service)
     }
   }
+//   saveToLocalStorage() {
+//     const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
+//     const importantProjects = JSON.parse(localStorage.getItem('importantProjects') || '[]') as Project[];
+//     const projectId = this.selectProject['projectId']; // Use bracket notation
+//     const sprintId = this.selectProject['sprintId']; 
+  
+//     // Update the `projects` array
+// const updatedProjects = projects.map(p =>
+//   p.projectId === projectId ? { ...p, sprints: this.selectProject.sprints } : p
+// );
+//    // Update the `importantProjects` array
+// const updatedImportantProjects = importantProjects.map(p => {
+//   if (p.projectId === projectId) {
+//     // Find the sprint in the important project
+//     const existingSprintIndex = p.sprints.findIndex(sprint => sprint.sprintId === sprintId);
+
+//     if (existingSprintIndex !== -1) {
+//       // Update the existing sprint's tasks if it exists
+//       const existingSprint = p.sprints[existingSprintIndex];
+//       const selectedSprint = this.selectProject.sprints.find(sprint => sprint.sprintId === sprintId);
+
+//       // Ensure selectedSprint is defined before accessing its tasks
+//       if (selectedSprint && selectedSprint.tasks) {
+//         const updatedSprint = { 
+//           ...existingSprint, 
+//           tasks: [...existingSprint.tasks, ...selectedSprint.tasks] 
+//         };
+
+//         // Return the updated important project with the modified sprint
+//         return {
+//           ...p,
+//           sprints: [
+//             ...p.sprints.slice(0, existingSprintIndex),
+//             updatedSprint,
+//             ...p.sprints.slice(existingSprintIndex + 1),
+//           ],
+//         };
+//       }
+//     } 
+   
+//   }
+//   return p; // Return unchanged project if conditions are not met
+// });
+//     // Save updated arrays back to local storage
+//     localStorage.setItem('projects', JSON.stringify(updatedProjects));
+//     localStorage.setItem('importantProjects', JSON.stringify(updatedImportantProjects));
+   
+//   }
 }
