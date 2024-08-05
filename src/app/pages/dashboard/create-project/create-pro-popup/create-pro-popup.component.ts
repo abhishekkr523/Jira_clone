@@ -159,7 +159,8 @@ const getProjectName= this.findproject?.projectName?? 'Hello world';
         if (sprint) {
           sprint.tasks.push(newTask);
           // Save updated projects to local storage
-          localStorage.setItem('selectedProject', JSON.stringify(this.projects));
+          localStorage.setItem('selectedProject', JSON.stringify(project));
+
 this.toast.success('Issue is added')
             this.dialog.close()
         }
