@@ -23,7 +23,7 @@ export class BoardComponent implements OnInit {
   createIssue: boolean = false;
   filteredColumns: any[] = []; // To store filtered columns
 
-  columns = [
+   columns = [
     {
       title: 'TO DO',
       showInput: false,
@@ -61,54 +61,47 @@ export class BoardComponent implements OnInit {
       tasks: [],
     },
   ];
-  projects = [
-    {
-      projectId: '',
-      projectName: '',
-      sprints: [
-        {
-          sprintId: '',
-          sprintName: '',
-          tasks: [
-            {
-              taskId: '',
-              taskName: '',
-              description: '',
-              assignee: '',
-              status: '',
-              storyPoints: '',
-            },
-          ],
-        },
-      ],
-    },
-  ];
 
-  peoples = ['Abhishek kumar', 'Krishna rai', 'Tarun pareta'];
   peopleList: any[] = [];
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private srv: DataServiceService
-  ) {}
+  ) {this.srv.peoples.subscribe((people) => {
+    this.peopleList = people.map((person) => ({
+      ...person,
+      color: this.getRandomColor(),
+    }));
+  });}
   ngOnInit(): void {
-    this.loadColumnsFromLocalStorage();
-    this.filteredColumns = [...this.columns]; // Initialize filteredColumns
-    this.srv.peoples.subscribe((people) => {
-      this.peopleList = people.map(person => ({
-        ...person,
-        color: this.getRandomColor()
-      }));
-    });
     
+    this.loadColumnsFromLocalStorage();
+    // this.filteredColumns = [...this.columns]; // Initialize filteredColumns
+    // this.srv.peoples.subscribe((people) => {
+    //   this.peopleList = people.map((person) => ({
+    //     ...person,
+    //     color: this.getRandomColor(),
+    //   }));
+    // });
+
     const savedPeopleList = localStorage.getItem('addPeopleList');
     if (savedPeopleList) {
       this.peopleList = JSON.parse(savedPeopleList);
     }
 
     this.srv.columns.next(this.columns);
+    console.log("ngColumns",this.columns)
   }
 
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
@@ -123,6 +116,24 @@ export class BoardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
+    }
+    this.saveColumnsToLocalStorage();
+  }
+
+  moveToTop(task: any, column: any) {
+    const index = column.tasks.indexOf(task);
+    if (index > -1) {
+      column.tasks.splice(index, 1);
+      column.tasks.unshift(task);
+    }
+    this.saveColumnsToLocalStorage();
+  }
+
+  moveToBottom(task: any, column: any) {
+    const index = column.tasks.indexOf(task);
+    if (index > -1) {
+      column.tasks.splice(index, 1);
+      column.tasks.push(task);
     }
     this.saveColumnsToLocalStorage();
   }
@@ -152,9 +163,9 @@ export class BoardComponent implements OnInit {
     }
     this.plus = true;
     this.srv.columns.next(this.columns);
-    this.srv.columns.subscribe(abc=>{
-      console.log("oo",abc)
-    })
+    this.srv.columns.subscribe((abc) => {
+      console.log('oo', abc);
+    });
   }
 
   create_issue(i: number) {
@@ -168,7 +179,7 @@ export class BoardComponent implements OnInit {
   }
 
   filterByAssignee(assignee: string) {
-    console.log(assignee);
+    console.log("assignee",assignee);
     const normalizedAssignee = assignee.trim().toLowerCase();
 
     this.filteredColumns = this.columns.map((column) => ({
@@ -177,8 +188,8 @@ export class BoardComponent implements OnInit {
         (task) => task.assignee.trim().toLowerCase() === normalizedAssignee
       ),
     }));
-    console.log(this.filteredColumns);
-    console.log(this.columns);
+    console.log("filtcol",this.filteredColumns);
+    console.log("columns",this.columns);
     // this.columns=this.filteredColumns
     this.flag = false;
   }
@@ -226,8 +237,6 @@ export class BoardComponent implements OnInit {
     const dialogRef = this.dialog.open(AddPeopleDialogComponent, {
       maxWidth: '26vw',
       height: '58vh',
-      // maxWidth: 'none',
-      // borderRadious:"3",
       panelClass: 'custom-dialog-container',
       // data: data,
     });
@@ -236,12 +245,5 @@ export class BoardComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  getRandomColor(): string {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
+ 
 }

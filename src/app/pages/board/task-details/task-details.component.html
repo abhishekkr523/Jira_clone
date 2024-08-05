@@ -20,12 +20,24 @@
             margin: 0;
           "
         >
-          <li><i class="fa-solid fa-unlock"></i></li>
-          <li><i class="fa-regular fa-eye"></i></li>
-          <li><i class="fa-regular fa-thumbs-up"></i></li>
-          <li><i class="fa-solid fa-share-nodes"></i></li>
-          <li><i class="fa-solid fa-ellipsis"></i></li>
-          <li mat-dialog-close><i class="fa-solid fa-xmark"></i></li>
+          <li matTooltip="No restriction" matTooltipPosition="above">
+            <i class="fa-solid fa-unlock"></i>
+          </li>
+          <li matTooltip="Watch options" matTooltipPosition="above">
+            <i class="fa-regular fa-eye"></i>
+          </li>
+          <li matTooltip="Vote options" matTooltipPosition="above">
+            <i class="fa-regular fa-thumbs-up"></i>
+          </li>
+          <li matTooltip="Share" matTooltipPosition="above">
+            <i class="fa-solid fa-share-nodes"></i>
+          </li>
+          <li matTooltip="Actions" matTooltipPosition="above">
+            <i class="fa-solid fa-ellipsis"></i>
+          </li>
+          <li matTooltip="Close" matTooltipPosition="above" mat-dialog-close>
+            <i class="fa-solid fa-xmark"></i>
+          </li>
         </ul>
       </nav>
     </div>
@@ -46,23 +58,13 @@
           style="font-size: 15px"
         >
           <button
-            style="
-              border: none;
-              background-color: #e9ecef;
-              padding: 0px 11px 0px 11px;
-              border-radius: 3px;
-            "
+          matTooltip="Attach" matTooltipPosition="below"
           >
             <i class="fa-solid fa-paperclip" style="padding-right: 4px"></i
             >Attach
           </button>
           <button
-            style="
-              border: none;
-              background-color: #e9ecef;
-              padding: 0px 12px 0px 8px;
-              border-radius: 3px;
-            "
+          matTooltip="Add a child issue" matTooltipPosition="below"
           >
             <img
               src="treeNode.png"
@@ -70,8 +72,9 @@
               style="width: 28px; background: none"
             />Add a child issue
           </button>
-          <div class="dropdown" style="border: none; background-color: #e9ecef">
+          <div class="dropdown">
             <button
+            matTooltip="Link issue" matTooltipPosition="below"
               class="btn dropdown-toggle"
               type="button"
               id="dropdownMenuButton1"
@@ -89,8 +92,9 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </div>
-          <div class="dropdown" style="border: none; background-color: #e9ecef">
+          <div class="dropdown">
             <button
+            matTooltip="Create" matTooltipPosition="below"
               class="btn dropdown-toggle"
               type="button"
               id="dropdownMenuButton1"
@@ -105,14 +109,7 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </div>
-          <button
-            style="
-              border: none;
-              background-color: #e9ecef;
-              padding: 0px 14px 0px 14px;
-              border-radius: 3px;
-            "
-          >
+          <button>
             <i class="fa-solid fa-ellipsis"></i>
           </button>
         </div>
@@ -150,22 +147,41 @@
       <div class="container-right">
         <div class="d-flex py-2">
           <select class="form-select" aria-label="Default select example">
-            <option *ngFor="let item of columnTitle" selected>{{item.title}}</option>
+            <option *ngFor="let item of columnTitle" selected>
+              {{ item.title }}
+            </option>
           </select>
           <div class="dropdown" style="border: none; background-color: #e9ecef">
             <button
               class="btn dropdown-toggle"
+              style="box-shadow: none"
+              [ngClass]="{ 'text-primary': isDropdownOpen }"
               type="button"
               id="dropdownMenuButton1"
               data-bs-toggle="dropdown"
               aria-expanded="false"
+              (show.bs.dropdown)="toggleDropdown(true)"
+              (hide.bs.dropdown)="toggleDropdown(false)"
             >
-              <span>Action</span>
+              <span><i class="fa-solid fa-bolt"></i>Action</span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><i class="fa-solid fa-plus"></i>Create automation</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><i class="fa-regular fa-share-from-square"></i>Manage
+                  automation</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><i class="fa-regular fa-circle-check"></i>Audit log</a
+                >
+              </li>
             </ul>
           </div>
         </div>

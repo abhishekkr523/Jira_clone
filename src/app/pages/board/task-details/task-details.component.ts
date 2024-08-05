@@ -12,6 +12,7 @@ export class TaskDetailsComponent implements OnInit {
   taskForm!: FormGroup;
   peoples: any[] = [];
   columnTitle: any[] = [];
+  isDropdownOpen = false;
   // taskDetails: any[]=[];
 
   constructor(
@@ -61,4 +62,8 @@ export class TaskDetailsComponent implements OnInit {
     }
   }
   onCancel(): void {}
+
+  toggleDropdown(isOpen: boolean) {
+    this.isDropdownOpen = isOpen;
+  }
 }
