@@ -1,5 +1,5 @@
 <!-- <div style="width: 80%; height: 600px;margin-left: 20%; display: flex; flex-direction: column; position: relative;"> -->
-    <!-- <div>
+<!-- <div>
         <h2 style="margin-bottom: 20px;">Sprint</h2>
     </div>
     <div style="border: .8px solid black; border-radius: 4px; width: 30%; ">
@@ -64,7 +64,10 @@
                         </li>
                         <li>
                             <a class="nav-link text-secondary">
-                                <i class='fa-solid fa-down-left-and-up-right-to-center'></i>
+                                <i (click)="toggleFullScreen()" matTooltipPosition="above"
+                                    [matTooltip]="iconChange ? 'Exit full Screen' : 'Enter full Screen'"
+                                    [class]="iconChange ? 'fa-solid fa-down-left-and-up-right-to-center' : 'fa-solid fa-up-right-and-down-left-from-center'"
+                                    class='fa-solid fa-down-left-and-up-right-to-center'></i>
                             </a>
                         </li>
                         <li>
@@ -131,49 +134,47 @@
             </div>
         </div>
     </header>
-   
-      
-      <div class="sprintList" *ngFor="let sprint of selectProject.sprints">
+
+
+    <div class="sprintList" *ngFor="let sprint of selectProject.sprints">
         <div class="title">
-          <div class="sprint">
-            <p class="name">{{ sprint.sprintName }}</p>
-           <div class="pencil">
-            <i class="fas fa-pencil" (click)="openEditDialog(sprint)"></i>
-            <p>Add dates</p>
-           </div>
-          </div>
-          <div class="tripleDot">
-            <button mat-button [matMenuTriggerFor]="menu"><i class="fa-duotone fa-solid fa-ellipsis"></i></button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="openEditDialog(sprint)">Edit Sprint</button>
-              <button mat-menu-item  (click)="openDeleteDialog(sprint)">Delete Sprint</button>
-            </mat-menu>
-          </div>
+            <div class="sprint">
+                <p class="name">{{ sprint.sprintName }}</p>
+                <div class="pencil">
+                    <i class="fas fa-pencil" (click)="openEditDialog(sprint)"></i>
+                    <p>Add dates</p>
+                </div>
+            </div>
+            <div class="tripleDot">
+                <button mat-button [matMenuTriggerFor]="menu"><i class="fa-duotone fa-solid fa-ellipsis"></i></button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="openEditDialog(sprint)">Edit Sprint</button>
+                    <button mat-menu-item (click)="openDeleteDialog(sprint)">Delete Sprint</button>
+                    <button mat-menu-item (click)="startSprint(sprint)">Start Sprint</button>
+                    <!-- <button </button> -->
+                </mat-menu>
+            </div>
         </div>
         <!-- <select>
           <option *ngFor="let option of dropdownOptions" [value]="option">{{ option }}</option>
         </select> -->
-      </div>
-     <!-- <div class="createSprint">
-        <p>Backlog</p>
-        <button (click)="createSprint()">Create Sprint</button>
-      </div>
-       -->
-     
-      
-      <div class="createSprint">
+    </div>
+
+
+
+    <div class="createSprint">
         <p>Backlog</p>
 
-       <div class="back">
-        <div class="count">
+        <div class="back">
+            <!-- <div class="count">
             <span class="css1">0</span>
             <span class="css2">0</span>
             <span class="css3">0</span>
-            </div>
+            </div> -->
             <button (click)="createSprint()">Create Sprint</button>
-       </div>
+        </div>
 
 
 
-      
-</div>
+
+    </div>

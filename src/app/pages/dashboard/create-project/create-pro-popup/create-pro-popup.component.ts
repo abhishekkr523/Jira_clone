@@ -3,75 +3,93 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { faCancel, faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { DataServiceService } from '../../../../service/data-service.service';
 import { StorageService } from '../../../../service/storage.service';
-import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 import { Issue, Project, Sprint, Task } from '../../../../user.interface';
 import { json } from 'stream/consumers';
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-create-pro-popup',
   templateUrl: './create-pro-popup.component.html',
-  styleUrl: './create-pro-popup.component.css'
+  styleUrl: './create-pro-popup.component.css',
 })
 export class CreateProPopupComponent implements OnInit {
-  cancel = faCancel
+  cancel = faCancel;
 
-
-
-  coffie = faCoffee
-  imageUrl: string | undefined
+  coffie = faCoffee;
+  imageUrl: string | undefined;
 
   Option = ['In progress', 'Done', 'Ready to deploy'];
   issue = ['Task', 'Bug', 'Story', 'Epic'];
-  linkedIssue = ['blocks', 'is block by', 'clones', 'is cloned by', 'duplicates', 'is duplicated by', 'reviews', 'is reviewed by', 'causes', 'is caused by', 'related to'];
-  status = ['To Do', 'In Progress', 'Ready to Deploy', 'Done']
+  linkedIssue = [
+    'blocks',
+    'is block by',
+    'clones',
+    'is cloned by',
+    'duplicates',
+    'is duplicated by',
+    'reviews',
+    'is reviewed by',
+    'causes',
+    'is caused by',
+    'related to',
+  ];
+  status = ['To Do', 'In Progress', 'Ready to Deploy', 'Done'];
   faCoffee: any;
-  isVisible2: boolean = false
-  registerProject!: FormGroup
+  isVisible2: boolean = false;
+  registerProject!: FormGroup;
   // projects: string[] = []
-  editorContent: string = ''
-  isMinimized: boolean = false
-  reporter = ['krishna', 'tarun', 'abhishek']
-  issueArray: any[] = []
+  editorContent: string = '';
+  isMinimized: boolean = false;
+  reporter = ['krishna', 'tarun', 'abhishek'];
+  issueArray: any[] = [];
   projects: Project[] = [];
   selectedProjectId: number | null = null;
   sprints: Sprint[] = [];
   tasks: Task[] = [];
   selectedSprintId: number | null = null;
-  findproject:Project|undefined
-  selectSprint: { task: Task[], [key: string]: any } = { task: [] };
-  constructor(private dialog: MatDialogRef<CreateProPopupComponent>,private toast:ToastrService, private serv: DataServiceService, private localStorageService: StorageService, private fb: FormBuilder) {
-
-
-  }
+  findproject: Project | undefined;
+  selectSprint: { task: Task[]; [key: string]: any } = { task: [] };
+  constructor(
+    private dialog: MatDialogRef<CreateProPopupComponent>,
+    private toast: ToastrService,
+    private serv: DataServiceService,
+    private localStorageService: StorageService,
+    private fb: FormBuilder
+  ) {}
   ngOnInit(): void {
     this.registerProject = this.fb.group({
-      taskId:[''],
+      taskId: [''],
       ProjectName: ['', [Validators.required]],
       IssueType: ['', [Validators.required]],
-      storyPoints: ['', ],
-      status: ['',],
+      storyPoints: [''],
+      status: [''],
       summary: ['', [Validators.required]],
-      description: ['',],
-      Assign: ['',],
+      description: [''],
+      Assign: [''],
       attachment: [''],
-      Label: ['',],
-      Parent: ['',],
-      sprint: ['',[Validators.required]],
-      Time: ['',],
+      Label: [''],
+      Parent: [''],
+      sprint: ['', [Validators.required]],
+      Time: [''],
       Reporter: ['', [Validators.required]],
-      LinkedIssue: ['',],
-      CreateAnotherIssue: ['',],
+      LinkedIssue: [''],
+      CreateAnotherIssue: [''],
     });
-    this.loadProjects()
+    this.loadProjects();
     // this.getProjectsFromLocalStorage()
     let existingData = this.localStorageService.getItem('Issue');
-    console.log(existingData)
-    console.log(typeof existingData)
+    console.log(existingData);
+    console.log(typeof existingData);
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
   }
-  
+
   // getProjectsFromLocalStorage() {
   //   if (typeof Storage !== 'undefined') {
   //     const projects: Project[] = this.localStorageService.getItem('projects')
@@ -87,9 +105,9 @@ export class CreateProPopupComponent implements OnInit {
       const reader: FileReader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.imageUrl = reader.result as string
+        this.imageUrl = reader.result as string;
         this.registerProject.patchValue({
-          attachment: this.imageUrl // Update the form control with the base64 string
+          attachment: this.imageUrl, // Update the form control with the base64 string
         });
 
         // console.log("ImageUrl",this.imageUrl)
@@ -97,44 +115,49 @@ export class CreateProPopupComponent implements OnInit {
     }
   }
   onCloseDialog(): void {
-    this.serv.isVisible.next(false)
+    this.serv.isVisible.next(false);
     this.serv.isVisible.subscribe((res) => {
-      this.isVisible2 = res
-    })
+      this.isVisible2 = res;
+    });
     this.dialog.close();
   }
- 
+
   onProjectSelect(selectedProjectId: number): void {
     // const selectElement = event.target as HTMLSelectElement; // Cast event target to HTMLSelectElement
     // const projectId = Number(selectElement.value);
     // console.log('Selected Project ID:', projectId);
     this.selectedProjectId = selectedProjectId;
     this.sprints = this.getSprintsByProjectId(selectedProjectId);
-    console.log(this.sprints,"hjojojo")
+    console.log(this.sprints, 'hjojojo');
     // this.tasks = this.getAllTasksByProjectId(projectId);
   }
   getSprintsByProjectId(projectId: number): Sprint[] {
-      this.findproject = this.projects.find(proj => proj.projectId === projectId);
-      
-    
+    this.findproject = this.projects.find(
+      (proj) => proj.projectId === projectId
+    );
+
     return this.findproject ? this.findproject.sprints : [];
   }
 
   getAllTasksByProjectId(projectId: number): Task[] {
-    const project = this.projects.find(proj => proj.projectId === projectId);
+    const project = this.projects.find((proj) => proj.projectId === projectId);
     if (project) {
       // Flatten all tasks from sprints
-      return project.sprints.flatMap(sprint => sprint.tasks);
+      return project.sprints.flatMap((sprint) => sprint.tasks);
     }
     return [];
   }
   addTaskToSprint(): void {
     const selectedSprintId2 = this.registerProject.value.sprint; // Retrieve the selected sprint ID
-    console.log(selectedSprintId2,"sprintid")
-const getProjectName= this.findproject?.projectName?? 'Hello world';
-    if (this.registerProject.valid && this.selectedProjectId && selectedSprintId2) {
+    console.log(selectedSprintId2, 'sprintid');
+    const getProjectName = this.findproject?.projectName ?? 'Hello world';
+    if (
+      this.registerProject.valid &&
+      this.selectedProjectId &&
+      selectedSprintId2
+    ) {
       const newTask: Task = {
-        taskId: Math.floor(Math.random() * 1000), // Generate a random ID 
+        taskId: Math.floor(Math.random() * 1000), // Generate a random ID
         ProjectName: getProjectName,
         taskName: this.registerProject.value.summary,
         description: this.registerProject.value.description,
@@ -153,17 +176,29 @@ const getProjectName= this.findproject?.projectName?? 'Hello world';
         storyPoints: this.registerProject.value.storyPoints,
       };
 
-      const project = this.projects.find(proj => proj.projectId === this.selectedProjectId);
+      const project = this.projects.find(
+        (proj) => proj.projectId === this.selectedProjectId
+      );
       if (project) {
-        const sprint = project.sprints.find(sprint => sprint.sprintId == selectedSprintId2);
+        const sprint = project.sprints.find(
+          (sprint) => sprint.sprintId == selectedSprintId2
+        );
         if (sprint) {
           sprint.tasks.push(newTask);
           // Save updated projects to local storage
+          const updatedProjects = this.projects.map((p) =>
+            p.projectId === this.selectedProjectId
+              ? { ...p, sprints: project.sprints }
+              : p
+          );
+          localStorage.setItem('projects', JSON.stringify(updatedProjects));
+          localStorage.setItem('importantProjects', JSON.stringify(updatedProjects));
           localStorage.setItem('selectedProject', JSON.stringify(project));
 
-this.toast.success('Issue is added')
-            this.dialog.close()
+          this.toast.success('Issue is added');
+          this.dialog.close();
         }
+
       }
 
       // Optionally reset the form and close the modal here

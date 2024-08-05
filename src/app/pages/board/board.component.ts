@@ -7,6 +7,9 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskDetailsComponent } from '../task-details/task-details.component';
 import { DataServiceService } from '../../service/data-service.service';
+import { DateAdapter } from '@angular/material/core';
+import { StorageService } from '../../service/storage.service';
+import { Sprint } from '../../user.interface';
 
 @Component({
   selector: 'app-board',
@@ -74,9 +77,23 @@ export class BoardComponent implements OnInit {
       ],
     },
   ];
-
+  constructor(public dialog: MatDialog, private service: DataServiceService,
+    private storeDataService:StorageService
+  ) {
+    this.service.isFullScreen$.subscribe((isFullScreen) => {
+      this.isFullScreen = isFullScreen;
+    });
+  }
+  // sprint: Sprint | null = null;
   ngOnInit(): void {
     this.loadColumnsFromLocalStorage();
+    // this.storeDataService.sprintSource.subscribe((sprint) => {
+    //   // this.sprint = sprint;
+    //   if(sprint){
+    //     console.log('Sprint received in SprintDetailsComponent:', sprint);
+    //   }
+      
+    // })
   }
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
@@ -146,12 +163,6 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  constructor(public dialog: MatDialog, private fullScreenService:DataServiceService) {
-    this.fullScreenService.isFullScreen$.subscribe(isFullScreen => {
-          this.isFullScreen = isFullScreen;
-        });
-  }
-
   openDialog(data: any) {
     const dialogRef = this.dialog.open(TaskDetailsComponent, {
       width: '90vw',
@@ -166,15 +177,14 @@ export class BoardComponent implements OnInit {
     });
   }
 
-//full screen
+  //full screen
 
-isFullScreen = false;
+  isFullScreen = false;
 
+  iconChange: boolean = false;
 
-iconChange: boolean = false;
-
-toggleFullScreen() {
-  this.iconChange = !this.iconChange;
-    this.fullScreenService.setFullScreen(!this.isFullScreen);
+  toggleFullScreen() {
+    this.iconChange = !this.iconChange;
+    this.service.setFullScreen(!this.isFullScreen);
   }
 }

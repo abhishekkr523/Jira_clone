@@ -16,11 +16,12 @@ export class DataServiceService {
    selectedProjectSubject = new BehaviorSubject<Project | null>(this.getSelectedProjectFromLocalStorage());
    selectedProject$ = this.selectedProjectSubject.asObservable();
 
+
   constructor() {
     this.loadProjects();
     this.loadImportantProjects();
     
-   
+    // console.log('pareta',this.sprintSource)
   }
 
 
@@ -133,4 +134,5 @@ private isFullScreenSubject = new BehaviorSubject<boolean>(false);
 
 
 
+ 
 }
