@@ -52,6 +52,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import { NewInitialPipe } from './pages/dashboard/project/all-project-name/new-initial.pipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { EditBacklogComponent } from './pages/dashboard/sprint/edit-backlog/edit-backlog.component';
+import { DeleteBacklogComponent } from './pages/dashboard/sprint/delete-backlog/delete-backlog.component';
 import { LogoutPopUpComponent } from './pages/dashboard/header/logout-pop-up/logout-pop-up.component';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -81,6 +83,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     NewInitialPipe,
     TaskDetailsComponent,
     NewInitialPipe,
+    EditBacklogComponent,
+    DeleteBacklogComponent,
     LogoutPopUpComponent,
    
    

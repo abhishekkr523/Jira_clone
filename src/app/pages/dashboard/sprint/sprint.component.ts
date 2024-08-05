@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { faCancel, faListDots, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { CompletePopUpComponent } from './complete-pop-up/complete-pop-up.component';
-// import { EditPopUpComponent } from './deletedialog/deletedialog.component';
-import { count } from 'console';
+// import { EditPopUpComponent } from './edit-pop-up/edit-pop-up.component';
 import { Project, Sprint } from '../../../user.interface';
+import { ToastrService } from 'ngx-toastr';
 import { EditdialogComponent } from './editdialog/editdialog.component';
 import { DeletedialogComponent } from './deletedialog/deletedialog.component';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sprint',
@@ -26,8 +25,7 @@ selectProject: { sprints: Sprint[], [key: string]: any } = { sprints: [] };
 ngOnInit(): void {
   if(typeof Storage !== 'undefined') {
     const saveSprint = localStorage.getItem('selectedProject') 
-    // const savedProjects = localStorage.getItem('projects');
-    // const savedImportantProjects = localStorage.getItem('importantProjects');
+    
     const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
     const importantProjects = JSON.parse(localStorage.getItem('importantProjects') || '[]') as Project[];
     if(saveSprint)

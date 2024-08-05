@@ -31,22 +31,20 @@ const routes: Routes = [
   ]},
   {
     path:'dashboard',
-    component:DashboardComponent
-   },
+    component:DashboardComponent,
+    
+  }, 
   {
     path:'sprint',
     component:SprintComponent
-   },
+   }, 
+  
  
   // {
   //   path:'welcomePage',
   //   component:WelcomePageComponent
   // }
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-    
-  },
+ 
   {
     path:'create-project',
     component:CreateProjectComponent

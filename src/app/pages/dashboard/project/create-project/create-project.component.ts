@@ -59,24 +59,35 @@ export class CreateProjectComponent implements OnInit {
         projectKey: this.keyValue,
         isStar: false,
         sprints: [
-          // {
-          //   sprintId: 0,
-          //   sprintName: '',
-          //   startDate,
-          //   duration:1,
-          //   endDate,
-          //   summary:'',
-          //   tasks: [
-          //     {
-          //       taskId: 0,
-          //       taskName: '',
-          //       description: '',
-          //       assignee: '',
-          //       status: '',
-          //       storyPoints: '',
-          //     },
-          //   ],
-          // },
+          {
+            sprintId: 0,
+            sprintName: '',
+            startDate,
+            duration:1,
+            endDate,
+            summary:'',
+            tasks: [
+              {
+                taskId: 0,
+                taskName: '',
+                ProjectName:'',
+                IssueType: '',
+                storyPoints: '',
+                status:'',
+                summary: '',
+                description: '',
+                Assign: '',
+                attachment:'',
+                Label: '',
+                Parent: '',
+                sprint: '',
+                Time:'',
+                Reporter:'',
+                LinkedIssue:'',
+                CreateAnotherIssue:'',
+              },
+            ],
+          },
         ],
       };
 
@@ -84,11 +95,11 @@ export class CreateProjectComponent implements OnInit {
       existingProjects.push(newProject);
       // this.projects = { projects: existingProjects };
       // this.projects=existingProjects
+      localStorage.setItem('projects', JSON.stringify(existingProjects));
 
       this.dataService.projectsSubject.next(existingProjects);
       this.dataService.updateProjects(existingProjects);
 
-      localStorage.setItem('projects', JSON.stringify(existingProjects));
 
       
 
