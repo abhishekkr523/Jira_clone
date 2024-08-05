@@ -53,9 +53,9 @@
                     </td> -->
 
                     <td>
-                        <button mat-button [matMenuTriggerFor]="menu"> <i (click)="toggleTrashDiv(i)" class="fa-duotone fa-solid fa-ellipsis"></i></button>
+                        <button mat-button [matMenuTriggerFor]="menu"> <i  class="fa-duotone fa-solid fa-ellipsis"></i></button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item (click)="moveToTrash()">Move To Trash</button>
+                            <button mat-menu-item (click)="moveToTrash(i)">Move To Trash</button>
                             
                         </mat-menu>
                     </td>

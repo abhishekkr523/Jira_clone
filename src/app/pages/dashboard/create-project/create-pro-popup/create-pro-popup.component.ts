@@ -6,6 +6,7 @@ import { StorageService } from '../../../../service/storage.service';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { Issue, Project, Sprint, Task } from '../../../../user.interface';
 import { json } from 'stream/consumers';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-create-pro-popup',
   templateUrl: './create-pro-popup.component.html',
@@ -35,15 +36,19 @@ export class CreateProPopupComponent implements OnInit {
   selectedProjectId: number | null = null;
   sprints: Sprint[] = [];
   tasks: Task[] = [];
-
-  constructor(private dialog: MatDialogRef<CreateProPopupComponent>, private serv: DataServiceService, private localStorageService: StorageService, private fb: FormBuilder) {
+  selectedSprintId: number | null = null;
+  findproject:Project|undefined
+  selectSprint: { task: Task[], [key: string]: any } = { task: [] };
+  constructor(private dialog: MatDialogRef<CreateProPopupComponent>,private toast:ToastrService, private serv: DataServiceService, private localStorageService: StorageService, private fb: FormBuilder) {
 
 
   }
   ngOnInit(): void {
     this.registerProject = this.fb.group({
+      taskId:[''],
       ProjectName: ['', [Validators.required]],
       IssueType: ['', [Validators.required]],
+      storyPoints: ['', ],
       status: ['',],
       summary: ['', [Validators.required]],
       description: ['',],
@@ -51,7 +56,7 @@ export class CreateProPopupComponent implements OnInit {
       attachment: [''],
       Label: ['',],
       Parent: ['',],
-      sprint: ['',],
+      sprint: ['',[Validators.required]],
       Time: ['',],
       Reporter: ['', [Validators.required]],
       LinkedIssue: ['',],
@@ -66,27 +71,7 @@ export class CreateProPopupComponent implements OnInit {
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
   }
-  onSubmit() {
-    if (this.registerProject.valid) {
-      const formData = this.registerProject.value;
-
-      // Retrieve existing data from local storage
-      const existingData = JSON.parse(localStorage.getItem('Issue') || '[]');
-
-      // Add the new form data to the existing data
-      existingData.push(formData);
-
-      // Store the updated array back to local storage
-      localStorage.setItem('Issue', JSON.stringify(existingData));
-
-      // Optionally reset the form after submission
-      this.registerProject.reset();
-    
-    } else {
-      console.log('Form is invalid');
-      this.dialog.close();
-    }
-  }
+  
   // getProjectsFromLocalStorage() {
   //   if (typeof Storage !== 'undefined') {
   //     const projects: Project[] = this.localStorageService.getItem('projects')
@@ -118,9 +103,7 @@ export class CreateProPopupComponent implements OnInit {
     })
     this.dialog.close();
   }
-  toggleMinimize() {
-    this.isMinimized = !this.isMinimized;
-  }
+ 
   onProjectSelect(selectedProjectId: number): void {
     // const selectElement = event.target as HTMLSelectElement; // Cast event target to HTMLSelectElement
     // const projectId = Number(selectElement.value);
@@ -131,8 +114,10 @@ export class CreateProPopupComponent implements OnInit {
     // this.tasks = this.getAllTasksByProjectId(projectId);
   }
   getSprintsByProjectId(projectId: number): Sprint[] {
-    const project = this.projects.find(proj => proj.projectId === projectId);
-    return project ? project.sprints : [];
+      this.findproject = this.projects.find(proj => proj.projectId === projectId);
+      
+    
+    return this.findproject ? this.findproject.sprints : [];
   }
 
   getAllTasksByProjectId(projectId: number): Task[] {
@@ -142,5 +127,47 @@ export class CreateProPopupComponent implements OnInit {
       return project.sprints.flatMap(sprint => sprint.tasks);
     }
     return [];
+  }
+  addTaskToSprint(): void {
+    const selectedSprintId2 = this.registerProject.value.sprint; // Retrieve the selected sprint ID
+    console.log(selectedSprintId2,"sprintid")
+const getProjectName= this.findproject?.projectName?? 'Hello world';
+    if (this.registerProject.valid && this.selectedProjectId && selectedSprintId2) {
+      const newTask: Task = {
+        taskId: Math.floor(Math.random() * 1000), // Generate a random ID 
+        ProjectName: getProjectName,
+        taskName: this.registerProject.value.summary,
+        description: this.registerProject.value.description,
+        IssueType: this.registerProject.value.IssueType,
+        status: this.registerProject.value.status,
+        summary: this.registerProject.value.summary,
+        Assign: this.registerProject.value.Assign,
+        attachment: this.registerProject.value.attachment,
+        Label: this.registerProject.value.Label,
+        Parent: this.registerProject.value.Parent,
+        sprint: this.registerProject.value.sprint,
+        Time: this.registerProject.value.Time,
+        Reporter: this.registerProject.value.Reporter,
+        LinkedIssue: this.registerProject.value.LinkedIssue,
+        CreateAnotherIssue: this.registerProject.value.CreateAnotherIssue,
+        storyPoints: this.registerProject.value.storyPoints,
+      };
+
+      const project = this.projects.find(proj => proj.projectId === this.selectedProjectId);
+      if (project) {
+        const sprint = project.sprints.find(sprint => sprint.sprintId == selectedSprintId2);
+        if (sprint) {
+          sprint.tasks.push(newTask);
+          // Save updated projects to local storage
+          localStorage.setItem('selectedProject', JSON.stringify(this.projects));
+this.toast.success('Issue is added')
+            this.dialog.close()
+        }
+      }
+
+      // Optionally reset the form and close the modal here
+      this.registerProject.reset();
+      // Close your modal here (e.g., using a modal service)
+    }
   }
 }

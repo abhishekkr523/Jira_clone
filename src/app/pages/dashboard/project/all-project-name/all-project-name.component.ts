@@ -26,49 +26,45 @@ export class AllProjectNameComponent implements OnInit {
 
   selectedProjectIndex: number | null = null;
 
+  // toggleTrashDiv(index: number): void {
+  //   if (this.selectedProjectIndex === index) {
+  //     this.selectedProjectIndex = null;
+  //     // console.log('same',this.selectedProjectIndex);
+  //   } else {
+  //     this.selectedProjectIndex = index;
+  //     // console.log('sannnme',this.selectedProjectIndex);
+  //   }
+  // }
   toggleTrashDiv(index: number): void {
-    if (this.selectedProjectIndex === index) {
-      this.selectedProjectIndex = null;
-      // console.log('same',this.selectedProjectIndex);
-    } else {
-      this.selectedProjectIndex = index;
-      // console.log('sannnme',this.selectedProjectIndex);
-    }
+    this.selectedProjectIndex = this.selectedProjectIndex === index ? null : index;
   }
 
 
   
-  moveToTrash(): void {
+  moveToTrash(index: number): void {
+    const project = this.filteredProjects[index];
     const dialogRef = this.dialog.open(SmallPopUpComponent, {
       width: '400px',
-      height: '350px',
+      height: '370px',
       maxWidth: 'none',
       panelClass: 'custom-dialog-container',
       data: {
-        project: this.projects[this.selectedProjectIndex as number],
-        index: this.selectedProjectIndex,
+        project: project,
+        index: index,
       },
-      
     });
-    // this.showTrashDiv = false
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result === 'delete') {
-        // Remove the project from local storage and update the view
-        this.projects.splice(this.selectedProjectIndex as number, 1);
+        this.filteredProjects.splice(index, 1);
+        this.projects = this.projects.filter(p => p.projectKey !== project.projectKey);
+        this.importantProjects = this.importantProjects.filter(p => p.projectKey !== project.projectKey);
         localStorage.setItem('projects', JSON.stringify(this.projects));
-
-        this.importantProjects.splice(this.selectedProjectIndex as number, 1);
-        localStorage.setItem(
-          'importantProjects',
-          JSON.stringify(this.importantProjects)
-        );
-        this.filteredProjects = [...this.projects];
+        localStorage.setItem('importantProjects', JSON.stringify(this.importantProjects));
+        this.dataService.updateProjects(this.projects);
+        this.dataService.updateImportantProjects(this.importantProjects);
       }
     });
-    this.dataService.updateProjects(this.projects);
-    this.dataService.updateImportantProjects(this.importantProjects);
-    
   }
 
  
@@ -143,22 +139,7 @@ export class AllProjectNameComponent implements OnInit {
 
 
 
-  //search project start
-
-  // searchProduct: any;
-  // filteredProjects: Project[] = [];
-
-  // filterProjects(): void {
-    
-  //   if (!this.searchProduct) {
-  //     this.filteredProjects = [...this.projects];
-  //   } else {
-  //     this.filteredProjects = this.projects.filter((project) =>
-  //       project.projectName.toLowerCase().includes(this.searchProduct.toLowerCase())
-  //     );
-  //   }
-  // }
-  // search project end
+  
 
   ///star icon
 
