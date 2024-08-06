@@ -1,14 +1,12 @@
-
 <div class="div">
+  <div class="header">
     <app-header *ngIf="!boardFullScreen"></app-header>
-  
-    <section class="layout" >
-      <app-sidebar *ngIf="!boardFullScreen"  class="sidebar"></app-sidebar>
-      <!-- <app-board class="mainBody"></app-board> -->
-       <router-outlet class="mainBody"></router-outlet>
-    </section>
-  
-   
   </div>
-  <!-- <app-board *ngIf="boardFullScreen"></app-board> -->
-  
+  <section class="layout">
+    <app-sidebar *ngIf="!boardFullScreen" class="sidebar"></app-sidebar>
+    <!-- <app-board class="mainBody"></app-board> -->
+     <div class="mainBody"><router-outlet></router-outlet></div>
+     
+  </section>
+</div>
+<!-- <app-board *ngIf="boardFullScreen"></app-board> -->

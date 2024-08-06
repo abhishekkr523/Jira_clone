@@ -1,23 +1,42 @@
+// export interface Task {
+//     taskId: number;
+//     taskName: string;
+//     storyPoints: string;
+//     ProjectName:string,
+//     IssueType: string,
+//     status:string|undefined,
+//     summary: string,
+//     description: string|undefined,
+//     Assign: string|undefined,
+//     attachment:string|undefined,
+//     Label: string|undefined,
+//     Parent: string|undefined,
+//     sprint: string|undefined,
+//     Time:string|undefined,
+//     Reporter:string,
+//     LinkedIssue:string|undefined,
+//     CreateAnotherIssue:string|undefined,
+//   }
 export interface Task {
-    taskId: number;
-    taskName: string;
-    storyPoints: string;
-    ProjectName:string,
-    IssueType: string,
-    status:string|undefined,
-    summary: string,
-    description: string|undefined,
-    Assign: string|undefined,
-    attachment:string|undefined,
-    Label: string|undefined,
-    Parent: string|undefined,
-    sprint: string|undefined,
-    Time:string|undefined,
-    Reporter:string,
-    LinkedIssue:string|undefined,
-    CreateAnotherIssue:string|undefined,
-  }
-  
+  taskId: number;
+  taskName: string;
+  storyPoints: string;
+  ProjectName: string;
+  IssueType: string;
+  status: string;
+  summary: string;
+  description?: string;
+  Assign?: string;
+  attachment?: string;
+  Label?: string;
+  Parent?: string;
+  sprint?: string;
+  Time?: string;
+  Reporter: string;
+  LinkedIssue?: string;
+  CreateAnotherIssue?: string;
+}
+
   export interface Sprint {
     sprintId: number;
     sprintName: string;
@@ -60,4 +79,10 @@ export interface Task {
     status: string;
     summary: string;
     
+  }
+
+  export interface Column {
+    title: string;
+    showInput: boolean;
+    tasks: Task[];
   }

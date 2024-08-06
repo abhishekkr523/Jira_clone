@@ -1,0 +1,99 @@
+<div class="container-fluid">
+  <div class="outer-header d-flex justify-content-between">
+  <h2 class="header">Add People to ---project--</h2>
+  <i class="fa-solid fa-ellipsis"></i>
+</div>
+  <form [formGroup]="addPeopleForm" (ngSubmit)="onSubmit()">
+    <div class="option">
+      <label for="">Names and emails</label>
+      <input id="nameEmail" type="text" formControlName="nameEmail" placeholder="e.g.,maria@company.com"/>
+      <div
+        *ngIf="
+          addPeopleForm.get('nameEmail')?.invalid &&
+          addPeopleForm.get('nameEmail')?.touched
+        "
+        class="error"
+      >
+        <small *ngIf="addPeopleForm.get('nameEmail')?.errors?.['required']"
+          >This field is required.</small
+        >
+        <small *ngIf="addPeopleForm.get('nameEmail')?.errors?.['email']"
+          >Please enter a valid email.</small
+        >
+      </div>
+    </div>
+    <div class="option">
+      <label for="" class="mb-2">or add from</label>
+      <div class="btn-group">
+        <button class="btn bg-light">
+          <img src="google.svg" alt="" style="width: 18px" />Google
+        </button>
+        <button class="btn bg-light">
+          <img src="slack.svg" alt="" style="width: 18px" />Stack
+        </button>
+        <button class="btn bg-light">
+          <img src="microsoft.svg" alt="" style="width: 18px" />Microsoft
+        </button>
+      </div>
+    </div>
+    <div class="option">
+      <label for="">Role</label>
+      <input id="role" type="text" formControlName="role" />
+      <div
+        *ngIf="
+          addPeopleForm.get('role')?.invalid &&
+          addPeopleForm.get('role')?.touched
+        "
+        class="error"
+      >
+        <small>This field is required.</small>
+      </div>
+      <span>
+        This site is protected by reCAPTCHA and the Google Privacy Policy and
+        Terms of Service apply.
+      </span>
+    </div>
+    <div class="buttons">
+      <div class="btn bg-light" (click)="onCancel()">cancel</div>
+      <button
+        class="btn bg-primary text-light"
+        type="submit"
+        [disabled]="addPeopleForm.invalid"
+      >
+        save
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- 
+<div class="container-fluid">
+    <h2 class="header">Add People to ---project--</h2>
+  
+    <form [formGroup]="addPeopleForm" (ngSubmit)="onSubmit()">
+      <div class="option">
+        <label for="nameEmail">Names and emails</label>
+        <input id="nameEmail" type="text" formControlName="nameEmail" />
+        <div *ngIf="addPeopleForm.get('nameEmail')?.invalid && addPeopleForm.get('nameEmail')?.touched" class="error">
+          <small *ngIf="addPeopleForm.get('nameEmail')?.errors?.['required']">This field is required.</small>
+          <small *ngIf="addPeopleForm.get('nameEmail')?.errors?.['email']">Please enter a valid email.</small>
+        </div>
+      </div>
+      <div class="option">
+        <label for="role">Role</label>
+        <input id="role" type="text" formControlName="role" />
+        <div *ngIf="addPeopleForm.get('role')?.invalid && addPeopleForm.get('role')?.touched" class="error">
+          <small>This field is required.</small>
+        </div>
+        <span>
+          This site is protected by reCAPTCHA and the Google Privacy Policy and
+          Terms of Service apply.
+        </span>
+      </div>
+      <div class="buttons">
+        <button type="button" class="btn bg-light" (click)="onCancel()">Cancel</button>
+        <button type="submit" class="btn bg-primary" [disabled]="addPeopleForm.invalid">Save</button>
+      </div>
+    </form>
+  </div>
+   -->

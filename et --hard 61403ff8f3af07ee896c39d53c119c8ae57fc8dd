@@ -1,0 +1,127 @@
+[33mcommit ab38bf24fa1063597c844d72ddb3fd2b28947bdd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mabhishek[m[33m, [m[1;31morigin/abhishek[m[33m)[m
+Author: abhishekkr523 <7033abhishek@gmail.com>
+Date:   Mon Jul 29 17:39:32 2024 +0530
+
+    create,design,function implementation on  board page and task_details page
+
+[33mcommit 61403ff8f3af07ee896c39d53c119c8ae57fc8dd[m
+Author: abhishekkr523 <7033abhishek@gmail.com>
+Date:   Mon Jul 29 17:37:52 2024 +0530
+
+    create,design,function implementation on  board page and task_details page
+
+[33mcommit 128a4e9bc2f4844d5c9e10d11e7c796f849f8f86[m
+Merge: fdd7445 025bcbe
+Author: TARUN PARETA <134199496+tarun08pareta@users.noreply.github.com>
+Date:   Tue Jul 23 15:22:32 2024 +0530
+
+    Merge pull request #1 from abhishekkr523/tarun
+    
+    Tarun
+
+[33mcommit 025bcbe37e3629d5dd617dfec25a0a2b0ea97ca0[m
+Author: tarun08pareta <tarun2001pareta@gmail.com>
+Date:   Tue Jul 23 15:11:00 2024 +0530
+
+    jump to desboard
+
+[33mcommit 63f191f6845502ce89a11e72f16795219ef74fc4[m
+Merge: c429ed9 5678f73
+Author: tarun08pareta <tarun2001pareta@gmail.com>
+Date:   Mon Jul 22 21:56:05 2024 +0530
+
+    pop on
+
+[33mcommit c429ed987d3bb424708ca325cb460eeb5a32a4c0[m
+Merge: c99d327 a35a114
+Author: tarun08pareta <tarun2001pareta@gmail.com>
+Date:   Mon Jul 22 21:39:55 2024 +0530
+
+    add routing and negvigate page
+
+[33mcommit 5678f738ae5bf39dc460b7e3a4653f2838db79e9[m
+Merge: ded419a eaaf628
+Author: abhishekkr523 <7033abhishek@gmail.com>
+Date:   Mon Jul 22 21:38:08 2024 +0530
+
+    fixing user email and navigation
+
+[33mcommit ded419ab55b2216c0409261fffc4cb6497fdec30[m
+Author: abhishekkr523 <7033abhishek@gmail.com>
+Date:   Mon Jul 22 21:13:38 2024 +0530
+
+    welcome page pull
+
+[33mcommit c99d327f44bb2a8e09cfabd2e4aea62c3773f926[m
+Author: tarun08pareta <tarun2001pareta@gmail.com>
+Date:   Mon Jul 22 21:04:37 2024 +0530
+
+    tarun
+
+[33mcommit 816d651507d3a8a52025ec73d5811959cace63b2[m
+Merge: d52c502 a35a114
+Author: abhishekkr523 <7033abhishek@gmail.com>
+Date:   Mon Jul 22 20:18:12 2024 +0530
+
+    Merge branch 'krishna' of https://github.com/abhishekkr523/Jira_clone into abhishek
+
+[33mcommit d52c5020fc0cf52e2fb51dace4fb7abe057a28c3[m
+Author: abhishekkr523 <7033abhishek@gmail.com>
+Date:   Mon Jul 22 20:17:12 2024 +0530
+
+    complete login ui
+
+[33mcommit eaaf6281e1c9a01becfcfa3b7565c3d53103503d[m
+Author: tarun08pareta <tarun2001pareta@gmail.com>
+Date:   Mon Jul 22 19:56:56 2024 +0530
+
+    done the choose template page
+
+[33mcommit a35a1145faf46cf42340044d1bcb216045a19feb[m
+Merge: f346089 fdd7445
+Author: Krishna <krai100200@gmail.com>
+Date:   Mon Jul 22 19:56:54 2024 +0530
+
+    some changes
+
+[33mcommit f346089d17c582cea52bea807aa7123137e934c2[m
+Author: Krishna <krai100200@gmail.com>
+Date:   Mon Jul 22 17:04:18 2024 +0530
+
+    commit
+
+[33mcommit 43b9e2a29a6324057f1086b57d17523da3cd3223[m
+Author: Krishna <krai100200@gmail.com>
+Date:   Mon Jul 22 17:02:36 2024 +0530
+
+    commit
+
+[33mcommit 34e22318db851a6a592a31222fd873b05d4040ce[m
+Author: tarun08pareta <tarun2001pareta@gmail.com>
+Date:   Mon Jul 22 16:31:58 2024 +0530
+
+    first commit
+
+[33mcommit fdd7445f5565c87a8198427e7f3eeee0b83c459b[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: abhishekkr523 <7033abhishek@gmail.com>
+Date:   Sun Jul 21 21:58:37 2024 +0530
+
+    work on ui of login page
+
+[33mcommit 78696c7afa4e85f1c0dce36873a9d8243cbf7507[m
+Author: abhishekkr523 <7033abhishek@gmail.com>
+Date:   Sun Jul 21 17:17:32 2024 +0530
+
+    recommit
+
+[33mcommit 7cca9451360b379df612440a5ec492f0ba01c947[m
+Author: abhishekkr523 <7033abhishek@gmail.com>
+Date:   Sun Jul 21 17:06:16 2024 +0530
+
+    component creation
+
+[33mcommit 9b98c6f2dea009180527dbc9e7682f304ee2330a[m
+Author: abhishekkr523 <7033abhishek@gmail.com>
+Date:   Sun Jul 21 15:26:43 2024 +0530
+
+    initial commit

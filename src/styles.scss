@@ -79,8 +79,15 @@ html,
 body {
   height: 100%;
 }
-body {
+// body {
+// }
+// .custom-dialog-container {
+//   border-radius: 15px; /* Adjust the value as needed */
+// }
+// .mat-mdc-dialog-surface {
+//   border-radius: 0px;
+// }
+.mat-mdc-dialog-surface{
+  border-radius: 0px;
 }
-.custom-dialog-container {
-  border-radius: 15px; /* Adjust the value as needed */
-}
+// ::ng-deep 

@@ -46,17 +46,22 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { InitialPipe } from './initial.pipe';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
-import { TaskDetailsComponent } from './pages/task-details/task-details.component';
+import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 // import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+// import {MatMenuModule} from '@angular/material/menu';
+// import {MatButtonModule} from '@angular/material/button';
+// import {MatIconModule} from '@angular/material/icon';
 import { NewInitialPipe } from './pages/dashboard/project/all-project-name/new-initial.pipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { TaskDetailsComponent } from './pages/board/task-details/task-details.component';
+import { AddPeopleDialogComponent } from './pages/board/add-people-dialog/add-people-dialog.component';
 import { EditBacklogComponent } from './pages/dashboard/sprint/edit-backlog/edit-backlog.component';
 import { DeleteBacklogComponent } from './pages/dashboard/sprint/delete-backlog/delete-backlog.component';
 import { LogoutPopUpComponent } from './pages/dashboard/header/logout-pop-up/logout-pop-up.component';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Error404Component } from './pages/error-404/error-404.component';
 // import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
@@ -83,9 +88,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     NewInitialPipe,
     TaskDetailsComponent,
     NewInitialPipe,
+    AddPeopleDialogComponent,
     EditBacklogComponent,
     DeleteBacklogComponent,
     LogoutPopUpComponent,
+    Error404Component,
    
    
   ],
@@ -102,6 +109,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     FontAwesomeModule,CommonModule,CreateProjectModule,QuillModule.forRoot(),NgSelectModule,BrowserAnimationsModule,
     DragDropModule,
     MatSelectModule,SelectDropDownModule,
+    MatIconModule,
+    MatMenuModule,
     MatMenuModule,
     MatIconModule,
     MatTooltipModule,ToastrModule.forRoot({
