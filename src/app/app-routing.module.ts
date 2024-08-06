@@ -32,12 +32,15 @@ const routes: Routes = [
   {
     path:'dashboard',
     component:DashboardComponent,
-    
+    children:[
+      {
+        path:'sprint',
+        component:SprintComponent
+       }, 
+       {path:"board", component:BoardComponent},
+    ]
   }, 
-  {
-    path:'sprint',
-    component:SprintComponent
-   }, 
+ 
   
  
   // {
@@ -55,7 +58,7 @@ const routes: Routes = [
    { path:'backlog',
     component:BacklogComponent
   },
-  {path:"board", component:BoardComponent},
+  
   {path:"taskDetails", component:TaskDetailsComponent}
 ];
 @NgModule({

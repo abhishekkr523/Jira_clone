@@ -10,6 +10,10 @@
       <div class="input">
         <label for="start">Start Date</label>
         <input type="date" formControlName="startDate" (ngModelChange)="calculateEndDate()">
+        <div *ngIf=" registerProject.get('startDate')!.invalid && (registerProject.get('startDate')?.touched || registerProject.get('startDate')?.dirty )">
+          <span *ngIf="registerProject.get('startDate')?.errors!['required']" style="color: red;">Field is
+            required</span>
+        </div>
       </div>
       <div class="input">
         <label for="duration">Duration</label>
@@ -17,6 +21,10 @@
           <ng-option *ngFor="let week of weeks" [value]="week">{{ week }}</ng-option>
           <ng-option value="custom">Custom</ng-option>
         </ng-select>
+        <div *ngIf=" registerProject.get('duration')!.invalid && (registerProject.get('duration')?.touched || registerProject.get('duration')?.dirty )">
+          <span *ngIf="registerProject.get('duration')?.errors!['required']" style="color: red;">Field is
+            required</span>
+        </div>
       </div>
       <div *ngIf="selectedWeeks === 'custom'" class="input">
         <label for="custom">Custom Duration</label>
@@ -33,7 +41,7 @@
   
     <div class="action">
       <button class="but" (click)="onCancel()">Cancel</button>
-      <button (click)="onSave()" class="but" style="background-color: #0052CC; color: white;">Update</button>
+      <button (click)="onSave()" class="but" style="background-color: #0052CC; color: white;" [disabled]="registerProject.invalid">Update</button>
     </div>
   </div>
   

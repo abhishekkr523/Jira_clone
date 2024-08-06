@@ -162,6 +162,7 @@ export class AllProjectNameComponent implements OnInit {
 
   // important project  start
   star(project: any) {
+    project.isStar = !project.isStar;
     if (this.isImportant(project)) {
       // Remove from important list
       this.importantProjects = this.importantProjects.filter(
@@ -174,7 +175,7 @@ export class AllProjectNameComponent implements OnInit {
     } else {
       // Add to important list
       this.importantProjects.push(project);
-
+        
       this.dataService.importantProjectsSubject.next(this.importantProjects);
 
       this.projects = this.projects.filter((p:Project) => p.projectKey !== project.projectKey);

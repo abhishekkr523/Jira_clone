@@ -31,7 +31,7 @@ export class EditdialogComponent implements OnInit {
     this.registerProject = this.fb.group({
       sprintName: [this.sprint.sprintName, [Validators.required]],
       startDate: [this.sprint.startDate, [Validators.required]],
-      duration: [this.sprint.duration],
+      duration: [this.sprint.duration,[Validators.required]],
       endDate: [this.sprint.endDate],
       summary: [this.sprint.summary]
     });
