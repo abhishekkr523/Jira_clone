@@ -48,6 +48,7 @@ export class CreateProPopupComponent implements OnInit {
   reporter = ['krishna', 'tarun', 'abhishek'];
   issueArray: any[] = [];
   projects: Project[] = [];
+  importantProjects: Project[] = [];
   selectedProject3: Project[] = []
   selectedProjectId: number | null = null;
   sprints: Sprint[] = [];
@@ -71,7 +72,6 @@ export class CreateProPopupComponent implements OnInit {
       Assign: [''],
       attachment: [''],
       Label: ['',],
-      Parent: ['',],
       sprint: ['', [Validators.required]],
       Time: ['',],
       Reporter: ['', [Validators.required]],
@@ -83,6 +83,8 @@ export class CreateProPopupComponent implements OnInit {
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
+    this.importantProjects = JSON.parse(localStorage.getItem('importantProjects') || '[]');
+    this.projects=[...this.projects,...this.importantProjects]
   }
 
   // getProjectsFromLocalStorage() {
@@ -162,7 +164,6 @@ export class CreateProPopupComponent implements OnInit {
         Assign: this.registerProject.value.Assign,
         attachment: this.registerProject.value.attachment,
         Label: this.registerProject.value.Label,
-        Parent: this.registerProject.value.Parent,
         sprint: this.registerProject.value.sprint,
         Time: this.registerProject.value.Time,
         Reporter: this.registerProject.value.Reporter,

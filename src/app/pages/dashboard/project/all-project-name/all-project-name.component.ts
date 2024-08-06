@@ -14,33 +14,35 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   styleUrl: './all-project-name.component.scss',
 })
 export class AllProjectNameComponent implements OnInit {
+
   showTrashDiv: boolean = false;
-
+  selectedProjectIndex: number | null = null;
+  projects: Project[] = [];
+  importantProjects: Project[] = [];
+  filteredProjects: Project[] = [];
+  searchControl: FormControl = new FormControl('');
+  showOnlyImportant: boolean = false;
+  leader: string | null = '';
   // pop up dialog
-
+  filter: Project[] = [];
   constructor(
     private dialog: MatDialog,
     private toster: ToastrService,
     private dataService: DataServiceService
   ) {}
 
-  selectedProjectIndex: number | null = null;
+  ngOnInit(): void {
+    this.loadProjects();
+    this.getStoredEmail();
+    this.loadImportantProjects();
+    // Initialize filteredProjects with all projects
+   this.filter=[...this.projects,...this.importantProjects]
+    this.filteredProjects = [...this.projects, ...this.importantProjects];
 
-  // toggleTrashDiv(index: number): void {
-  //   if (this.selectedProjectIndex === index) {
-  //     this.selectedProjectIndex = null;
-  //     // console.log('same',this.selectedProjectIndex);
-  //   } else {
-  //     this.selectedProjectIndex = index;
-  //     // console.log('sannnme',this.selectedProjectIndex);
-  //   }
-  // }
-  toggleTrashDiv(index: number): void {
-    this.selectedProjectIndex = this.selectedProjectIndex === index ? null : index;
+    // Set up search functionality
+    this.initializeSearch();
   }
 
-
-  
   moveToTrash(index: number): void {
     const project = this.filteredProjects[index];
     const dialogRef = this.dialog.open(SmallPopUpComponent, {
@@ -54,36 +56,47 @@ export class AllProjectNameComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'delete') {
         this.filteredProjects.splice(index, 1);
-        this.projects = this.projects.filter(p => p.projectKey !== project.projectKey);
-        this.importantProjects = this.importantProjects.filter(p => p.projectKey !== project.projectKey);
+        this.projects = this.projects.filter(
+          (p) => p.projectKey !== project.projectKey
+        );
+        this.importantProjects = this.importantProjects.filter(
+          (p) => p.projectKey !== project.projectKey
+        );
         localStorage.setItem('projects', JSON.stringify(this.projects));
-        localStorage.setItem('importantProjects', JSON.stringify(this.importantProjects));
+        localStorage.setItem(
+          'importantProjects',
+          JSON.stringify(this.importantProjects)
+        );
         this.dataService.updateProjects(this.projects);
         this.dataService.updateImportantProjects(this.importantProjects);
       }
     });
   }
 
- 
-  projects: Project[] = [];
-  ngOnInit(): void {
-    this.loadProjects();
-    this.getStoredEmail()
-    this.loadImportantProjects();
-  // Initialize filteredProjects with all projects
-  this.filteredProjects = [...this.projects,...this.importantProjects];
+  initializeSearch(): void {
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        map((searchTerm) => this.filterProjects(searchTerm))
+      )
+      .subscribe((res) => {
+        this.filteredProjects = res;
 
-  // Set up search functionality
-  this.searchControl.valueChanges.pipe(
-    debounceTime(300),
-    distinctUntilChanged(),
-    map(searchTerm => this.filterProjects(searchTerm))
-  ).subscribe(filteredProjects => {
-    this.filteredProjects = filteredProjects;
-  });
+        // console.log('searchTerm', res);
+      });
+  }
+  filterProjects(searchTerm: string) {
+    // console.log('searchTerm', this.filter);
+
+    return this.filter.filter(
+      (project) =>
+        project.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.projectKey.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }
   loadProjects(): void {
     // Retrieve projects from localStorage
@@ -91,59 +104,13 @@ export class AllProjectNameComponent implements OnInit {
       const storedProjects = localStorage.getItem('projects');
       if (storedProjects) {
         this.projects = JSON.parse(storedProjects);
-        this.filteredProjects = [...this.projects,...this.importantProjects];
+        this.filteredProjects = [...this.projects, ...this.importantProjects];
       }
     }
   }
 
-
-  
-
- 
-  
-
-  searchControl: FormControl = new FormControl('');
-  filteredProjects: Project[] = [];
-
-
-
-  
-  filterProjects(searchTerm: string): Project[] {
-    return this.projects.filter(project =>
-      project.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.projectKey.toLowerCase().includes(searchTerm.toLowerCase()) 
-      
-    );
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
   ///star icon
 
-  importantProjects: Project[] = [] ;
   // Load important projects from local storage
   loadImportantProjects() {
     if (typeof Storage !== 'undefined') {
@@ -151,34 +118,38 @@ export class AllProjectNameComponent implements OnInit {
       this.importantProjects = importantProjects
         ? JSON.parse(importantProjects)
         : [];
-        this.filteredProjects = [...this.projects,...this.importantProjects];
+      this.filteredProjects = [...this.projects, ...this.importantProjects];
     }
   }
 
   // Check if a project is in the important list
   isImportant(project: Project) {
-    return this.importantProjects.find((p) => p.projectKey === project.projectKey);
+    return this.importantProjects.find(
+      (p) => p.projectKey === project.projectKey
+    );
   }
 
   // important project  start
   star(project: any) {
     project.isStar = !project.isStar;
+    // if (project.isStar==false) {
     if (this.isImportant(project)) {
       // Remove from important list
       this.importantProjects = this.importantProjects.filter(
         (p) => p.projectKey !== project.projectKey
       );
-         this.projects.push(project);    
-      
+      this.projects.push(project);
 
       this.toster.success('Project marked as simple');
     } else {
       // Add to important list
       this.importantProjects.push(project);
-        
+
       this.dataService.importantProjectsSubject.next(this.importantProjects);
 
-      this.projects = this.projects.filter((p:Project) => p.projectKey !== project.projectKey);
+      this.projects = this.projects.filter(
+        (p: Project) => p.projectKey !== project.projectKey
+      );
       this.toster.warning('important Project');
     }
 
@@ -192,14 +163,13 @@ export class AllProjectNameComponent implements OnInit {
     this.dataService.updateProjects(this.projects);
     this.dataService.updateImportantProjects(this.importantProjects);
 
-  // this.loadImportantProjects()
-  
+    // this.loadImportantProjects()
   }
 
   //important project end
 
   // filterout important project start
-  showOnlyImportant: boolean = false;
+
   importantProjectFilter() {
     this.showOnlyImportant = !this.showOnlyImportant;
     if (this.showOnlyImportant) {
@@ -207,26 +177,21 @@ export class AllProjectNameComponent implements OnInit {
         .slice()
         .sort((a, b) => (this.isImportant(b) ? 1 : -1));
     } else {
-      // this.filteredProjects = [...this.projects];
-      this.filteredProjects = [...this.projects,...this.importantProjects];
+      this.filteredProjects = [...this.projects, ...this.importantProjects];
     }
   }
 
-  //  get  email from local storage 
+  //  get  email from local storage
 
-  leader: string | null = '';
   getStoredEmail(): void {
-   if(typeof Storage !== 'undefined') {
-    this.leader = localStorage.getItem('userLogin');
-    if (this.leader) {
-      console.log('Retrieved email from local storage:', this.leader);
-    } else {
-      console.log('No email found in local storage');
+    if (typeof Storage !== 'undefined') {
+      this.leader = localStorage.getItem('userLogin');
+      if (this.leader) {
+        console.log('Retrieved email from local storage:', this.leader);
+      } else {
+        console.log('No email found in local storage');
+      }
     }
-   }
   }
-
-
- 
 
 }

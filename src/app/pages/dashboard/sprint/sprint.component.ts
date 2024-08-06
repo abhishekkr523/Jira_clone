@@ -13,6 +13,8 @@ import { EditdialogComponent } from './editdialog/editdialog.component';
 import { DeletedialogComponent } from './deletedialog/deletedialog.component';
 import { DataServiceService } from '../../../service/data-service.service';
 import { StorageService } from '../../../service/storage.service';
+import { setTimeout } from 'timers/promises';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sprint',
@@ -24,7 +26,8 @@ export class SprintComponent implements OnInit {
     private dialog: MatDialog,
     private toast: ToastrService,
     private dataService: DataServiceService,
-    private storeService: StorageService
+    private storeService: StorageService,
+    private router:Router
   ) {
     this.dataService.isFullScreen$.subscribe((isFullScreen) => {
       this.isFullScreen = isFullScreen;
@@ -86,22 +89,28 @@ export class SprintComponent implements OnInit {
     return `Sprint ${sprintCount}`;
   }
   createSprint() {
-    const newSprint: Sprint = {
-      sprintName: this.getNextSprintName(),
-      sprintId: Date.now(),
-      startDate: new Date(),
-      duration: 0,
-      endDate: new Date(),
-      summary: '',
-      tasks: [],
-    };
-
-    this.selectProject.sprints.push(newSprint);
-    this.toast.success('Sprint created successfully');
-
-    // console.log('tarun', this.sprints)
-    // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
-    this.saveToLocalStorage();
+    const checkProject=JSON.parse(localStorage.getItem('selectedProject')||'[]')
+    const selectedProject: Project = checkProject[0];
+    // if(checkProject.isNotEmpty){
+      const newSprint: Sprint = {
+        sprintName: this.getNextSprintName(),
+        sprintId: Date.now(),
+        startDate: new Date(),
+        duration: 0,
+        endDate: new Date(),
+        summary: '',
+        tasks: [],
+      };
+    
+      selectedProject.sprints.push(newSprint);
+      this.toast.success('Sprint created successfully');
+  
+      // console.log('tarun', this.sprints)
+      localStorage.setItem('selectedProject', JSON.stringify(selectedProject));  
+      
+    // }
+      
+   
   }
 
   openEditDialog(sprint: Sprint) {
