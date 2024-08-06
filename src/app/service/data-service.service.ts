@@ -62,48 +62,7 @@ export class DataServiceService {
     localStorage.setItem('importantProjects', JSON.stringify(importantProjects));
   }
 
-// Add a new sprint to a specific project
-addSprintToProject(projectId: number, newSprint: Sprint): void {
-  // Retrieve the existing projects from local storage
-  const projects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
 
-  // Find the project by ID
-  const project = projects.find(proj => proj.projectId === projectId);
-  if (project) {
-    // Push the new sprint into the project's sprints array
-    project.sprints.push(newSprint);
-    
-    // Save the updated projects array back to local storage
-    localStorage.setItem('projects', JSON.stringify(projects));
-  } else {
-    console.error(`Project with ID ${projectId} not found.`);
-  }
- 
-}
-addTaskToSprint(projectId: number, sprintId: number, newTask: Task): void {
-  // Retrieve the existing projects from local storage
-  const projects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
-
-  // Find the project by ID
-  const project = projects.find(proj => proj.projectId === projectId);
-  
-  if (project) {
-    // Find the sprint by ID within the project
-    const sprint = project.sprints.find(sprint => sprint.sprintId === sprintId);
-    
-    if (sprint) {
-      // Push the new task into the sprint's tasks array
-      sprint.tasks.push(newTask);
-      
-      // Save the updated projects array back to local storage
-      localStorage.setItem('projects', JSON.stringify(projects));
-    } else {
-      console.error(`Sprint with ID ${sprintId} not found in project ${projectId}.`);
-    }
-  } else {
-    console.error(`Project with ID ${projectId} not found.`);
-  }
-}
 
   // Get sprints for a specific project
   getSprintsByProjectId(projectId: number): Sprint[] | null {

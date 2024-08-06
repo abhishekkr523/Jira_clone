@@ -151,6 +151,9 @@ export class CreateProPopupComponent implements OnInit {
           localStorage.setItem('selectedProject', JSON.stringify(project));
           this.toast.success('Issue is added')
           this.dialog.close()
+this.saveToLocalStorage()
+this.toast.success('Issue is added')
+            this.dialog.close()
         }
       }
 
@@ -159,52 +162,52 @@ export class CreateProPopupComponent implements OnInit {
       // Close your modal here (e.g., using a modal service)
     }
   }
-//   saveToLocalStorage() {
-//     const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
-//     const importantProjects = JSON.parse(localStorage.getItem('importantProjects') || '[]') as Project[];
-//     const projectId = this.selectProject['projectId']; // Use bracket notation
-//     const sprintId = this.selectProject['sprintId']; 
+  saveToLocalStorage() {
+    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
+    const importantProjects = JSON.parse(localStorage.getItem('importantProjects') || '[]') as Project[];
+    const projectId = this.selectProject['projectId']; // Use bracket notation
+    const sprintId = this.selectProject['sprintId']; 
   
-//     // Update the `projects` array
-// const updatedProjects = projects.map(p =>
-//   p.projectId === projectId ? { ...p, sprints: this.selectProject.sprints } : p
-// );
-//    // Update the `importantProjects` array
-// const updatedImportantProjects = importantProjects.map(p => {
-//   if (p.projectId === projectId) {
-//     // Find the sprint in the important project
-//     const existingSprintIndex = p.sprints.findIndex(sprint => sprint.sprintId === sprintId);
+    // Update the `projects` array
+const updatedProjects = projects.map(p =>
+  p.projectId === projectId ? { ...p, sprints: this.selectProject.sprints } : p
+);
+   // Update the `importantProjects` array
+const updatedImportantProjects = importantProjects.map(p => {
+  if (p.projectId === projectId) {
+    // Find the sprint in the important project
+    const existingSprintIndex = p.sprints.findIndex(sprint => sprint.sprintId === sprintId);
 
-//     if (existingSprintIndex !== -1) {
-//       // Update the existing sprint's tasks if it exists
-//       const existingSprint = p.sprints[existingSprintIndex];
-//       const selectedSprint = this.selectProject.sprints.find(sprint => sprint.sprintId === sprintId);
+    if (existingSprintIndex !== -1) {
+      // Update the existing sprint's tasks if it exists
+      const existingSprint = p.sprints[existingSprintIndex];
+      const selectedSprint = this.selectProject.sprints.find(sprint => sprint.sprintId === sprintId);
 
-//       // Ensure selectedSprint is defined before accessing its tasks
-//       if (selectedSprint && selectedSprint.tasks) {
-//         const updatedSprint = { 
-//           ...existingSprint, 
-//           tasks: [...existingSprint.tasks, ...selectedSprint.tasks] 
-//         };
+      // Ensure selectedSprint is defined before accessing its tasks
+      if (selectedSprint && selectedSprint.tasks) {
+        const updatedSprint = { 
+          ...existingSprint, 
+          tasks: [...existingSprint.tasks, ...selectedSprint.tasks] 
+        };
 
-//         // Return the updated important project with the modified sprint
-//         return {
-//           ...p,
-//           sprints: [
-//             ...p.sprints.slice(0, existingSprintIndex),
-//             updatedSprint,
-//             ...p.sprints.slice(existingSprintIndex + 1),
-//           ],
-//         };
-//       }
-//     } 
+        // Return the updated important project with the modified sprint
+        return {
+          ...p,
+          sprints: [
+            ...p.sprints.slice(0, existingSprintIndex),
+            updatedSprint,
+            ...p.sprints.slice(existingSprintIndex + 1),
+          ],
+        };
+      }
+    } 
    
-//   }
-//   return p; // Return unchanged project if conditions are not met
-// });
-//     // Save updated arrays back to local storage
-//     localStorage.setItem('projects', JSON.stringify(updatedProjects));
-//     localStorage.setItem('importantProjects', JSON.stringify(updatedImportantProjects));
+  }
+  return p; // Return unchanged project if conditions are not met
+});
+    // Save updated arrays back to local storage
+    localStorage.setItem('projects', JSON.stringify(updatedProjects));
+    localStorage.setItem('importantProjects', JSON.stringify(updatedImportantProjects));
    
-//   }
+  }
 }

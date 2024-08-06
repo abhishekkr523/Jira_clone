@@ -33,6 +33,7 @@ ngOnInit(): void {
         this.selectProject  = JSON.parse(saveSprint);
         if (!Array.isArray(this.selectProject.sprints)) {
          this.selectProject.sprints = [];
+        
         }
       } catch (error) {
         console.error('Error parsing saved sprints from local storage', error);
@@ -54,6 +55,7 @@ ngOnInit(): void {
     ...(projectFromImportantProjects || {})
   };
       console.log("selected project",this.selectProject.sprints)
+  // console.log('bahubali',this.selectProject.sprints)
   }
 }
 
