@@ -12,12 +12,12 @@ export class SidebarComponent implements OnInit{
   constructor(private service : DataServiceService){}
   selectedProject: Project | null = null;
   
-  projectName:any
+  // projectName:any
    ngOnInit(): void {
-       this.service.projectNameSubject.subscribe((data:any)=>{
-        console.log('projectName',data)
-         this.projectName=data
-       })
+      //  this.service.projectNameSubject.subscribe((data:any)=>{
+      //   console.log('projectName',data)
+      //    this.projectName=data
+      //  })
         
     this.service.selectedProjectSubject.subscribe((project:Project | null) => {
       if (project) {

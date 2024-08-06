@@ -9,7 +9,7 @@ export class DataServiceService {
 
   isVisible=new BehaviorSubject<boolean>(false)
 
-  projectNameSubject = new Subject<string>()
+  // projectNameSubject = new Subject<string>()
    projectsSubject = new BehaviorSubject<Project[]>([]);
    importantProjectsSubject = new BehaviorSubject<Project[]>([]);
   //  selectedProjectSubject = new BehaviorSubject<any>(null);
@@ -113,17 +113,7 @@ addTaskToSprint(projectId: number, sprintId: number, newTask: Task): void {
     return project ? project.sprints : null;
   }
   // Get tasks for a specific sprint and project
-getTasksBySprintId(projectId: number, sprintId: number): Task[] | null {
-  const projects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
-  const project = projects.find(proj => proj.projectId === projectId);
-  
-  if (project) {
-    const sprint = project.sprints.find(sprint => sprint.sprintId === sprintId);
-    return sprint ? sprint.tasks : null;
-  }
-  
-  return null;
-}
+
 // for zoom the screen 
 private isFullScreenSubject = new BehaviorSubject<boolean>(false);
   isFullScreen$ = this.isFullScreenSubject.asObservable();

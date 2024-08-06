@@ -28,18 +28,19 @@
             Projects
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-            <p>star project</p>
+            <p >Important project</p>
             <li *ngFor="let impProject of importantProjects ; let i= index">
 
               <div (click)="selectProject(impProject)">
+                <i class="fa-solid fa-star"></i>
                 <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10425?size=medium" alt="">
                 {{impProject.projectName}} ({{impProject.projectKey}})
-                 <i class="fa-solid fa-star"></i>
+                
               </div>
 
             </li>
             <hr>
-            <p>Resent </p>
+            <p>Recent Project </p>
             <li *ngFor="let project of Normalprojects; let i = index">
 
               <div (click)="selectProject(project)">
@@ -75,7 +76,7 @@
 
           </ul>
         </li>
-        <button type="button" class="btn btn-primary" (click)="openDialog()">Create</button>
+        <button type="button" class="create-button btn btn-primary" (click)="openDialog()">Create</button>
 
       </ul>
 

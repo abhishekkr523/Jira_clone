@@ -38,10 +38,11 @@ export class AllProjectNameComponent implements OnInit {
     this.loadImportantProjects();
     // Initialize filteredProjects with all projects
    this.filter=[...this.projects,...this.importantProjects]
+   this.initializeSearch();
     this.filteredProjects = [...this.projects, ...this.importantProjects];
 
     // Set up search functionality
-    this.initializeSearch();
+   
   }
 
   moveToTrash(index: number): void {
@@ -89,6 +90,7 @@ export class AllProjectNameComponent implements OnInit {
 
         // console.log('searchTerm', res);
       });
+
   }
   filterProjects(searchTerm: string) {
     // console.log('searchTerm', this.filter);
@@ -98,6 +100,7 @@ export class AllProjectNameComponent implements OnInit {
         project.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         project.projectKey.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
   }
   loadProjects(): void {
     // Retrieve projects from localStorage

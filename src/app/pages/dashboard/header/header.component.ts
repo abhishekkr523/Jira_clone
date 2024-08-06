@@ -69,6 +69,7 @@ export class HeaderComponent implements OnInit {
     this.dialog.open(LogoutPopUpComponent, {
       width: '250px'
     });
+    
   }
   setActive(event: Event) {
     if (this.activeLink) {
