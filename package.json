@@ -39,8 +39,10 @@
     "bootstrap": "^3.4.1",
     "express": "^4.18.2",
     "jquery": "^3.7.1",
+    "ngx-quill": "^26.0.5",
     "ngx-select-dropdown": "^3.3.2",
     "ngx-toastr": "^19.0.0",
+    "quill": "^2.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^1.14.1",
     "zone.js": "^0.14.8"

@@ -1,0 +1,52 @@
+/* CSS for the 403 Error Page */
+
+.outer-container {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.error-page {
+  text-align: center;
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.error-content h1 {
+  font-size: 100px;
+  margin: 0;
+  color: #e74c3c; /* Red color for the error code */
+}
+
+.error-content p {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #333;
+}
+
+.home-button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  background-color: #3498db; /* Blue color for the button */
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.home-button:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+.home-button:active {
+  background-color: #1c638f; /* Even darker blue on click */
+}

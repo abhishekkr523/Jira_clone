@@ -43,6 +43,7 @@ export class CreateProjectComponent implements OnInit {
     let digit = name.replace(/\D/g, '');
     return firstLetter + digit;
   }
+  startDate!: string;
 
   saveToLocalStorage(): void {
     if (this.projectName.valid) {
@@ -50,27 +51,43 @@ export class CreateProjectComponent implements OnInit {
 // console.log(this.projectName.value)
 
       let existingProjects:Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
-   
+      const startDate = new Date(this.startDate);
+      const endDate = new Date(startDate);
       const newProject: Project = {
         projectId: Date.now(), // Using Date.now() for unique project ID
         projectName: this.projectName.value,
         projectKey: this.keyValue,
         isStar: false,
         sprints: [
-          {
-            sprintId: 0,
-            sprintName: '',
-            tasks: [
-              {
-                taskId: 0,
-                taskName: '',
-                description: '',
-                assignee: '',
-                status: '',
-                storyPoints: '',
-              },
-            ],
-          },
+          // {
+          //   sprintId: 0,
+          //   sprintName: '',
+          //   startDate,
+          //   duration:1,
+          //   endDate,
+          //   summary:'',
+          //   tasks: [
+          //     {
+          //       taskId: 0,
+          //       taskName: '',
+          //       ProjectName:'',
+          //       IssueType: '',
+          //       storyPoints: '',
+          //       status:'',
+          //       summary: '',
+          //       description: '',
+          //       Assign: '',
+          //       attachment:'',
+          //       Label: '',
+          //       Parent: '',
+          //       sprint: '',
+          //       Time:'',
+          //       Reporter:'',
+          //       LinkedIssue:'',
+          //       CreateAnotherIssue:'',
+          //     },
+          //   ],
+          // },
         ],
       };
 
@@ -78,11 +95,11 @@ export class CreateProjectComponent implements OnInit {
       existingProjects.push(newProject);
       // this.projects = { projects: existingProjects };
       // this.projects=existingProjects
+      localStorage.setItem('projects', JSON.stringify(existingProjects));
 
       this.dataService.projectsSubject.next(existingProjects);
       this.dataService.updateProjects(existingProjects);
 
-      localStorage.setItem('projects', JSON.stringify(existingProjects));
 
       
 

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
@@ -17,9 +17,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PopupDialogComponent } from './userAuth/choose-templet/popup-dialog/popup-dialog.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import { HeaderComponent } from './pages/dashboard/header/header.component';
 import { SidebarComponent } from './pages/dashboard/sidebar/sidebar.component';
 import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
+import { CommonModule } from '@angular/common';
+import { CreateProPopupComponent } from './pages/dashboard/create-project/create-pro-popup/create-pro-popup.component';
+import { CreateProjectModule } from './pages/dashboard/create-project/create-project.module';
+import {QuillModule} from 'ngx-quill';
+import { SprintComponent } from './pages/dashboard/sprint/sprint.component'
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CompletePopUpComponent } from './pages/dashboard/sprint/complete-pop-up/complete-pop-up.component';
+// import { EditPopUpComponent } from './pages/dashboard/sprint/edit-pop-up/edit-pop-up.component';
+import { EditdialogComponent } from './pages/dashboard/sprint/editdialog/editdialog.component';
+import { DeletedialogComponent } from './pages/dashboard/sprint/deletedialog/deletedialog.component';
 import { AllProjectNameComponent } from './pages/dashboard/project/all-project-name/all-project-name.component';
 import { SmallPopUpComponent } from './pages/dashboard/project/all-project-name/small-pop-up/small-pop-up.component';
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
@@ -43,6 +56,13 @@ import { NewInitialPipe } from './pages/dashboard/project/all-project-name/new-i
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { TaskDetailsComponent } from './pages/board/task-details/task-details.component';
 import { AddPeopleDialogComponent } from './pages/board/add-people-dialog/add-people-dialog.component';
+import { EditBacklogComponent } from './pages/dashboard/sprint/edit-backlog/edit-backlog.component';
+import { DeleteBacklogComponent } from './pages/dashboard/sprint/delete-backlog/delete-backlog.component';
+import { LogoutPopUpComponent } from './pages/dashboard/header/logout-pop-up/logout-pop-up.component';
+
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Error404Component } from './pages/error-404/error-404.component';
+// import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +74,12 @@ import { AddPeopleDialogComponent } from './pages/board/add-people-dialog/add-pe
     HeaderComponent,
     SidebarComponent,
     CreateProjectComponent,
+    SprintComponent,
+    CompletePopUpComponent,
+    // EditPopUpComponent,
+    EditdialogComponent,
+    DeletedialogComponent,
+    
     AllProjectNameComponent,
     SmallPopUpComponent,
     BacklogComponent,
@@ -62,7 +88,13 @@ import { AddPeopleDialogComponent } from './pages/board/add-people-dialog/add-pe
     NewInitialPipe,
     TaskDetailsComponent,
     NewInitialPipe,
-    AddPeopleDialogComponent
+    AddPeopleDialogComponent,
+    EditBacklogComponent,
+    DeleteBacklogComponent,
+    LogoutPopUpComponent,
+    Error404Component,
+   
+   
   ],
   imports: [
     BrowserModule,
@@ -74,26 +106,51 @@ import { AddPeopleDialogComponent } from './pages/board/add-people-dialog/add-pe
     ReactiveFormsModule,
     NgbModule,
     MatFormFieldModule,
-    ToastrModule.forRoot(),
-   
-    BrowserAnimationsModule,
+    FontAwesomeModule,CommonModule,CreateProjectModule,QuillModule.forRoot(),NgSelectModule,BrowserAnimationsModule,
     DragDropModule,
     MatSelectModule,SelectDropDownModule,
     MatIconModule,
     MatMenuModule,
     MatMenuModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,ToastrModule.forRoot({
+      timeOut: 3000,
+      // positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
+
+    MatAutocompleteModule,
+    MatFormFieldModule,
   ],
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    // provideHotToastConfig({
-    //   reverseOrder: true,
-    //   dismissible: true,
-    //   autoClose: false,
-    // })
+    
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    library.add(fas);
+  }
+ }
+  //  import: [ToastrModule.forRoot(),
+   
+  //   BrowserAnimationsModule,
+  //   DragDropModule,
+  //   MatSelectModule,SelectDropDownModule,
+  //   MatMenuModule,
+  //   MatIconModule,
+  //   MatTooltipModule
+  // ],
+  // providers: [
+  //   provideClientHydration(),
+  //   provideAnimationsAsync(),
+  //   // provideHotToastConfig({
+  //   //   reverseOrder: true,
+  //   //   dismissible: true,
+  //   //   autoClose: false,
+  //   // })
+  // ],
+//   bootstrap: [AppComponent],
+// })

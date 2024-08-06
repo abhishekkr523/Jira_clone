@@ -22,6 +22,10 @@ export class BoardComponent implements OnInit {
   titleInput: any;
   createIssue: boolean = false;
   filteredColumns: any[] = []; // To store filtered columns
+  isFullScreen = false;
+
+
+iconChange: boolean = false;
 
    columns = [
     {
@@ -66,15 +70,19 @@ export class BoardComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private srv: DataServiceService
+    private srv: DataServiceService,private fullScreenService:DataServiceService
   ) {this.srv.peoples.subscribe((people) => {
     this.peopleList = people.map((person) => ({
       ...person,
       color: this.getRandomColor(),
     }));
-  });}
+  });
+  this.fullScreenService.isFullScreen$.subscribe(isFullScreen => {
+    this.isFullScreen = isFullScreen;
+  });
+}
   ngOnInit(): void {
-    
+    console.log("bee",this.srv.isLoggedin.value)
     this.loadColumnsFromLocalStorage();
     // this.filteredColumns = [...this.columns]; // Initialize filteredColumns
     // this.srv.peoples.subscribe((people) => {
@@ -220,6 +228,8 @@ export class BoardComponent implements OnInit {
     }
   }
 
+
+
   openDialog(data: any) {
     const dialogRef = this.dialog.open(TaskDetailsComponent, {
       width: '90vw',
@@ -246,4 +256,12 @@ export class BoardComponent implements OnInit {
     });
   }
  
+//full screen
+
+
+
+toggleFullScreen() {
+  this.iconChange = !this.iconChange;
+    this.fullScreenService.setFullScreen(!this.isFullScreen);
+  }
 }

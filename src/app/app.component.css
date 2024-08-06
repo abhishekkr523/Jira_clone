@@ -1,0 +1,4 @@
+.custom-dialog-container .mat-dialog-container {
+    position: absolute;
+   background-color: violet;
+  }

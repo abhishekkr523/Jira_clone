@@ -1,0 +1,135 @@
+ @import 'mixsin.scss';
+
+
+.outer-container {
+  width: 100%;
+  height: 100%;
+  
+
+  header {
+    .sub-heading {
+        form{
+             @include flex-center;
+            display: flex;
+            align-items: center;
+            i{
+              font-size: 13px;
+            }
+        }
+      .text-end {
+        button {
+          background-color: var(--hover-color-lightgray);
+          &:hover {
+            background-color: var(--hover-color-gray);
+          }
+        }
+      }
+    }
+  }
+
+  .createSprint{
+   width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 18px 0px 25px;
+
+    input{
+      width: 39%;
+      height: 30px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 0px 10px;
+    }
+  }
+}
+::ng-deep .ng-dropdown-panel {
+    height: 100px;
+    max-width: 900px; /* Adjust the height as needed */
+    overflow-y: auto;
+  }
+  .drop{
+    width: 95%;
+    margin-top: 30px;
+    /* background-color: aqua; */
+    height: 500px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .select{
+    width: 100%;
+  }
+  .option{
+    width: 100%;
+    position: absolute;
+    margin-top: 10px;
+  }
+  .in2{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-basis: 15%;
+    position: relative;
+  }
+  .but{
+    background-color: rgba(9, 30, 66, 0.08);
+    border: 0;
+    border-radius: 4px;
+  }
+  .back{
+    width: 100%;
+    height: 300px;
+  }
+  .list{
+    width: 100%;
+    height: 40px;
+    padding-left: 30px;
+    padding-top: 5px;
+    border: .8px solid rgba(9, 30, 66, 0.274);
+    align-items: center;
+display: flex;
+justify-content: space-between;
+  }
+  .select{
+    width: 50px;
+  }
+  .sum{
+    flex-basis: 450px;
+  }
+
+.col-3 {
+  -ms-flex: 0 0 25%;
+  flex: 0 0 25%;
+  max-width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+
+
+
+
+
+
+
+/* new css  */
+
+
+.sprint{
+  width: 14%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.title{
+  border: 1px solid #0e0e0e;
+  border-radius: 5px;
+  background-color: #cccccc59;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+}

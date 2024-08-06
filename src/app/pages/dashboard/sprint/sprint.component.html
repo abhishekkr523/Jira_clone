@@ -1,0 +1,179 @@
+<!-- <div style="width: 80%; height: 600px;margin-left: 20%; display: flex; flex-direction: column; position: relative;"> -->
+    <!-- <div>
+        <h2 style="margin-bottom: 20px;">Sprint</h2>
+    </div>
+    <div style="border: .8px solid black; border-radius: 4px; width: 30%; ">
+        <fa-icon [icon]="searchIcon" ></fa-icon>
+        <input type="text" placeholder="Search" class="search">
+    </div>
+    <div class="drop">
+        <div style="width: 70%;">
+            <ng-select class="select" >
+                <fa-icon [icon]="cancel"></fa-icon>
+                <ng-option class="option">alsjkdfhakj</ng-option>
+                <ng-template ng-label-tmp let-item="item">
+                    <i [class]="item.icon"></i> {{ item.label }}
+                  </ng-template>
+            </ng-select>
+        </div>
+        <div class="in2">
+            <button class="but" (click)="openDialog()">Complete Sprint</button>
+            <button class="but" (click)="openDialog2()"><fa-icon [icon]="horizontal"></fa-icon></button>
+        </div>
+    </div>
+   <div class="back">
+    <h4>Backlog</h4>
+    <div *ngIf="tasks.length > 0; else noTasks" >
+        <ul >
+            <li *ngFor="let task of filteredData" class="list" >
+              <strong class="sum">{{task.summary}}</strong>
+              <select>
+                <option *ngFor="let option of filteredData" [value]="option.status">{{ option.status }}</option>
+              </select>
+              <button class="but" (click)="openDialog3()"><fa-icon [icon]="horizontal"></fa-icon></button>
+            </li>
+          </ul>
+          
+    </div>
+   
+      <ng-template #noTasks>
+        <p>No tasks available.</p>
+      </ng-template>
+   </div> -->
+<div class="outer-container">
+    <header>
+        <nav class="container-fluid p-0" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 px-3">
+                <li class="breadcrumb-item"><a href="#">Projects</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Backlock</li>
+            </ol>
+        </nav>
+        <div class="px-3 text-bg-dark border-bottom">
+            <div class="container-fluid ">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none text-dark"
+                        style="font-size: 30px; font-weight: 500">
+                        BackLock
+                    </a>
+
+                    <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                        <li>
+                            <a class="nav-link text-secondary">
+                                <i matTooltipPosition="above" matTooltip="Share" class="fa-solid fa-share-nodes"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-secondary">
+                                <i class='fa-solid fa-down-left-and-up-right-to-center'></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link text-secondary">
+                                <i class="fa-solid fa-grip"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="px-3 py-2 border-bottom mb-3">
+            <div class="container-fluid d-flex flex-wrap justify-content-between">
+                <div class="row w-100 sub-heading">
+                    <form class="col-2 mb-2 " role="search">
+                        <i class="fa-solid fa-magnifying-glass d-flex justify-content-center align-item-center"
+                            style="align-items: center;"></i>
+                        <input type="search" class="form-control border-0" placeholder="Search..."
+                            aria-label="Search" />
+                    </form>
+                    <div class="drop-down_container col-3">
+                        <div class="user-circle">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Epic
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Type
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </li>
+                            </ul>
+                        </div> -->
+                    </div>
+                    <div class="text-end col-7">
+                        <button type="button" class="btn btn-light text-dark me-2">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>Import work
+                        </button>
+                        <button type="button" class="btn btn-light text-dark me-2">
+                            <i class="fa-solid fa-chart-line"></i>Insights
+                        </button>
+                        <button type="button" class="btn btn-light text-dark me-2">
+                            <i class="fa-solid fa-sliders"></i>View setting
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+   
+      
+      <div class="sprintList" *ngFor="let sprint of selectProject.sprints">
+        <div class="title">
+          <div class="sprint">
+            <p class="name">{{ sprint.sprintName }}</p>
+           <div class="pencil">
+            <i class="fas fa-pencil" (click)="openEditDialog(sprint)"></i>
+            <p>Add dates</p>
+           </div>
+          </div>
+          <div class="tripleDot">
+            <button mat-button [matMenuTriggerFor]="menu"><i class="fa-duotone fa-solid fa-ellipsis"></i></button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openEditDialog(sprint)">Edit Sprint</button>
+              <button mat-menu-item  (click)="openDeleteDialog(sprint)">Delete Sprint</button>
+            </mat-menu>
+          </div>
+        </div>
+        <!-- <select>
+          <option *ngFor="let option of dropdownOptions" [value]="option">{{ option }}</option>
+        </select> -->
+      </div>
+     <!-- <div class="createSprint">
+        <p>Backlog</p>
+        <button (click)="createSprint()">Create Sprint</button>
+      </div>
+       -->
+     
+      
+      <div class="createSprint">
+        <p>Backlog</p>
+
+       <div class="back">
+        <div class="count">
+            <span class="css1">0</span>
+            <span class="css2">0</span>
+            <span class="css3">0</span>
+            </div>
+            <button (click)="createSprint()">Create Sprint</button>
+       </div>
+
+
+
+      
+</div>

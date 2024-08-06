@@ -1,0 +1,39 @@
+<div class="edit">
+    <h3>Edit Sprint</h3>
+    <p>Required fields are marked with an asterisk <span style="color: red;">*</span></p>
+  
+    <form [formGroup]="registerProject">
+      <div class="input">
+        <label for="sprint">Sprint name<span style="color: red;">*</span></label>
+        <input type="text" id="sprint" formControlName="sprintName">
+      </div>
+      <div class="input">
+        <label for="start">Start Date</label>
+        <input type="date" formControlName="startDate" (ngModelChange)="calculateEndDate()">
+      </div>
+      <div class="input">
+        <label for="duration">Duration</label>
+        <ng-select formControlName="duration" [(ngModel)]="selectedWeeks" (ngModelChange)="onWeeksChange()">
+          <ng-option *ngFor="let week of weeks" [value]="week">{{ week }}</ng-option>
+          <ng-option value="custom">Custom</ng-option>
+        </ng-select>
+      </div>
+      <div *ngIf="selectedWeeks === 'custom'" class="input">
+        <label for="custom">Custom Duration</label>
+        <input type="number" id="custom" formControlName="customWeeks" placeholder="Enter the number of weeks" (ngModelChange)="calculateEndDate()">
+      </div>
+      <div>
+        <p>End Date: {{ endDate | date: 'dd/MM/yyyy' }}</p>
+      </div>
+      <div class="goal">
+        <label for="goal">Sprint Goal</label>
+        <input type="text" id="goal" formControlName="summary" placeholder="message">
+      </div>
+    </form>
+  
+    <div class="action">
+      <button class="but" (click)="onCancel()">Cancel</button>
+      <button (click)="onSave()" class="but" style="background-color: #0052CC; color: white;">Update</button>
+    </div>
+  </div>
+  

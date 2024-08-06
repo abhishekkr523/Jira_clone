@@ -1,20 +1,22 @@
-<div class="outer-container">
+<div class="outer-container"
+[class.full-screen]="isFullScreen"
+ >
   <header>
-    <nav class="container-fluid" aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0 px-3">
+    <nav class="container-fluid p-0" aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0 px-3" style="background-color: transparent;">
         <li class="breadcrumb-item"><a href="#">Projects</a></li>
         <li class="breadcrumb-item active" aria-current="page">Board</li>
       </ol>
     </nav>
-    <div class="px-3 text-bg-dark border-bottom">
-      <div class="container-fluid">
+    <div class="px-3 text-bg-dark">
+      <div class="container-fluid ">
         <div
           class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
         >
           <a
             href="/"
             class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none text-dark"
-            style="font-size: 30px; font-weight: 500"
+            style="font-size: 27px; font-weight: 500"
           >
             Board
           </a>
@@ -32,11 +34,14 @@
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-secondary">
-                <i
-                  matTooltipPosition="above"
-                  matTooltip="Enter full Screen"
-                  class="fa-solid fa-up-right-and-down-left-from-center"
+              <a class="nav-link text-secondary">
+                <i 
+                (click)="toggleFullScreen()"
+                matTooltipPosition="above"
+                [matTooltip]="iconChange ? 'Exit full Screen' : 'Enter full Screen'"
+               
+                [class]="iconChange ? 'fa-solid fa-down-left-and-up-right-to-center' : 'fa-solid fa-up-right-and-down-left-from-center'"
+                
                 ></i>
               </a>
             </li>
@@ -49,10 +54,12 @@
         </div>
       </div>
     </div>
-    <div class="px-3 py-2 border-bottom mb-3">
+    <div class="px-3 py-2 mb-3">
       <div class="container-fluid d-flex flex-wrap justify-content-between">
-        <div class="row w-100 sub-heading">
-          <form class="col-2 mb-2" role="search">
+        <div class="row w-100 sub-heading" style="align-items: center;">
+          <form class="col-2" role="search" style="    border: 1px solid gray;
+          height: 34px;
+          border-radius: 4px;">
             <i
               class="fa-solid fa-magnifying-glass d-flex justify-content-center align-item-center"
               style="align-items: center"
@@ -62,6 +69,7 @@
               class="form-control border-0"
               placeholder="Search..."
               aria-label="Search"
+              style="background: transparent;"
             />
           </form>
           <div
