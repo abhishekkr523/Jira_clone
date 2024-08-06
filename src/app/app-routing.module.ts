@@ -7,7 +7,7 @@ import { CreateProPopupComponent } from './pages/dashboard/create-project/create
 import { CreateProject } from './pages/dashboard/create-project/create-project';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CreateProjectComponent } from './pages/dashboard/project/create-project/create-project.component';
-import { SprintComponent } from './pages/dashboard/sprint/sprint.component';
+// import { SprintComponent } from './pages/dashboard/sprint/sprint.component';
 import { AllProjectNameComponent } from './pages/dashboard/project/all-project-name/all-project-name.component';
 import { BoardComponent } from './pages/board/board.component';
 import { TaskDetailsComponent } from './pages/board/task-details/task-details.component';
@@ -16,6 +16,7 @@ import { authGuard } from './auth.guard';
 import { BacklogComponent } from './pages/backlog/backlog.component';
 import { loginGuard } from './login.guard';
 import { Error404Component } from './pages/error-404/error-404.component';
+import { SprintComponent } from './pages/dashboard/sprint/sprint.component';
 // import { TaskDetailsComponent } from './pages/task-details/task-details.component';
 // import { TaskDetailsComponent } from './pages/task-details/task-details.component';
 
@@ -53,13 +54,12 @@ const routes: Routes = [
         component:BacklogComponent,
         canActivate: [authGuard],
       },
+      {
+        path: 'sprint',
+        component: SprintComponent,
+      },
     ],
   },
-  {
-    path: 'sprint',
-    component: SprintComponent,
-  },
-
   {
     path: 'create-project',
     component: CreateProjectComponent,
@@ -71,7 +71,7 @@ const routes: Routes = [
   { path: 'taskDetails', component: TaskDetailsComponent },
   { path: 'addPeople', component: AddPeopleDialogComponent },
   {path:"error",component:Error404Component},
-  { path: '**', redirectTo: '/error' },
+  // { path: '**', redirectTo: '/error' },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

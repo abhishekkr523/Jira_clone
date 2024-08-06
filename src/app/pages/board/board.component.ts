@@ -9,6 +9,9 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
 import { Router } from '@angular/router';
 import { AddPeopleDialogComponent } from './add-people-dialog/add-people-dialog.component';
 import { DataServiceService } from '../../service/data-service.service';
+import { DateAdapter } from '@angular/material/core';
+import { StorageService } from '../../service/storage.service';
+import { Sprint } from '../../user.interface';
 
 @Component({
   selector: 'app-board',
@@ -24,8 +27,9 @@ export class BoardComponent implements OnInit {
   filteredColumns: any[] = []; // To store filtered columns
   isFullScreen = false;
 
+  iconChange: boolean = false;
 
-iconChange: boolean = false;
+
 
    columns = [
     {
@@ -67,10 +71,11 @@ iconChange: boolean = false;
   ];
 
   peopleList: any[] = [];
+  sprintData: any[]=[];
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private srv: DataServiceService,private fullScreenService:DataServiceService
+    private srv: DataServiceService,private fullScreenService:DataServiceService, private storageSrv:StorageService
   ) {this.srv.peoples.subscribe((people) => {
     this.peopleList = people.map((person) => ({
       ...person,
@@ -81,6 +86,8 @@ iconChange: boolean = false;
     this.isFullScreen = isFullScreen;
   });
 }
+ 
+  // sprint: Sprint | null = null;
   ngOnInit(): void {
     console.log("bee",this.srv.isLoggedin.value)
     this.loadColumnsFromLocalStorage();
@@ -99,6 +106,17 @@ iconChange: boolean = false;
 
     this.srv.columns.next(this.columns);
     console.log("ngColumns",this.columns)
+    // this.storeDataService.sprintSource.subscribe((sprint) => {
+    //   // this.sprint = sprint;
+    //   if(sprint){
+    //     console.log('Sprint received in SprintDetailsComponent:', sprint);
+    //   }
+      
+    // })
+    const getSprintData =this.storageSrv.sprintSource.value
+    console.log("o",this.sprintData)
+    this.sprintData!=getSprintData?.tasks;
+    console.log("oo",this.sprintData)
   }
 
   getRandomColor(): string {
@@ -258,10 +276,13 @@ iconChange: boolean = false;
  
 //full screen
 
+  //full screen
 
+ 
 
 toggleFullScreen() {
   this.iconChange = !this.iconChange;
     this.fullScreenService.setFullScreen(!this.isFullScreen);
+ 
   }
 }

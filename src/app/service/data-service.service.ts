@@ -21,6 +21,7 @@ export class DataServiceService {
   );
   selectedProject$ = this.selectedProjectSubject.asObservable();
 
+
   constructor() {
     this.loadProjects();
     this.loadImportantProjects();
