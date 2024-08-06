@@ -67,6 +67,9 @@ export class AllProjectNameComponent implements OnInit {
         this.importantProjects = this.importantProjects.filter(
           (p) => p.projectKey !== project.projectKey
         );
+        this.filter = this.filter.filter(
+          (p) => p.projectKey !== project.projectKey
+        );
         localStorage.setItem('projects', JSON.stringify(this.projects));
         localStorage.setItem(
           'importantProjects',
