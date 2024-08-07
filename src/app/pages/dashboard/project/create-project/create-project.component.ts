@@ -40,31 +40,16 @@ export class CreateProjectComponent implements OnInit {
   generateProjectKey(name: string) {
     let word = name.trim().split(/\s+/);
     let firstLetter = word.map((word) => word.charAt(0).toUpperCase()).join('');
-    let digit = name.replace(/\D/g, '');
-    return firstLetter + digit;
+    // let digit = name.replace(/\D/g, '');
+    // return firstLetter + digit;
+    let middleLetter = word.length > 1 ? word[1].charAt(0).toUpperCase() : '';
+    
+    let randomString = Math.random().toString(36).substring(2, 3).toUpperCase(); // Generates a random string of length 6
+
+    return firstLetter +middleLetter+ randomString;
 
 
-
-    // const words = name.trim().split(' ');
-
-    // // Collect all the letters from each word into a single array
-    // let letters:string[] = [];
-    // words.forEach(word => {
-    //     // Remove non-letter characters
-    //     const filteredLetters = word.replace(/[^a-zA-Z]/g, '');
-    //     if (filteredLetters) {
-    //         letters = letters.concat(filteredLetters.split(''));
-    //     }
-    // });
-
-    // // Randomly decide which letters to include in the shortform
-    // const shortform = letters
-    //     .filter(() => Math.random() < 0.5) // Adjust the probability as needed
-    //     .slice(0, 3) // Adjust the number of letters if needed
-    //     .join('')
-    //     .toUpperCase();
-
-    // return shortform;
+ 
 
   }
   startDate!: string;
@@ -77,7 +62,9 @@ export class CreateProjectComponent implements OnInit {
         localStorage.getItem('projects') || '[]'
       );
       const duplicateProject = existingProjects.find(
-        (project) => project.projectName.toLowerCase() === this.projectName.value.toLowerCase()
+        (project) => 
+          project.projectName.toLowerCase() === this.projectName.value.toLowerCase()||
+          project.projectKey.toLowerCase() === this.keyValue.toLowerCase()
       );
 
       if (duplicateProject) {

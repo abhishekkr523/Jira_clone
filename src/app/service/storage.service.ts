@@ -3,31 +3,32 @@ import { BehaviorSubject } from 'rxjs';
 import { Sprint } from '../user.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
-
-  constructor() { }
- 
-  // sprint backlock to board  start
   sprintSource = new BehaviorSubject<Sprint | null>(null);
-// currentSprint = this.sprintSource.asObservable();
-
-
-setSprint(sprint: any) {
-  this.sprintSource.next(sprint);
-  console.log('set sprint',sprint)
-}
-
-
-
-getSelectedSprintFromLocalStorage() {
-  if(typeof Storage !== 'undefined') {
-  {
-   const project = localStorage.getItem('selectedProject');
-   return project ? JSON.parse(project) : null;
+  constructor() {}
+  setItem(key: string, value: any): void {
+    localStorage.setItem(key, JSON.stringify(value));
   }
- }
-}
-// sprint backlock to board end 
+
+  getItem(key: string): any {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : [];
+  }
+
+  setSprint(sprint: any) {
+    this.sprintSource.next(sprint);
+    console.log('set sprint', sprint);
+  }
+
+  getSelectedSprintFromLocalStorage() {
+    if (typeof Storage !== 'undefined') {
+      {
+        const project = localStorage.getItem('selectedProject');
+        return project ? JSON.parse(project) : null;
+      }
+    }
+  }
+  // sprint backlock to board end
 }

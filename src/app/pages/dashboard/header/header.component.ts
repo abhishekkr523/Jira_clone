@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit {
     });
   }
   createIssue() {
+    console.log('hell')
     // const checkProject=JSON.parse(localStorage.getItem('projects')||'[]')
     const checkSelectedProjet = JSON.parse(localStorage.getItem('selectedProject') || '[]')
     // Check if selectedProject is not empty
@@ -54,7 +55,7 @@ export class HeaderComponent implements OnInit {
   
   }
     else if (hasSelectedProject) {
-      console.log("joojojojo")
+      // console.log("joojojojo")
       const dialogRef = this.dialog.open(CreateProPopupComponent, {
         width: '1100px',
         height: '650px',
@@ -89,6 +90,7 @@ export class HeaderComponent implements OnInit {
     this.dialog.open(LogoutPopUpComponent, {
       width: '250px'
     });
+    
   }
   setActive(event: Event) {
     if (this.activeLink) {

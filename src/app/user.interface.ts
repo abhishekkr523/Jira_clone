@@ -1,3 +1,22 @@
+// export interface Task {
+//     taskId: number;
+//     taskName: string;
+//     storyPoints: string;
+//     ProjectName:string,
+//     IssueType: string,
+//     status:string|undefined,
+//     summary: string,
+//     description: string|undefined,
+//     Assign: string|undefined,
+//     attachment:string|undefined,
+//     Label: string|undefined,
+//     Parent: string|undefined,
+//     sprint: string|undefined,
+//     Time:string|undefined,
+//     Reporter:string,
+//     LinkedIssue:string|undefined,
+//     CreateAnotherIssue:string|undefined,
+//   }
 export interface Task {
     taskId: number;
     taskName: string;
@@ -59,4 +78,10 @@ export interface Task {
     status: string;
     summary: string;
     
+  }
+
+  export interface Column {
+    title: string;
+    showInput: boolean;
+    tasks: Task[];
   }

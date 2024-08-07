@@ -1,11 +1,13 @@
+import { Component, OnInit } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TaskDetailsComponent } from '../task-details/task-details.component';
+import { TaskDetailsComponent } from './task-details/task-details.component';
+import { Router } from '@angular/router';
+import { AddPeopleDialogComponent } from './add-people-dialog/add-people-dialog.component';
 import { DataServiceService } from '../../service/data-service.service';
 import { DateAdapter } from '@angular/material/core';
 import { StorageService } from '../../service/storage.service';
@@ -19,23 +21,35 @@ import { Sprint } from '../../user.interface';
 export class BoardComponent implements OnInit {
   add: boolean = false;
   plus: boolean = true;
+  flag: boolean = true;
   titleInput: any;
   createIssue: boolean = false;
+  filteredColumns: any[] = []; // To store filtered columns
+  isFullScreen = false;
 
-  columns = [
+  iconChange: boolean = false;
+
+
+
+   columns = [
     {
       title: 'TO DO',
       showInput: false,
       tasks: [
         {
-          taskName: 'John Doe',
-          project_name: 'Developer',
-          assignee: 'Abhishek kummar',
+          taskName: 'ui design',
+          project_name: 'Jira_clone',
+          assignee: 'Tarun pareta',
         },
         {
-          taskName: 'John Doe',
-          project_name: 'Developer',
-          assignee: 'krishna rai',
+          taskName: 'use reactive form',
+          project_name: 'Jira_clone',
+          assignee: 'Abhishek kumar',
+        },
+        {
+          taskName: 'filter implementation',
+          project_name: 'Jira_clone',
+          assignee: 'Krishna rai',
         },
       ],
     },
@@ -55,38 +69,43 @@ export class BoardComponent implements OnInit {
       tasks: [],
     },
   ];
-  projects = [
-    {
-      projectId: '',
-      projectName: '',
-      sprints: [
-        {
-          sprintId: '',
-          sprintName: '',
-          tasks: [
-            {
-              taskId: '',
-              taskName: '',
-              description: '',
-              assignee: '',
-              status: '',
-              storyPoints: '',
-            },
-          ],
-        },
-      ],
-    },
-  ];
-  constructor(public dialog: MatDialog, private service: DataServiceService,
-    
-  ) {
-    this.service.isFullScreen$.subscribe((isFullScreen) => {
-      this.isFullScreen = isFullScreen;
-    });
-  }
+
+  peopleList: any[] = [];
+  sprintData: any[]=[];
+  constructor(
+    public dialog: MatDialog,
+    private router: Router,
+    private srv: DataServiceService,private fullScreenService:DataServiceService, private storageSrv:StorageService
+  ) {this.srv.peoples.subscribe((people) => {
+    this.peopleList = people.map((person) => ({
+      ...person,
+      color: this.getRandomColor(),
+    }));
+  });
+  this.fullScreenService.isFullScreen$.subscribe(isFullScreen => {
+    this.isFullScreen = isFullScreen;
+  });
+}
+ 
   // sprint: Sprint | null = null;
   ngOnInit(): void {
+    console.log("bee",this.srv.isLoggedin.value)
     this.loadColumnsFromLocalStorage();
+    // this.filteredColumns = [...this.columns]; // Initialize filteredColumns
+    // this.srv.peoples.subscribe((people) => {
+    //   this.peopleList = people.map((person) => ({
+    //     ...person,
+    //     color: this.getRandomColor(),
+    //   }));
+    // });
+
+    const savedPeopleList = localStorage.getItem('addPeopleList');
+    if (savedPeopleList) {
+      this.peopleList = JSON.parse(savedPeopleList);
+    }
+
+    this.srv.columns.next(this.columns);
+    console.log("ngColumns",this.columns)
     // this.storeDataService.sprintSource.subscribe((sprint) => {
     //   // this.sprint = sprint;
     //   if(sprint){
@@ -94,7 +113,21 @@ export class BoardComponent implements OnInit {
     //   }
       
     // })
+    const getSprintData =this.storageSrv.sprintSource.value
+    console.log("o",this.sprintData)
+    this.sprintData!=getSprintData?.tasks;
+    console.log("oo",this.sprintData)
   }
+
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
@@ -109,6 +142,24 @@ export class BoardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
+    }
+    this.saveColumnsToLocalStorage();
+  }
+
+  moveToTop(task: any, column: any) {
+    const index = column.tasks.indexOf(task);
+    if (index > -1) {
+      column.tasks.splice(index, 1);
+      column.tasks.unshift(task);
+    }
+    this.saveColumnsToLocalStorage();
+  }
+
+  moveToBottom(task: any, column: any) {
+    const index = column.tasks.indexOf(task);
+    if (index > -1) {
+      column.tasks.splice(index, 1);
+      column.tasks.push(task);
     }
     this.saveColumnsToLocalStorage();
   }
@@ -137,17 +188,41 @@ export class BoardComponent implements OnInit {
       this.add = false;
     }
     this.plus = true;
+    this.srv.columns.next(this.columns);
+    this.srv.columns.subscribe((abc) => {
+      console.log('oo', abc);
+    });
   }
+
   create_issue(i: number) {
-    // this.createIssue = true;
     this.columns.forEach((item, ind) => {
       item.showInput = ind === i;
-      // console.log(`${ind}>>${ind===i}`)
     });
-    console.log(i);
   }
+
   create() {
     this.createIssue = false;
+  }
+
+  filterByAssignee(assignee: string) {
+    console.log("assignee",assignee);
+    const normalizedAssignee = assignee.trim().toLowerCase();
+
+    this.filteredColumns = this.columns.map((column) => ({
+      ...column,
+      tasks: column.tasks.filter(
+        (task) => task.assignee.trim().toLowerCase() === normalizedAssignee
+      ),
+    }));
+    console.log("filtcol",this.filteredColumns);
+    console.log("columns",this.columns);
+    // this.columns=this.filteredColumns
+    this.flag = false;
+  }
+  clearFilter() {
+    this.flag = true;
+    console.log('lll');
+    this.loadColumnsFromLocalStorage();
   }
 
   saveColumnsToLocalStorage() {
@@ -159,9 +234,19 @@ export class BoardComponent implements OnInit {
       const savedColumns = localStorage.getItem('columns');
       if (savedColumns) {
         this.columns = JSON.parse(savedColumns);
+        this.filteredColumns = [...this.columns]; // Initialize filteredColumns
+        if (typeof Storage !== 'undefined') {
+          const savedColumns = localStorage.getItem('columns');
+          if (savedColumns) {
+            this.columns = JSON.parse(savedColumns);
+          }
+        }
+        console.log('ll', this.columns);
       }
     }
   }
+
+
 
   openDialog(data: any) {
     const dialogRef = this.dialog.open(TaskDetailsComponent, {
@@ -176,15 +261,28 @@ export class BoardComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+  addPeople() {
+    const dialogRef = this.dialog.open(AddPeopleDialogComponent, {
+      maxWidth: '26vw',
+      height: '58vh',
+      panelClass: 'custom-dialog-container',
+      // data: data,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+ 
+//full screen
 
   //full screen
 
-  isFullScreen = false;
+ 
 
-  iconChange: boolean = false;
-
-  toggleFullScreen() {
-    this.iconChange = !this.iconChange;
-    this.service.setFullScreen(!this.isFullScreen);
+toggleFullScreen() {
+  this.iconChange = !this.iconChange;
+    this.fullScreenService.setFullScreen(!this.isFullScreen);
+ 
   }
 }

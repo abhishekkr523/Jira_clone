@@ -3,12 +3,12 @@
  >
   <header>
     <nav class="container-fluid p-0" aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0 px-3">
+      <ol class="breadcrumb mb-0 px-3" style="background-color: transparent;">
         <li class="breadcrumb-item"><a href="#">Projects</a></li>
         <li class="breadcrumb-item active" aria-current="page">Board</li>
       </ol>
     </nav>
-    <div class="px-3 text-bg-dark border-bottom">
+    <div class="px-3 text-bg-dark">
       <div class="container-fluid ">
         <div
           class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
@@ -16,7 +16,7 @@
           <a
             href="/"
             class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none text-dark"
-            style="font-size: 30px; font-weight: 500"
+            style="font-size: 27px; font-weight: 500"
           >
             Board
           </a>
@@ -26,9 +26,11 @@
           >
             <li>
               <a href="#" class="nav-link text-secondary">
-                <i matTooltipPosition="above"
-                matTooltip="Share"
-                 class="fa-solid fa-share-nodes"></i>
+                <i
+                  matTooltipPosition="above"
+                  matTooltip="Share"
+                  class="fa-solid fa-share-nodes"
+                ></i>
               </a>
             </li>
             <li>
@@ -52,43 +54,57 @@
         </div>
       </div>
     </div>
-    <div class="px-3 py-2 border-bottom mb-3">
+    <div class="px-3 py-2 mb-3">
       <div class="container-fluid d-flex flex-wrap justify-content-between">
-        <div class="row w-100 sub-heading">
-          <form class="col-2 mb-2 " role="search">
-            <i class="fa-solid fa-magnifying-glass d-flex justify-content-center align-item-center" style="align-items: center;"></i>
+        <div class="row w-100 sub-heading" style="align-items: center;">
+          <form class="col-2" role="search" style="    border: 1px solid gray;
+          height: 34px;
+          border-radius: 4px;">
+            <i
+              class="fa-solid fa-magnifying-glass d-flex justify-content-center align-item-center"
+              style="align-items: center"
+            ></i>
             <input
               type="search"
               class="form-control border-0"
               placeholder="Search..."
               aria-label="Search"
+              style="background: transparent;"
             />
           </form>
-          <div class="drop-down_container col-3">
-            <div class="user-circle">
+          <div
+            class="drop-down_container col-5 d-flex align-item-center justify-content-center"
+            style="align-items: center"
+          >
+            <div class="c-profile__list">
+              <a
+                *ngFor="let person of peopleList"
+                class="c-profile"
+                [ngStyle]="{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: person.color
+                }"
+                (click)="filterByAssignee(person.nameEmail)"
+              >
+                {{ person.nameEmail | initial }}
+              </a>
+            </div>
+            <div
+              class="user-circle btn-light text-dark"
+              (click)="addPeople()"
+              matTooltip="Add people"
+              matTooltipPosition="below"
+            >
               <i class="fa-solid fa-user-plus"></i>
             </div>
             <div class="dropdown">
               <button
-                class="btn dropdown-toggle"
+                class="btn dropdown-toggle btn-light text-dark"
                 type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Epic
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
-              </ul>
-            </div>
-            <div class="dropdown">
-              <button
-                class="btn dropdown-toggle"
-                type="button"
+                matTooltip="Type"
+                matTooltipPosition="below"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
@@ -102,12 +118,26 @@
                 </li>
               </ul>
             </div>
+            <button
+              class="btn btn-light text-dark"
+              (click)="clearFilter()"
+              style="height: 39px"
+            >
+              clear filter
+            </button>
           </div>
-          <div class="text-end col-7">
+          <div
+            class="text-end col-5 d-flex align-item-center justify-content-center"
+          >
             <button type="button" class="btn btn-light text-dark me-2">
               <i class="fa-solid fa-cloud-arrow-up"></i>Import work
             </button>
-            <button type="button" class="btn btn-light text-dark me-2">
+            <button
+              type="button"
+              class="btn btn-light text-dark me-2"
+              matTooltip="Insights"
+              matTooltipPosition="below"
+            >
               <i class="fa-solid fa-chart-line"></i>Insights
             </button>
             <button type="button" class="btn btn-light text-dark me-2">
@@ -121,8 +151,12 @@
   <div class="scroll-container px-4">
     <div cdkDropListGroup class="d-flex">
       <div
-        *ngFor="let column of columns; trackBy: trackByFn; index as i"
-        class="example-container" 
+        *ngFor="
+          let column of flag ? columns : filteredColumns;
+          trackBy: trackByFn;
+          index as i
+        "
+        class="example-container"
       >
         <p>{{ column.title }}</p>
         <div
@@ -134,37 +168,61 @@
           <div
             *ngFor="let item of column.tasks; trackBy: trackByFn"
             class="example-box"
-            cdkDrag 
+            cdkDrag
           >
-          <div  (click)="openDialog(item)">
-            <div class="task">
-              <span
-                >{{ item.taskName }}<i class="fa-solid fa-pencil ml-2"></i
-              ></span>
-              <button>
-                <i class="fa-solid fa-ellipsis m-0"></i>
-              </button>
-            </div>
-            <div class="project">
-              {{ item.project_name }}
-              <span>{{ item.assignee! | initial }}</span>
-            </div>
+            <div>
+              <div class="task">
+                <span
+                  >{{ item.taskName
+                  }}<i
+                    class="fa-solid fa-pencil ml-2"
+                    (click)="openDialog(item)"
+                  ></i
+                ></span>
+                <div>
+                  <button mat-button [matMenuTriggerFor]="animals">
+                    <i class="fa-solid fa-ellipsis m-0"></i>
+                  </button>
+                  <mat-menu #animals="matMenu">
+                    <button mat-menu-item [matMenuTriggerFor]="vertebrates">
+                      Move to
+                    </button>
+                  </mat-menu>
+
+                  <mat-menu #vertebrates="matMenu">
+                    <button mat-menu-item (click)="moveToTop(item, column)">
+                      Top of column
+                    </button>
+                    <button mat-menu-item (click)="moveToBottom(item, column)">
+                      Bottom of column
+                    </button>
+                  </mat-menu>
+                </div>
+              </div>
+              <div class="project">
+                {{ item.project_name }}
+                <span>{{ item.assignee! | initial }}</span>
+              </div>
             </div>
           </div>
           <div class="createIssue">
-           <button class="" style="border: none;" (click)="create_issue(i)">Create issue</button>
-            <div class="issueForm" *ngIf="column.showInput" >
-                <input type="text" style="width: 100%;">
-                
-                <div class="actionArea d-flex justify-content-between">
-                    <select class="form-select" style="width: 62px;">
-                        <option><i class="fa-solid fa-xmark"></i></option>
-                        <option ><img src="google.svg" alt=""></option>
-                        <option>😊</option>
-                        <option>4</option>
-                      </select>
-                    <button type="button" style="border: none;" (click)="create()">Create</button>
-                </div>
+            <button class="" style="border: none" (click)="create_issue(i)">
+              Create issue
+            </button>
+            <div class="issueForm" *ngIf="column.showInput">
+              <input type="text" style="width: 100%" />
+
+              <div class="actionArea d-flex justify-content-between">
+                <select class="form-select" style="width: 62px">
+                  <option><i class="fa-solid fa-xmark"></i></option>
+                  <option><img src="google.svg" alt="" /></option>
+                  <option>😊</option>
+                  <option>4</option>
+                </select>
+                <button type="button" style="border: none" (click)="create()">
+                  Create
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -234,6 +292,12 @@
       </div>
     </div>
   </div>
+
+  <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu> -->
 </div>
 
 

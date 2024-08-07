@@ -14,7 +14,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   styleUrl: './all-project-name.component.scss',
 })
 export class AllProjectNameComponent implements OnInit {
-
+ 
   showTrashDiv: boolean = false;
   selectedProjectIndex: number | null = null;
   projects: Project[] = [];
@@ -37,10 +37,11 @@ export class AllProjectNameComponent implements OnInit {
     this.loadImportantProjects();
     // Initialize filteredProjects with all projects
    this.filter=[...this.projects,...this.importantProjects]
+   this.initializeSearch();
     this.filteredProjects = [...this.projects, ...this.importantProjects];
 
     // Set up search functionality
-    this.initializeSearch();
+   
   }
 
   moveToTrash(index: number): void {
@@ -63,6 +64,9 @@ export class AllProjectNameComponent implements OnInit {
           (p) => p.projectKey !== project.projectKey
         );
         this.importantProjects = this.importantProjects.filter(
+          (p) => p.projectKey !== project.projectKey
+        );
+        this.filter = this.filter.filter(
           (p) => p.projectKey !== project.projectKey
         );
         localStorage.setItem('projects', JSON.stringify(this.projects));
@@ -88,6 +92,7 @@ export class AllProjectNameComponent implements OnInit {
 
         // console.log('searchTerm', res);
       });
+
   }
   filterProjects(searchTerm: string) {
     // console.log('searchTerm', this.filter);
@@ -97,6 +102,7 @@ export class AllProjectNameComponent implements OnInit {
         project.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         project.projectKey.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
   }
   loadProjects(): void {
     // Retrieve projects from localStorage
@@ -193,5 +199,4 @@ export class AllProjectNameComponent implements OnInit {
       }
     }
   }
-
 }

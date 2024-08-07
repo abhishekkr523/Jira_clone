@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DataServiceService } from '../../../service/data-service.service';
 
 @Component({
   selector: 'app-task-details',
@@ -9,9 +10,16 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class TaskDetailsComponent implements OnInit {
   taskForm!: FormGroup;
+  peoples: any[] = [];
+  columnTitle: any[] = [];
+  isDropdownOpen = false;
   // taskDetails: any[]=[];
 
-  constructor(private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any ) {}
+  constructor(
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private srv: DataServiceService
+  ) {}
 
   ngOnInit(): void {
     this.taskForm = this.fb.group({
@@ -31,6 +39,16 @@ export class TaskDetailsComponent implements OnInit {
     if (this.data) {
       this.taskForm.patchValue(this.data);
     }
+
+    this.srv.peoples.subscribe((data) => {
+      // this.peoples=data;
+      console.log(data, 'kpk');
+    });
+
+    this.srv.columns.subscribe(data=>{
+      this.columnTitle=data
+      console.log("data",data)
+    })
   }
 
   onSave(): void {
@@ -44,4 +62,8 @@ export class TaskDetailsComponent implements OnInit {
     }
   }
   onCancel(): void {}
+
+  toggleDropdown(isOpen: boolean) {
+    this.isDropdownOpen = isOpen;
+  }
 }

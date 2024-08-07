@@ -1,22 +1,21 @@
 @function color($color-name) {
-    @return var(--color-#{$color-name});
-  }
-  @function fontweight($font-weight) {
-    @return var(--fontweight-#{$font-weight});
-  }
-  
-  @mixin flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  @mixin flex-space-between {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  @mixin transition($properties: all, $duration: 0.3s, $timing: ease-in-out) {
-    transition: $properties $duration $timing;
-  }
-  
+  @return var(--color-#{$color-name});
+}
+@function fontweight($font-weight) {
+  @return var(--fontweight-#{$font-weight});
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin transition {
+  transition: all 200ms ease;
+}

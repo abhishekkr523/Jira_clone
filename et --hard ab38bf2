@@ -1,0 +1,15 @@
+[33mf346089[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mabhishek[m[33m)[m HEAD@{0}: reset: moving to f346089d17c582cea52bea807aa7123137e934c2
+[33mab38bf2[m[33m ([m[1;31morigin/abhishek[m[33m)[m HEAD@{1}: commit: create,design,function implementation on board page and task_details page
+[33m61403ff[m HEAD@{2}: commit: create,design,function implementation on board page and task_details page
+[33m128a4e9[m HEAD@{3}: pull origin main: Fast-forward
+[33m5678f73[m HEAD@{4}: commit (merge): fixing user email and navigation
+[33mded419a[m HEAD@{5}: commit: welcome page pull
+[33m816d651[m HEAD@{6}: pull origin krishna: Merge made by the 'ort' strategy.
+[33md52c502[m HEAD@{7}: commit: complete login ui
+[33mfdd7445[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{8}: checkout: moving from abhishek to abhishek
+[33mfdd7445[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{9}: checkout: moving from main to abhishek
+[33mfdd7445[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{10}: commit: work on ui of login page
+[33m78696c7[m HEAD@{11}: commit: recommit
+[33m7cca945[m HEAD@{12}: commit: component creation
+[33m9b98c6f[m HEAD@{13}: Branch: renamed refs/heads/master to refs/heads/main
+[33m9b98c6f[m HEAD@{15}: commit (initial): initial commit
