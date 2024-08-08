@@ -6,6 +6,7 @@ import { Project, ProjectList } from '../../../user.interface';
 import { ToastrService } from 'ngx-toastr';
 import {  MatDialogRef } from '@angular/material/dialog';
 import { LogoutPopUpComponent } from './logout-pop-up/logout-pop-up.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,7 @@ import { LogoutPopUpComponent } from './logout-pop-up/logout-pop-up.component';
 export class HeaderComponent implements OnInit {
 
   activeLink: HTMLElement | null = null;
+  showMenu: boolean = true;
 
   Normalprojects: Project[] = [];
   importantProjects: Project[] = [];
@@ -24,7 +26,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private projectService: DataServiceService,
     private toster: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -38,29 +41,56 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
-    // this.serv.isVisible.next(true)
-    const dialogRef = this.dialog.open(CreateProPopupComponent, {
-      width: '1100px',
-      height: '650px',
-      maxWidth: 'none',
-      panelClass: 'custom-dialog-container',
-      data: { name: '', email: '' }
-    });
-    // this.serv.isVisible.next(true)
+  // openDialog(): void {
+  //   // this.serv.isVisible.next(true)
+    
+  //   const dialogRef = this.dialog.open(CreateProPopupComponent, {
+  //     width: '1100px',
+  //     height: '650px',
+  //     maxWidth: 'none',
+  //     panelClass: 'custom-dialog-container',
+  //     data: { name: '', email: '' }
+  //   });
+  //   // this.serv.isVisible.next(true)
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log('Form data:', result);
-    });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //     console.log('Form data:', result);
+  //   });
 
    
 
 
-    // selectProjectData : any= [...this.Normalprojects,...this.importantProjects]
+  //   // selectProjectData : any= [...this.Normalprojects,...this.importantProjects]
 
+  // }
+  openDialog(): void {
+    // Retrieve selectedProject from local storage
+    const selectedProject = JSON.parse(localStorage.getItem('selectedProject') || '{}');
+  
+    // Check if sprints array in selectedProject is empty
+    if (selectedProject && selectedProject.sprints && selectedProject.sprints.length > 0) {
+      // If sprints array is not empty, open the dialog
+      const dialogRef = this.dialog.open(CreateProPopupComponent, {
+        width: '1100px',
+        height: '650px',
+        maxWidth: 'none',
+        panelClass: 'custom-dialog-container',
+        data: { name: '', email: '' }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        console.log('Form data:', result);
+      });
+    } else {
+      this.toster.error('Please the create sprint ')
+     
+        this.router.navigate(['/dashboard/sprint'])
+      
+    }
   }
-
+  
 
 
   // logout
@@ -86,7 +116,9 @@ export class HeaderComponent implements OnInit {
     {
       this.projectService.selectedProjectSubject.next(project);
       //  console.log('bahubali',project)
+      this.router.navigate(['/dashboard'])
       this.toster.success('Project Selected')
+
       localStorage.setItem('selectedProject', JSON.stringify(project));
 
     }

@@ -86,22 +86,33 @@ export class SprintComponent implements OnInit {
     return `Sprint ${sprintCount}`;
   }
   createSprint() {
-    const newSprint: Sprint = {
-      sprintName: this.getNextSprintName(),
-      sprintId: Date.now(),
-      startDate: new Date(),
-      duration: 0,
-      endDate: new Date(),
-      summary: '',
-      tasks: [],
-    };
+    const projects = 
+      localStorage.getItem('selectedProject')
+    
 
-    this.selectProject.sprints.push(newSprint);
-    this.toast.success('Sprint created successfully');
+    if(projects)
+    {
+      const newSprint: Sprint = {
+        sprintName: this.getNextSprintName(),
+        sprintId: Date.now(),
+        startDate: new Date(),
+        duration: 0,
+        endDate: new Date(),
+        summary: '',
+        tasks: [],
+      };
+  
+      this.selectProject.sprints.push(newSprint);
+      this.toast.success('Sprint created successfully');
+  
+      // console.log('tarun', this.sprints)
+      // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
+      this.saveToLocalStorage();
+    }else{
 
-    // console.log('tarun', this.sprints)
-    // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
-    this.saveToLocalStorage();
+      this.toast.error('Please select a project');
+    }
+  
   }
 
   openEditDialog(sprint: Sprint) {

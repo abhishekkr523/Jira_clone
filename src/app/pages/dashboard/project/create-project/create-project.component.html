@@ -22,7 +22,7 @@
     
             <div class="key">
                 <label for="">Key<i class="fa-solid fa-circle-info"></i><span>*</span></label>
-                <input type="text" [value]="keyValue">
+                <input type="text" [value]="keyValue"  >
             </div>
         </div>
         <div class="con2">
@@ -32,7 +32,7 @@
         
     </div>
     <div class="main-btn">
-        <button type="button" class=" btn1 btn btn-light">Cancel</button>
+        <button type="button" class=" btn1 btn btn-light"  (click)="onCancel()">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="saveToLocalStorage()">Next</button>
     </div>
     

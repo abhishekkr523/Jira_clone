@@ -154,7 +154,7 @@ export class CreateProPopupComponent implements OnInit {
     if (
       this.registerProject.valid &&
       this.selectedProjectId &&
-      selectedSprintId2
+      selectedSprintId2 
     ) {
       const newTask: Task = {
         taskId: Math.floor(Math.random() * 1000), // Generate a random ID

@@ -91,12 +91,17 @@ export class CreateProjectComponent implements OnInit {
       this.toast.success('Successfully Add Project');
       //  this.toast.error('Something went wrong');
 
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['showAllProjects']);
     } else {
       alert('Please fix the errors in the form before saving.');
     }
   }
 
+  onCancel()
+  {
+    this.router.navigate(['showAllProjects']);
+    this.toast.error('Successfully Add Project');
+  }
   // get user from local storage
 
   leader: string | null = '';

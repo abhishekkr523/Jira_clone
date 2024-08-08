@@ -45,9 +45,12 @@
 .key label{
 display: flex;
 gap: 5px;
+
 }
+
 .input-teg input{
     width: 35%;
+    /* cursor: none; */
 }
 
 .input-teg input:hover{
