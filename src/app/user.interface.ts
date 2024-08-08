@@ -29,7 +29,6 @@ export interface Task {
     Assign: string|undefined,
     attachment:string|undefined,
     Label: string|undefined,
-    sprint: string|undefined,
     Time:string|undefined,
     Reporter:string,
     LinkedIssue:string|undefined,

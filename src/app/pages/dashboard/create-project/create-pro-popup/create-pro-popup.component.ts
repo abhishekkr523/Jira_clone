@@ -55,9 +55,10 @@ export class CreateProPopupComponent implements OnInit {
   tasks: Task[] = [];
   selectedSprintId: number | null = null;
   findproject: Project | undefined
-  selectProject: { sprints: Sprint[], [key: string]: any } = { sprints: [] };  
+  getSelectedProject!:Project[]
+  selectProject: { sprints: Sprint[], [key: string]: any } = { sprints: [] }; 
+  loadUser=[] 
   constructor(private dialog: MatDialogRef<CreateProPopupComponent>, private toast: ToastrService, private serv: DataServiceService, private localStorageService: StorageService, private fb: FormBuilder) {
-
 
   }
   ngOnInit(): void {
@@ -83,7 +84,10 @@ export class CreateProPopupComponent implements OnInit {
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
+    this.getSelectedProject= JSON.parse(localStorage.getItem('selectedProject') || '[]');
     this.importantProjects = JSON.parse(localStorage.getItem('importantProjects') || '[]');
+    this.loadUser= JSON.parse(localStorage.getItem('addPeopleList') || '[]');
+    console.log(this.loadUser)
     this.projects=[...this.projects,...this.importantProjects]
   }
 
@@ -124,35 +128,26 @@ export class CreateProPopupComponent implements OnInit {
     // const projectId = Number(selectElement.value);
     // console.log('Selected Project ID:', projectId);
     this.selectedProjectId = selectedProjectId;
-    this.sprints = this.getSprintsByProjectId(selectedProjectId);
+    this.sprints = this.getSprintsByProjectId(this.selectedProjectId);
+    console.log(this.sprints)
     // this.tasks = this.getAllTasksByProjectId(projectId);
   }
   
   getSprintsByProjectId(projectId: number): Sprint[] {
-    this.findproject = this.projects.find(
+    this.findproject = this.getSelectedProject.find(
       (proj) => proj.projectId === projectId
     );
 
     return this.findproject ? this.findproject.sprints : [];
   }
 
-  getAllTasksByProjectId(projectId: number): Task[] {
-    const project = this.projects.find((proj) => proj.projectId === projectId);
-    if (project) {
-      // Flatten all tasks from sprints
-      return project.sprints.flatMap((sprint) => sprint.tasks);
-    }
-    return [];
-  }
+
   addTaskToSprint(): void {
     const selectedSprintId2 = this.registerProject.value.sprint; // Retrieve the selected sprint ID
     console.log(selectedSprintId2, 'sprintid');
     const getProjectName = this.findproject?.projectName ?? 'Hello world';
-    // if (
-    //   this.registerProject.valid &&
-    //   this.selectedProjectId &&
-    //   selectedSprintId2
-    // ) {
+    // const getUsername=this.loadUser.
+    if (this.registerProject.valid &&this.selectedProjectId &&selectedSprintId2) {
       const newTask: Task = {
         taskId: Math.floor(Math.random() * 1000), // Generate a random ID
         ProjectName: getProjectName,
@@ -164,7 +159,6 @@ export class CreateProPopupComponent implements OnInit {
         Assign: this.registerProject.value.Assign,
         attachment: this.registerProject.value.attachment,
         Label: this.registerProject.value.Label,
-        sprint: this.registerProject.value.sprint,
         Time: this.registerProject.value.Time,
         Reporter: this.registerProject.value.Reporter,
         LinkedIssue: this.registerProject.value.LinkedIssue,
@@ -172,7 +166,7 @@ export class CreateProPopupComponent implements OnInit {
         storyPoints: this.registerProject.value.storyPoints,
       };
 
-      const project = this.projects.find(
+      const project = this.getSelectedProject.find(
         (proj) => proj.projectId === this.selectedProjectId
       );
       if (project) {
@@ -185,11 +179,11 @@ export class CreateProPopupComponent implements OnInit {
           const updatedProjects = this.projects.map((p) =>
             p.projectId === this.selectedProjectId
               ? { ...p, sprints: project.sprints }
-              : p
+              : [p]
           );
-          localStorage.setItem('projects', JSON.stringify(updatedProjects));
-          localStorage.setItem('importantProjects', JSON.stringify(updatedProjects));
-          localStorage.setItem('selectedProject', JSON.stringify(project));
+          // localStorage.setItem('projects', JSON.stringify(updatedProjects));
+          // localStorage.setItem('importantProjects', JSON.stringify(updatedProjects));
+          localStorage.setItem('selectedProject', JSON.stringify(updatedProjects));
           this.toast.success('Issue is added')
           this.dialog.close()
 // this.saveToLocalStorage()
@@ -203,6 +197,6 @@ this.toast.success('Issue is added')
       this.registerProject.reset();
       // Close your modal here (e.g., using a modal service)
     }
-  // }
+  }
 
 }

@@ -39,8 +39,9 @@ export class SprintComponent implements OnInit {
 
   ngOnInit(): void {
     if (typeof Storage !== 'undefined') {
-      const saveSprint = localStorage.getItem('selectedProject');
-
+      const saveSprint = JSON.parse(localStorage.getItem('selectedProject') ||'[]');
+      
+      this.selectProject={...saveSprint,sprints:saveSprint[0].sprints||[]}
       const projects = JSON.parse(
         localStorage.getItem('projects') || '[]'
       ) as Project[];
@@ -49,9 +50,10 @@ export class SprintComponent implements OnInit {
       ) as Project[];
       if (saveSprint)
         try {
-          this.selectProject = JSON.parse(saveSprint);
+          // this.selectProject = JSON.parse(saveSprint);
           if (!Array.isArray(this.selectProject.sprints)) {
             this.selectProject.sprints = [];
+            console.log('error')
           }
         } catch (error) {
           console.error(
@@ -71,12 +73,10 @@ export class SprintComponent implements OnInit {
       const projectFromImportantProjects = importantProjects.find(
         (p: Project) => p.projectId === projectId
       );
-
+      
+      // this.selectProject=saveSprint ? JSON.parse(saveSprint) : [];
       // Merge the found project data into selectProject
-      this.selectProject = {
-        ...this.selectProject,
-       
-      };
+      this.selectProject = {...this.selectProject}
       // console.log('bahubali',this.selectProject.sprints)
     }
   }
@@ -85,35 +85,40 @@ export class SprintComponent implements OnInit {
     const sprintCount = this.selectProject.sprints.length + 1;
     return `Sprint ${sprintCount}`;
   }
+  newSprint!:Sprint
   createSprint() {
     const checkProject=JSON.parse(localStorage.getItem('selectedProject')||'[]')
-    // console.log(checkProject[0].projectId)
-    const getProjectId=checkProject[0].projectId
-    console.log(getProjectId)
-     // Find the current project in projects and importantProjects arrays
-     const projectFromProjects:Project = checkProject.find(
-      (p: Project) => p.projectId === getProjectId
-    );
-        const newSprint: Sprint = {
-      sprintName: this.getNextSprintName(),
-      sprintId: Date.now(),
-      startDate: new Date(),
-      duration: 0,
-      endDate: new Date(),
-      summary: '',
-      tasks: [],
-    };
-
-    this.selectProject.sprints.push(newSprint);
-    projectFromProjects.sprints.push(newSprint)
-    this.toast.success('Sprint created successfully');
-
-    // console.log('tarun', this.sprints)
-    // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
-    // this.saveToLocalStorage();
+      if(checkProject.length>0){
+      this.newSprint = {
+        sprintName: this.getNextSprintName(),
+        sprintId: Date.now(),
+        startDate: new Date(),
+        duration: 0,
+        endDate: new Date(),
+        summary: '',
+        tasks: [],
+      };
+      console.log('selected Project',this.selectProject)
+      this.selectProject.sprints.push(this.newSprint)
+      console.log('selected Project',this.selectProject)
+      console.log("sprint1",checkProject)
+      checkProject[0]?.sprints?.push(this.newSprint);
+      console.log('SPrint',checkProject)
+  
+      this.toast.success('Sprint created successfully');
+  console.log(checkProject)
+    
+      this.saveToLocalStorage(checkProject);
+    }
+    else{
+      this.toast.error("Please Select the Project.")
+    }
+       
   }
 
   openEditDialog(sprint: Sprint) {
+    let checkProject=JSON.parse(localStorage.getItem('selectedProject')||'[]')
+
     const dialogRef = this.dialog.open(EditdialogComponent, {
       width: '500px',
       height: '500px',
@@ -125,10 +130,13 @@ export class SprintComponent implements OnInit {
         const index = this.selectProject.sprints.findIndex(
           (s) => s.sprintId === sprint.sprintId
         );
+        console.log(result,"index")
         if (index !== -1) {
+          // checkProject=this.selectProjec
           this.selectProject.sprints[index] = result;
-          // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
-          this.saveToLocalStorage();
+          checkProject[0].sprints[index]=result
+          console.log(checkProject)
+          this.saveToLocalStorage(checkProject);
         }
       }
     });
@@ -148,36 +156,46 @@ export class SprintComponent implements OnInit {
   }
 
   deleteSprint(sprint: Sprint) {
-    this.selectProject.sprints = this.selectProject.sprints.filter(
+    let checkProject=JSON.parse(localStorage.getItem('selectedProject')||'[]')
+
+    checkProject[0].sprints = this.selectProject.sprints.filter(
       (s) => s.sprintId !== sprint.sprintId
     );
-    // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
-    this.saveToLocalStorage();
+    console.log(checkProject)
+    this.selectProject={...checkProject,sprints:checkProject[0].sprints}
+    localStorage.setItem('selectedProject', JSON.stringify(checkProject));
+    // this.saveToLocalStorage();
   }
 
   //save local storage
 
-  saveToLocalStorage() {
+  saveToLocalStorage(checkProject:any) {
+    localStorage.setItem('selectedProject', JSON.stringify(checkProject));
+
     const projects = JSON.parse(
       localStorage.getItem('projects') || '[]'
-    ) as Project[];
+    ) ;
     const importantProjects = JSON.parse(
       localStorage.getItem('importantProjects') || '[]'
-    ) as Project[];
-    const projectId = this.selectProject['projectId']; // Use bracket notation
+    ) ;
 
+    const projectId = this.selectProject[0].projectId// Use bracket notation
+    console.log(projectId)
+    const selectProjectId=projects.map((p:{projectId:number})=>p.projectId)
+console.log(selectProjectId)
     // Update the `projects` and `importantProjects` arrays
-    const updatedProjects = projects.map((p) =>
+    const updatedProjects = projects.map((p:Project) =>
       p.projectId === projectId
-        ? { ...p, sprints: this.selectProject.sprints }
+        ? { ...p, sprints: this.selectProject[0].sprints }
         : p
     );
 
-    const updatedImportantProjects = importantProjects.map((p) =>
+    const updatedImportantProjects = importantProjects.map((p:Project) =>
       p.projectId === projectId
-        ? { ...p, sprints: this.selectProject.sprints }
-        : p
+        ? [{ ...p, sprints: this.selectProject.sprints }]
+        :[ p]
     );
+    console.log(updatedProjects)
 
     // Save updated arrays back to local storage
     localStorage.setItem('projects', JSON.stringify(updatedProjects));
@@ -185,7 +203,42 @@ export class SprintComponent implements OnInit {
       'importantProjects',
       JSON.stringify(updatedImportantProjects)
     );
-    localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
+    // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
+    this.updateAllProjects()
+  }
+  updateAllProjects(): void {
+    // Retrieve the existing AllProjects array from local storage
+    let projectid:Number
+    const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+const checkProject=JSON.parse(localStorage.getItem('selectedProject')||'[]');
+const checkProjectid=allProjects.map((project: { projectId: number }) => project.projectId)
+console.log(checkProjectid,"projectId")
+const checkSelectProjectid=checkProject.map((project: { projectId: number }) => project.projectId)
+console.log(checkSelectProjectid[0],"selectprojectid")
+const allProjectid=checkProjectid.filter((project: { projectId: number }) => project.projectId===checkSelectProjectid[0])
+console.log(allProjectid,"projectidsdafg")
+// if(checkProject===checkProjectid){
+//   console.log()
+// }
+console.log(checkProjectid,"checkProjectId")
+    // Check if the selected project already exists in AllProjects
+    const existingProjectIndex = allProjectid.some((project:Project) => project.projectId === checkProject.projectId);
+    const existingProjectIndex2 = allProjects.findIndex((project: { projectId: number }) => project.projectId === checkProject[0].projectId);
+
+console.log(existingProjectIndex2,"index of projecgts ")
+    if (existingProjectIndex !== -1) {
+      // If the project exists, update its data in AllProjects
+      allProjects[existingProjectIndex2] = { ...allProjects[existingProjectIndex2] };
+      console.log('Updated existing project in AllProjects:', allProjects[existingProjectIndex2]);
+    } else {
+      // If the project does not exist, add it to the array
+      allProjects.push(checkProject);
+      console.log('Added new project to AllProjects:', checkProject);
+    }
+
+  //   // Save the updated AllProjects array back to local storage
+  //   localStorage.setItem('projects', JSON.stringify(allProjects));
+  //   console.log('Updated AllProjects:', allProjects);
   }
 
   // sprint bacllock to board
