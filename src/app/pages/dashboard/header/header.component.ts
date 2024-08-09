@@ -122,6 +122,7 @@ export class HeaderComponent implements OnInit {
       localStorage.setItem('selectedProject', JSON.stringify(project));
 
     }
+    
 }
 
 
