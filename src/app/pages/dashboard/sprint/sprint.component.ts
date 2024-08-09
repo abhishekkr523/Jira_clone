@@ -13,6 +13,7 @@ import { EditdialogComponent } from './editdialog/editdialog.component';
 import { DeletedialogComponent } from './deletedialog/deletedialog.component';
 import { DataServiceService } from '../../../service/data-service.service';
 import { StorageService } from '../../../service/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sprint',
@@ -20,17 +21,42 @@ import { StorageService } from '../../../service/storage.service';
   styleUrl: './sprint.component.scss',
 })
 export class SprintComponent implements OnInit {
+  project: any;
+  selectedSprintIds: any;
+  IdOfSelectedProject: any;
   constructor(
     private dialog: MatDialog,
     private toast: ToastrService,
     private dataService: DataServiceService,
-    private storeService: StorageService
+    private storeService: StorageService,
+    private router: Router
   ) {
     this.dataService.isFullScreen$.subscribe((isFullScreen) => {
       this.isFullScreen = isFullScreen;
     });
   }
-
+  columns: any = [
+    {
+      title: 'TO DO',
+      showInput: false,
+      tasks: [],
+    },
+    {
+      title: 'IN PROGRESS',
+      showInput: false,
+      tasks: [],
+    },
+    {
+      title: 'DONE',
+      showInput: false,
+      tasks: [],
+    },
+    {
+      title: 'READY FOR DEPLOY',
+      showInput: false,
+      tasks: [],
+    },
+  ];
   sprints: Sprint[] = [];
   selectProject: { sprints: Sprint[]; [key: string]: any } = { sprints: [] };
   // projects: { sprints: Sprint[], [key: string]: any } = { sprints: [] };
@@ -94,8 +120,12 @@ export class SprintComponent implements OnInit {
       endDate: new Date(),
       summary: '',
       tasks: [],
+      pipelines: this.columns,
     };
-
+    // this.dataService.storePipeline.subscribe((res) => {
+    //   newSprint.pipelines.push(res);
+    //   console.log('nn', res);
+    // });
     this.selectProject.sprints.push(newSprint);
     this.toast.success('Sprint created successfully');
 
@@ -184,7 +214,31 @@ export class SprintComponent implements OnInit {
   startSprint(sprint: any) {
     this.storeService.setSprint(sprint);
     console.log('tarun', sprint);
+    this.selectedSprintIds = sprint.sprintId;
+
+    const getSelectedProject = localStorage.getItem('selectedProject');
+    if (getSelectedProject) {
+      const parseProject = JSON.parse(getSelectedProject);
+      this.project = parseProject;
+      console.log('jj', this.project.projectName);
+    }
+
+    const findSprint = this.project.sprints.find(
+      (sprint: any) => sprint.sprintId === this.selectedSprintIds
+    );
+    // console.log('vvvv', findSprint);
+
+    localStorage.setItem('selectedSprint', JSON.stringify([findSprint]));
+
+    const sprintStore = (sprint.pipelines = this.columns);
+    // localStorage.setItem('selectedSprint', JSON.stringify([sprint]));
+    this.router.navigate(['/dashboard'], {
+      queryParams: { id: sprint.sprintId },
+    });
   }
+
+
+
   // full screen
   //full screen
 

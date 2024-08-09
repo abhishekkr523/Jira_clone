@@ -83,12 +83,46 @@ export class HeaderComponent implements OnInit {
     // select project 
     selectProject(project: Project)
     {
+      this. transferPreSelectedSprintToProject()
+      localStorage.removeItem('selectedSprint');
       this.projectService.selectedProjectSubject.next(project);
       //  console.log('bahubali',project)
       this.toster.success('Project Selected')
       localStorage.setItem('selectedProject', JSON.stringify(project));
 
     }
+
+    transferPreSelectedSprintToProject() {
+      const getSelectedProject = localStorage.getItem('selectedProject');
+      const getProjects = localStorage.getItem('projects');
+  
+      if (getSelectedProject && getProjects) {
+          const parseProject = JSON.parse(getSelectedProject);
+          const parseProjects = JSON.parse(getProjects);
+          
+          const selectedProjectId = parseProject.projectId;
+          const projectIndex = parseProjects.findIndex(
+              (project: any) => project.projectId === selectedProjectId
+          );
+  
+          if (projectIndex !== -1) {
+              // Replace the found project with the selected project
+              parseProjects[projectIndex] = parseProject;
+              console.log("Updated Projects Array:", parseProjects);
+          } else {
+              // If the project is not found, you may want to add the selected project to the array
+              parseProjects.push(parseProject);
+              console.log("Project not found. Added to Projects Array:", parseProjects);
+          }
+  
+          // Update the localStorage with the modified projects array
+          localStorage.setItem('projects', JSON.stringify(parseProjects));
+      }
+  }
+
+  refreshPage() {
+    window.location.reload();
+  }
 }
 
 

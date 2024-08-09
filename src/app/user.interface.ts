@@ -44,6 +44,7 @@ export interface Task {
     duration:number;
     endDate:Date;
     summary:string;
+    pipelines:any[];
     tasks: Task[];
     
   }

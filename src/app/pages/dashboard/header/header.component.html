@@ -42,7 +42,7 @@
             <p>Resent </p>
             <li *ngFor="let project of Normalprojects; let i = index">
 
-              <div (click)="selectProject(project)">
+              <div (click)="selectProject(project)" (click)="refreshPage()" >
                 <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10403?size=medium" alt="">
                 {{project.projectName}} ({{project.projectKey}})
               </div>

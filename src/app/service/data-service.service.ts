@@ -8,6 +8,7 @@ import { Project, ProjectList, Sprint, Task } from '../user.interface';
 export class DataServiceService {
   peoples = new BehaviorSubject<any[]>([]);
   columns = new BehaviorSubject<any[]>([]);
+  storePipeline = new BehaviorSubject<any[]>([]);
   isVisible = new BehaviorSubject<boolean>(false);
 
   isLoggedin = new BehaviorSubject<boolean>(false);
@@ -148,5 +149,8 @@ export class DataServiceService {
 
   setFullScreen(isFullScreen: boolean) {
     this.isFullScreenSubject.next(isFullScreen);
+  }
+  updatePipeline(){
+    localStorage.setItem('pipelines',JSON.stringify(this.columns))
   }
 }

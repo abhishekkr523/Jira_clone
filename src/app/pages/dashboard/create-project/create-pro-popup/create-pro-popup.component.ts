@@ -23,7 +23,7 @@ export class CreateProPopupComponent implements OnInit {
   coffie = faCoffee;
   imageUrl: string | undefined;
 
-  Option = ['In progress', 'Done', 'Ready to deploy'];
+  // Option = ['In progress', 'Done', 'Ready to deploy'];
   issue = ['Task', 'Bug', 'Story', 'Epic'];
   linkedIssue = [
     'blocks',
@@ -38,7 +38,7 @@ export class CreateProPopupComponent implements OnInit {
     'is caused by',
     'related to',
   ];
-  status = ['To Do', 'In Progress', 'Ready to Deploy', 'Done'];
+  status = [''];
   faCoffee: any;
   isVisible2: boolean = false;
   registerProject!: FormGroup;
@@ -51,9 +51,13 @@ export class CreateProPopupComponent implements OnInit {
   selectedProjectId: number | null = null;
   sprints: Sprint[] = [];
   tasks: Task[] = [];
-  selectedSprintId: number | null = null;
   findproject: Project | undefined;
   selectSprint: { task: Task[]; [key: string]: any } = { task: [] };
+  // abc: any;
+  sprintPipeline: any;
+  project: any;
+  selectedSprintName: any;
+  selectedSprintIds: any;
   constructor(
     private dialog: MatDialogRef<CreateProPopupComponent>,
     private toast: ToastrService,
@@ -67,7 +71,7 @@ export class CreateProPopupComponent implements OnInit {
       ProjectName: ['', [Validators.required]],
       IssueType: ['', [Validators.required]],
       storyPoints: [''],
-      status: [''],
+      status: [],
       summary: ['', [Validators.required]],
       description: [''],
       Assign: [''],
@@ -80,24 +84,32 @@ export class CreateProPopupComponent implements OnInit {
       LinkedIssue: [''],
       CreateAnotherIssue: [''],
     });
-    this.loadProjects();
+    console.log('j', this.registerProject);
+    // })
+    const setSelectedSprint = localStorage.getItem('selectedSprint');
+    if (setSelectedSprint) {
+      const parseSprint = JSON.parse(setSelectedSprint);
+      console.log('uuu', parseSprint[0].pipelines);
+      this.selectedSprintIds=parseSprint[0].sprintId
+      this.selectedSprintName = parseSprint[0].sprintName;
+      this.sprintPipeline = parseSprint[0].pipelines;
+      console.log('uuuu', this.sprintPipeline);
+    }
+
+    const setSelectedProject = localStorage.getItem('selectedProject');
+    if (setSelectedProject) {
+      const parseProject = JSON.parse(setSelectedProject);
+      this.project = parseProject;
+      console.log('jj', this.project.projectName);
+    }
+   
+
     // this.getProjectsFromLocalStorage()
     let existingData = this.localStorageService.getItem('Issue');
     console.log(existingData);
     console.log(typeof existingData);
   }
-  loadProjects(): void {
-    this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
-  }
-
-  // getProjectsFromLocalStorage() {
-  //   if (typeof Storage !== 'undefined') {
-  //     const projects: Project[] = this.localStorageService.getItem('projects')
-  //     console.log(projects)
-  //     this.projects = projects.map(project => project.projectName);
-
-  //   }
-  // }
+  
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -115,47 +127,21 @@ export class CreateProPopupComponent implements OnInit {
     }
   }
   onCloseDialog(): void {
-    this.serv.isVisible.next(false);
-    this.serv.isVisible.subscribe((res) => {
-      this.isVisible2 = res;
-    });
+    // this.serv.isVisible.next(false);
+    // this.serv.isVisible.subscribe((res) => {
+    //   this.isVisible2 = res;
+    // });
     this.dialog.close();
   }
 
-  onProjectSelect(selectedProjectId: number): void {
-    // const selectElement = event.target as HTMLSelectElement; // Cast event target to HTMLSelectElement
-    // const projectId = Number(selectElement.value);
-    // console.log('Selected Project ID:', projectId);
-    this.selectedProjectId = selectedProjectId;
-    this.sprints = this.getSprintsByProjectId(selectedProjectId);
-    console.log(this.sprints, 'hjojojo');
-    // this.tasks = this.getAllTasksByProjectId(projectId);
-  }
-  getSprintsByProjectId(projectId: number): Sprint[] {
-    this.findproject = this.projects.find(
-      (proj) => proj.projectId === projectId
-    );
-
-    return this.findproject ? this.findproject.sprints : [];
-  }
-
-  getAllTasksByProjectId(projectId: number): Task[] {
-    const project = this.projects.find((proj) => proj.projectId === projectId);
-    if (project) {
-      // Flatten all tasks from sprints
-      return project.sprints.flatMap((sprint) => sprint.tasks);
-    }
-    return [];
-  }
+ 
   addTaskToSprint(): void {
+    console.log('registerProject', this.registerProject);
     const selectedSprintId2 = this.registerProject.value.sprint; // Retrieve the selected sprint ID
     console.log(selectedSprintId2, 'sprintid');
     const getProjectName = this.findproject?.projectName ?? 'Hello world';
-    if (
-      this.registerProject.valid &&
-      this.selectedProjectId &&
-      selectedSprintId2
-    ) {
+  
+    if (this.registerProject.valid) {
       const newTask: Task = {
         taskId: Math.floor(Math.random() * 1000), // Generate a random ID
         ProjectName: getProjectName,
@@ -175,35 +161,57 @@ export class CreateProPopupComponent implements OnInit {
         CreateAnotherIssue: this.registerProject.value.CreateAnotherIssue,
         storyPoints: this.registerProject.value.storyPoints,
       };
-
-      const project = this.projects.find(
-        (proj) => proj.projectId === this.selectedProjectId
+      console.log('vv', newTask);
+  
+      // Find the selected sprint based on sprint ID
+      const sprint = this.project.sprints.find(
+        (sprint: any) => sprint.sprintId === this.selectedSprintIds
       );
-      if (project) {
-        const sprint = project.sprints.find(
-          (sprint) => sprint.sprintId == selectedSprintId2
+      console.log('v8v', sprint);
+  
+      if (sprint) {
+        // Find the pipeline where the title matches the status of the new task
+        const pipeline = sprint.pipelines.find(
+          (pipeline: any) => pipeline.title === newTask.status
         );
-        if (sprint) {
-          sprint.tasks.push(newTask);
-          // Save updated projects to local storage
-          const updatedProjects = this.projects.map((p) =>
-            p.projectId === this.selectedProjectId
-              ? { ...p, sprints: project.sprints }
-              : p
-          );
-          localStorage.setItem('projects', JSON.stringify(updatedProjects));
-          localStorage.setItem('importantProjects', JSON.stringify(updatedProjects));
-          localStorage.setItem('selectedProject', JSON.stringify(project));
+  
+        if (pipeline) {
+          // Push the new task into the tasks array of the matched pipeline
+          pipeline.tasks.push([newTask]);
+  
+          console.log('New task added to pipeline:', pipeline);
+          
+          this.localStorageService.setItem('selectedProject',this.project);
+          this.updateSelectedSprintKey(sprint.sprintId);
+          this.localStorageService.flag.next(true);
 
-          this.toast.success('Issue is added');
-          this.dialog.close();
+
+          // Optionally reset the form and close the modal here
+          this.registerProject.reset();
+          // Close your modal here (e.g., using a modal service)
+        } else {
+          console.error('No matching pipeline found for status:', newTask.status);
         }
-
+      } else {
+        console.error('No sprint found with ID:', selectedSprintId2);
       }
-
-      // Optionally reset the form and close the modal here
-      this.registerProject.reset();
-      // Close your modal here (e.g., using a modal service)
     }
   }
+  
+  updateSelectedSprintKey(id:any){
+    console.log("id",id)
+    const getSelectedProject = localStorage.getItem('selectedProject');
+    if (getSelectedProject) {
+      const parseProject = JSON.parse(getSelectedProject);
+      this.project = parseProject;
+      console.log('jj', this.project.projectName);
+    }
+
+    const findSprint = this.project.sprints.find(
+      (sprint: any) => sprint.sprintId === id
+    );
+    console.log('vvvvids', findSprint);
+    localStorage.setItem('selectedSprint', JSON.stringify([findSprint]));
+  }
 }
+

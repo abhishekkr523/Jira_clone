@@ -7,6 +7,7 @@ import { Sprint } from '../user.interface';
 })
 export class StorageService {
   sprintSource = new BehaviorSubject<Sprint | null>(null);
+  flag=new BehaviorSubject<boolean>(false)
   constructor() {}
   setItem(key: string, value: any): void {
     localStorage.setItem(key, JSON.stringify(value));
@@ -18,8 +19,11 @@ export class StorageService {
   }
 
   setSprint(sprint: any) {
-    this.sprintSource.next(sprint);
+    // this.sprintSource.next(sprint);
     console.log('set sprint', sprint);
+
+   
+
   }
 
   getSelectedSprintFromLocalStorage() {

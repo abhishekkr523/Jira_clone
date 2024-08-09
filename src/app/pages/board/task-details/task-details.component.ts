@@ -34,7 +34,7 @@ export class TaskDetailsComponent implements OnInit {
     });
 
     this.getTaskDetails();
-
+    console.log('kpkkkkkkkkkkkkkkkkk',this.taskForm);
     // Use the data passed to the dialog
     if (this.data) {
       this.taskForm.patchValue(this.data);
@@ -52,8 +52,9 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   onSave(): void {
-    localStorage.setItem('taskData', JSON.stringify(this.taskForm.value));
-    console.log('Data saved to local storage:', this.taskForm.value);
+    // localStorage.setItem('taskData', JSON.stringify(this.taskForm.value));
+    // console.log('Data saved to local storage:', this.taskForm.value);
+    console.log('kpkkkkkkkkkkkkkkkkk',this.taskForm);
   }
   getTaskDetails() {
     const taskData = localStorage.getItem('taskData');

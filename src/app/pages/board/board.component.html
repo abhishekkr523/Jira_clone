@@ -152,7 +152,7 @@
     <div cdkDropListGroup class="d-flex">
       <div
         *ngFor="
-          let column of flag ? columns : filteredColumns;
+          let column of flag ? pipeLine : filteredColumns;
           trackBy: trackByFn;
           index as i
         "
@@ -170,10 +170,10 @@
             class="example-box"
             cdkDrag
           >
-            <div>
+            <div style="width: 88%;">
               <div class="task">
                 <span
-                  >{{ item.taskName
+                  >{{ item[0].summary
                   }}<i
                     class="fa-solid fa-pencil ml-2"
                     (click)="openDialog(item)"
@@ -200,8 +200,8 @@
                 </div>
               </div>
               <div class="project">
-                {{ item.project_name }}
-                <span>{{ item.assignee! | initial }}</span>
+                {{ item[0].Assign }}
+                <span>{{ item[0].Assign! | initial }}</span>
               </div>
             </div>
           </div>
