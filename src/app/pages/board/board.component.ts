@@ -306,15 +306,16 @@ export class BoardComponent implements OnInit {
     }
   }
   
-  create_issue(i: number) {
-    this.columns.forEach((item: any, ind: any) => {
-      item.showInput = ind === i;
-    });
-  }
+  // create_issue(i: number) {
+  //   this.columns.forEach((item: any, ind: any) => {
+  //     item.showInput = ind === i;
+  //   });
+  //   this.createIssue = true;
+  // }
 
-  create() {
-    this.createIssue = false;
-  }
+  // create() {
+  //   this.createIssue = false;
+  // }
 
 //   filterByAssignee(assignee: string) {
 //     console.log('assignee', assignee);

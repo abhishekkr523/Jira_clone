@@ -171,12 +171,12 @@
             cdkDrag
           >
             <div style="width: 88%;">
-              <div class="task">
+              <div class="task" (click)="openDialog(item[0])">
                 <span
                   >{{ item[0].summary
                   }}<i
-                    class="fa-solid fa-pencil ml-2"
-                    (click)="openDialog(item)"
+                    class="fa-solid fa-pencil ml-2" style="cursor: pointer;"
+                    
                   ></i
                 ></span>
                 <div>
@@ -205,7 +205,7 @@
               </div>
             </div>
           </div>
-          <div class="createIssue">
+          <!-- <div class="createIssue">
             <button class="" style="border: none" (click)="create_issue(i)">
               Create issue
             </button>
@@ -224,7 +224,7 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <button

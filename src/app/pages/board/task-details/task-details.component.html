@@ -1,5 +1,5 @@
 <div class="container-fluid main-container">
-  <form [formGroup]="taskForm">
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
     <div class="dialog-header">
       <nav
         class="container-fluid d-flex justify-content-between align-item-center"
@@ -130,8 +130,8 @@
             class="input-field"
           ></textarea>
           <div>
-            <button class="btn btn-primary" (click)="onSave()">Save</button>
-            <button class="btn">cancel</button>
+            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn" mat-dialog-close>cancel</button>
           </div>
         </div>
 
@@ -216,12 +216,12 @@
                   <div class="label">Assignee</div>
                   <div class="field">
                     <select
-                      formControlName="assignee"
+                      formControlName="Assign"
                       class="form-select"
                       aria-label="Default select example"
                     >
-                      <option *ngFor="let item of peoples" [value]="item">
-                        {{ item }}
+                      <option *ngFor="let item of peopleList" [value]="item.nameEmail">
+                        {{ item.nameEmail }}
                       </option>
                     </select>
                   </div>
@@ -229,13 +229,13 @@
                 <div class="labels d-flex py-2">
                   <div class="label">Label</div>
                   <div class="field">
-                    <input formControlName="labels" type="text" />
+                    <input formControlName="Label" type="text" />
                   </div>
                 </div>
                 <div class="parent d-flex py-2">
                   <div class="label">Parent</div>
                   <div class="field">
-                    <input formControlName="parent" type="text" />
+                    <input formControlName="Parent" type="text" />
                   </div>
                 </div>
                 <div class="sprint d-flex py-2">
@@ -247,13 +247,13 @@
                 <div class="points d-flex py-2">
                   <div class="label">Story point estimate</div>
                   <div class="field">
-                    <input formControlName="storyPoints" type="number" />
+                    <input formControlName="Time" type="number" />
                   </div>
                 </div>
                 <div class="reporter d-flex py-2">
                   <div class="label">Reporter</div>
                   <div class="field">
-                    <input formControlName="reporter" type="text" />
+                    <input formControlName="Reporter" type="text" />
                   </div>
                 </div>
               </div>
