@@ -169,16 +169,28 @@ export class BoardComponent implements OnInit {
       );
     }
     // this.saveColumnsToLocalStorage();
-    console.log('Items:', this.pipeLine);
+    console.log('Itemsa:', this.pipeLine);
+    this.pipeLine = this.pipeLine.map((column: { tasks: any[] }) => {
+      if (!Array.isArray(column.tasks)) {
+        // If tasks is not an array, convert it to an array
+        column.tasks = [column.tasks];
+      }
+      return column;
+    });
+    console.log('Itemsb:', this.pipeLine);
     
     const getSelectedSprint=localStorage.getItem('selectedSprint')
     if(getSelectedSprint){
       const parseSelectedSprint=JSON.parse(getSelectedSprint)
-      console.log('Items1', parseSelectedSprint);
-      const abc=parseSelectedSprint[0].pipelines=this.pipeLine;
-      console.log('Items2', abc);
-      console.log('Items3', abc);
-      // localStorage.setItem('selectedSprint',JSON.stringify(this.pipeLine))
+      console.log('Items1', parseSelectedSprint[0].pipelines);
+      if (parseSelectedSprint) {
+        console.log('hii',this.pipeLine);
+        parseSelectedSprint[0].pipelines=this.pipeLine;
+        console.log('Items2:', parseSelectedSprint[0].pipelines);
+        console.log('Items2..:', parseSelectedSprint);
+        const a=parseSelectedSprint[0].pipelines
+        localStorage.setItem('selectedSprint',JSON.stringify(parseSelectedSprint))
+      }
     }
   }
 
@@ -251,7 +263,7 @@ export class BoardComponent implements OnInit {
       const parseSprints = JSON.parse(getSprint);
       // console.log('parseSprints', parseSprints);
 
-      parseSprints[0].pipelines.push({ title: 'abhi', task: [] });
+      parseSprints[0].pipelines.push({ title: this.titleInput, tasks: [] });
       // console.log('pipelines', pipelines);
       // pipelines.push({ title: 'abhi', task: [] });
       // this.pipeLine = pipelines[0];
@@ -265,7 +277,7 @@ export class BoardComponent implements OnInit {
           // console.log("hh",sprint)
           if (sprint.sprintId === parseSprints[0].sprintId) {
             console.log('hh', sprint);
-            return {...sprint,pipelines:[...sprint.pipelines,{ title: 'abhi', task: [] }]};
+            return {...sprint,pipelines:[...sprint.pipelines,{ title: this.titleInput, tasks: [] }]};
           }
           return sprint;
         });
@@ -278,6 +290,8 @@ export class BoardComponent implements OnInit {
       localStorage.setItem('selectedSprint', JSON.stringify(parseSprints));
       this.getPipelinesToLocalStorage();
     }
+    this.add = false;
+    this.plus = true;
   }
   getPipelinesToLocalStorage() {
     const currentSprint = localStorage.getItem('selectedSprint');
