@@ -35,11 +35,11 @@ export class AllProjectNameComponent implements OnInit {
   ngOnInit(): void {
     this.loadProjects();
     this.getStoredEmail();
-    this.loadImportantProjects();
+    // this.loadImportantProjects();
     // Initialize filteredProjects with all projects
-   this.filter=[...this.projects,...this.importantProjects]
+   this.filter=[...this.projects]
    this.initializeSearch();
-    this.filteredProjects = [...this.projects, ...this.importantProjects];
+    this.filteredProjects = [...this.projects];
 
     // Set up search functionality
    
@@ -64,19 +64,19 @@ export class AllProjectNameComponent implements OnInit {
         this.projects = this.projects.filter(
           (p) => p.projectKey !== project.projectKey
         );
-        this.importantProjects = this.importantProjects.filter(
-          (p) => p.projectKey !== project.projectKey
-        );
+        // this.importantProjects = this.importantProjects.filter(
+        //   (p) => p.projectKey !== project.projectKey
+        // );
         this.filter = this.filter.filter(
           (p) => p.projectKey !== project.projectKey
         );
         localStorage.setItem('projects', JSON.stringify(this.projects));
-        localStorage.setItem(
-          'importantProjects',
-          JSON.stringify(this.importantProjects)
-        );
+        // localStorage.setItem(
+        //   'importantProjects',
+        //   JSON.stringify(this.importantProjects)
+        // );
         this.dataService.updateProjects(this.projects);
-        this.dataService.updateImportantProjects(this.importantProjects);
+        
       }
     });
   }
@@ -111,7 +111,7 @@ export class AllProjectNameComponent implements OnInit {
       const storedProjects = localStorage.getItem('projects');
       if (storedProjects) {
         this.projects = JSON.parse(storedProjects);
-        this.filteredProjects = [...this.projects, ...this.importantProjects];
+        this.filteredProjects = [...this.projects];
       }
     }
   }
@@ -119,15 +119,15 @@ export class AllProjectNameComponent implements OnInit {
   ///star icon
 
   // Load important projects from local storage
-  loadImportantProjects() {
-    if (typeof Storage !== 'undefined') {
-      const importantProjects = localStorage.getItem('importantProjects');
-      this.importantProjects = importantProjects
-        ? JSON.parse(importantProjects)
-        : [];
-      this.filteredProjects = [...this.projects, ...this.importantProjects];
-    }
-  }
+  // loadImportantProjects() {
+  //   if (typeof Storage !== 'undefined') {
+  //     const importantProjects = localStorage.getItem('importantProjects');
+  //     this.importantProjects = importantProjects
+  //       ? JSON.parse(importantProjects)
+  //       : [];
+  //     this.filteredProjects = [...this.projects, ...this.importantProjects];
+  //   }
+  // }
 
   // Check if a project is in the important list
   isImportant(project: Project) {
@@ -137,41 +137,57 @@ export class AllProjectNameComponent implements OnInit {
   }
 
   // important project  start
-  star(project: any) {
-    project.isStar = !project.isStar;
-    // if (project.isStar==false) {
-    if (this.isImportant(project)) {
-      // Remove from important list
-      this.importantProjects = this.importantProjects.filter(
-        (p) => p.projectKey !== project.projectKey
-      );
-      this.projects.push(project);
+  // star(project: any) {
+  //   project.isStar = !project.isStar;
+  //   // if (project.isStar==false) {
+  //   if (this.isImportant(project)) {
+  //     // Remove from important list
+  //     this.importantProjects = this.importantProjects.filter(
+  //       (p) => p.projectKey !== project.projectKey
+  //     );
+  //     this.projects.push(project);
 
-      this.toster.success('Project marked as simple');
-    } else {
-      // Add to important list
-      this.importantProjects.push(project);
+  //     this.toster.success('Project marked as simple');
+  //   } else {
+  //     // Add to important list
+  //     this.importantProjects.push(project);
 
-      this.dataService.importantProjectsSubject.next(this.importantProjects);
+  //     this.dataService.importantProjectsSubject.next(this.importantProjects);
 
-      this.projects = this.projects.filter(
-        (p: Project) => p.projectKey !== project.projectKey
-      );
-      this.toster.warning('important Project');
-    }
+  //     this.projects = this.projects.filter(
+  //       (p: Project) => p.projectKey !== project.projectKey
+  //     );
+  //     this.toster.warning('important Project');
+  //   }
 
-    // Save updated important projects and projects to local storage
-    localStorage.setItem(
-      'importantProjects',
-      JSON.stringify(this.importantProjects)
-    );
+  //   // Save updated important projects and projects to local storage
+  //   localStorage.setItem(
+  //     'importantProjects',
+  //     JSON.stringify(this.importantProjects)
+  //   );
+  //   localStorage.setItem('projects', JSON.stringify(this.projects));
+
+  //   this.dataService.updateProjects(this.projects);
+  //   this.dataService.updateImportantProjects(this.importantProjects);
+
+  //   // this.loadImportantProjects()
+  // }
+
+  star(project: Project) {
+    project.isStar = !project.isStar;  // Toggle the isStar property
+  
+    // Save updated projects list to local storage
     localStorage.setItem('projects', JSON.stringify(this.projects));
-
+  
     this.dataService.updateProjects(this.projects);
-    this.dataService.updateImportantProjects(this.importantProjects);
-
-    // this.loadImportantProjects()
+  
+    if (project.isStar) {
+      this.toster.warning('Project marked as important');
+    } else {
+      this.toster.success('Project marked as simple');
+    }
   }
+  
 
   //important project end
 
@@ -182,9 +198,12 @@ export class AllProjectNameComponent implements OnInit {
     if (this.showOnlyImportant) {
       this.filteredProjects = this.filteredProjects
         .slice()
-        .sort((a, b) => (this.isImportant(b) ? 1 : -1));
+        .sort((a, b) => 
+          (b.isStar ? 1 : -1) - (a.isStar ? 1 : -1)
+        // return (b.isStar ? 1 : 0) - (a.isStar ? 1 : 0);
+      );
     } else {
-      this.filteredProjects = [...this.projects, ...this.importantProjects];
+      this.filteredProjects = [...this.projects];
     }
   }
 

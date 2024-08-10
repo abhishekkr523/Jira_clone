@@ -33,7 +33,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let project of filteredProjects; let i = index">
-                    <td scope="row"><i class="fa-solid fa-star" [ngClass]="{'star-color': isImportant(project)}"
+                    <td scope="row"><i class="fa-solid fa-star" [ngClass]="{'star-color': project.isStar}"
                             (click)="star(project)">
 
                         </i></td>
@@ -44,13 +44,7 @@
                     <p>{{leader}}</p>
                     </td>
                     <td>Team-managed software</td>
-                    <!-- <td>
-                        <i (click)="toggleTrashDiv(i)" class="fa-duotone fa-solid fa-ellipsis"></i>
-                        <div *ngIf="selectedProjectIndex === i" class="trash-div">
-                            <button (click)="moveToTrash()">Move to Trash</button>
-                        </div>
-
-                    </td> -->
+                  
 
                     <td>
                         <button mat-button [matMenuTriggerFor]="menu"> <i  class="fa-duotone fa-solid fa-ellipsis"></i></button>

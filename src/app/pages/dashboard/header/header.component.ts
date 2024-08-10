@@ -33,12 +33,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     // this.selectProject(this.importantProjects[0]);
     this.projectService.projectsSubject.subscribe((projects: Project[]) => {
-      this.Normalprojects = projects;
+      this.Normalprojects = projects.filter((project) => !project.isStar);
+    this.importantProjects = projects.filter((project) => project.isStar);
+      
     });
 
-    this.projectService.importantProjectsSubject.subscribe((importantProjects: Project[]) => {
-      this.importantProjects = importantProjects;
-    });
+    // this.projectService.importantProjectsSubject.subscribe((importantProjects: Project[]) => {
+    //   this.importantProjects = importantProjects;
+    // });
   }
 
   // openDialog(): void {
@@ -115,6 +117,7 @@ export class HeaderComponent implements OnInit {
     selectProject(project: Project)
     {
       this.projectService.selectedProjectSubject.next(project);
+      
       //  console.log('bahubali',project)
       this.router.navigate(['/dashboard'])
       this.toster.success('Project Selected')

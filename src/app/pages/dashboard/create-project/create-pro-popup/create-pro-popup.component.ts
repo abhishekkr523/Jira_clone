@@ -128,7 +128,7 @@ export class CreateProPopupComponent implements OnInit {
     // console.log('Selected Project ID:', projectId);
     this.selectedProjectId = selectedProjectId;
     this.sprints = this.getSprintsByProjectId(selectedProjectId);
-    console.log(this.sprints, 'hjojojo');
+    // console.log(this.sprints, 'hjojojo');
     // this.tasks = this.getAllTasksByProjectId(projectId);
   }
   getSprintsByProjectId(projectId: number): Sprint[] {

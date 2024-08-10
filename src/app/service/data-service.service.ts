@@ -24,7 +24,7 @@ export class DataServiceService {
 
   constructor() {
     this.loadProjects();
-    this.loadImportantProjects();
+   
   }
 
   getSelectedProjectFromLocalStorage() {
@@ -44,14 +44,7 @@ export class DataServiceService {
     }
   }
 
-  loadImportantProjects() {
-    if (typeof Storage !== 'undefined') {
-      const storedProjects = localStorage.getItem('importantProjects');
-      if (storedProjects) {
-        this.importantProjectsSubject.next(JSON.parse(storedProjects));
-      }
-    }
-  }
+ 
 
   // Method to update projects
   updateProjects(projects: any[]) {
@@ -60,13 +53,7 @@ export class DataServiceService {
   }
 
   // Method to update important projects
-  updateImportantProjects(importantProjects: any[]) {
-    this.importantProjectsSubject.next(importantProjects);
-    localStorage.setItem(
-      'importantProjects',
-      JSON.stringify(importantProjects)
-    );
-  }
+  
 
   // Add a new sprint to a specific project
   addSprintToProject(projectId: number, newSprint: Sprint): void {
