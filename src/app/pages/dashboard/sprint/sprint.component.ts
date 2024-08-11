@@ -72,19 +72,10 @@ export class SprintComponent implements OnInit {
       const importantProjects = JSON.parse(
         localStorage.getItem('importantProjects') || '[]'
       ) as Project[];
-      if (saveSprint)
-        try {
-          this.selectProject = JSON.parse(saveSprint);
-          if (!Array.isArray(this.selectProject.sprints)) {
-            this.selectProject.sprints = [];
-          }
-        } catch (error) {
-          console.error(
-            'Error parsing saved sprints from local storage',
-            error
-          );
-          this.selectProject = { sprints: [] };
-        }
+      if (saveSprint) {
+        this.selectProject = JSON.parse(saveSprint);
+        console.log("array",this.selectProject);
+      }
 
       // Ensure selectProject contains projectId
       const projectId = this.selectProject['projectId']; // Use bracket notation
@@ -98,11 +89,11 @@ export class SprintComponent implements OnInit {
       );
 
       // Merge the found project data into selectProject
-      this.selectProject = {
-        ...this.selectProject,
-        ...(projectFromProjects || {}),
-        ...(projectFromImportantProjects || {}),
-      };
+      // this.selectProject = {
+      //   ...this.selectProject,
+      //   ...(projectFromProjects || {}),
+      //   ...(projectFromImportantProjects || {}),
+      // };
       // console.log('bahubali',this.selectProject.sprints)
     }
   }
@@ -130,8 +121,8 @@ export class SprintComponent implements OnInit {
     this.toast.success('Sprint created successfully');
 
     // console.log('tarun', this.sprints)
-    // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
-    this.saveToLocalStorage();
+    localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
+    // this.saveToLocalStorage();
   }
 
   openEditDialog(sprint: Sprint) {
@@ -236,8 +227,6 @@ export class SprintComponent implements OnInit {
       queryParams: { id: sprint.sprintId },
     });
   }
-
-
 
   // full screen
   //full screen

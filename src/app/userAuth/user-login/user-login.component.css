@@ -18,6 +18,11 @@ form{
     color: #42526E;
     background: rgb(255, 255, 255);
 }
+button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .more{
     font-size: 14px;
 }

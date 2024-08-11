@@ -58,6 +58,7 @@ export class CreateProPopupComponent implements OnInit {
   project: any;
   selectedSprintName: any;
   selectedSprintIds: any;
+  peopleList: any;
   constructor(
     private dialog: MatDialogRef<CreateProPopupComponent>,
     private toast: ToastrService,
@@ -89,18 +90,23 @@ export class CreateProPopupComponent implements OnInit {
     const setSelectedSprint = localStorage.getItem('selectedSprint');
     if (setSelectedSprint) {
       const parseSprint = JSON.parse(setSelectedSprint);
-      console.log('uuu', parseSprint[0].pipelines);
       this.selectedSprintIds=parseSprint[0].sprintId
       this.selectedSprintName = parseSprint[0].sprintName;
       this.sprintPipeline = parseSprint[0].pipelines;
-      console.log('uuuu', this.sprintPipeline);
     }
 
     const setSelectedProject = localStorage.getItem('selectedProject');
     if (setSelectedProject) {
       const parseProject = JSON.parse(setSelectedProject);
       this.project = parseProject;
-      console.log('jj', this.project.projectName);
+      console.log('jjp', this.project);
+    }
+
+    const getPeopleList=localStorage.getItem('addPeopleList');
+    console.log("kikk",getPeopleList)
+    if(getPeopleList){
+      this.peopleList=JSON.parse(getPeopleList);
+      console.log("kik",this.peopleList)
     }
    
 
@@ -140,13 +146,16 @@ export class CreateProPopupComponent implements OnInit {
     const selectedSprintId2 = this.registerProject.value.sprint; // Retrieve the selected sprint ID
     console.log(selectedSprintId2, 'sprintid');
     const getProjectName = this.findproject?.projectName ?? 'Hello world';
-  
+    let description = this.registerProject.value.description;
+
+    // Remove surrounding <p> and </p> tags if they exist
+    description = description.replace(/^<p>/, '').replace(/<\/p>$/, '');
     if (this.registerProject.valid) {
       const newTask: Task = {
         taskId: Math.floor(Math.random() * 1000), // Generate a random ID
         ProjectName: getProjectName,
         taskName: this.registerProject.value.summary,
-        description: this.registerProject.value.description,
+        description: description,
         IssueType: this.registerProject.value.IssueType,
         status: this.registerProject.value.status,
         summary: this.registerProject.value.summary,
@@ -196,6 +205,7 @@ export class CreateProPopupComponent implements OnInit {
         console.error('No sprint found with ID:', selectedSprintId2);
       }
     }
+  
   }
   
   updateSelectedSprintKey(id:any){

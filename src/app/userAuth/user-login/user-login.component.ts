@@ -9,24 +9,17 @@ import { DataServiceService } from '../../service/data-service.service';
   styleUrl: './user-login.component.css'
 })
 export class UserLoginComponent {
-  // email!: string;
 
-  constructor(private router: Router , private toast:ToastrService,private srv:DataServiceService ) {}
-
-  email: string = '';
+  constructor(private router: Router , private toast:ToastrService) {}
 
   onSubmit(emailForm: any) {
     if (emailForm.valid) {
-      localStorage.setItem('userLogin', this.email);
-    
+      localStorage.setItem('userLogin',JSON.stringify([{email : emailForm.value.email}]));
       this.toast.success('Successfully Login ');
       this.router.navigate(['/template']);
-      console.log("before",this.srv.isLoggedin.value)
-      this.srv.isLoggedin.next(true);
-      console.log("after",this.srv.isLoggedin.value)
     } else {
      
-      this.toast.success('Invalid email ');
+      this.toast.error('Invalid email ');
     }
   }
 }
