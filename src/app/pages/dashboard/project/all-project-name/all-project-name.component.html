@@ -33,30 +33,29 @@
             </thead>
             <tbody>
                 <tr *ngFor="let project of filteredProjects; let i = index">
-                    <td scope="row"><i class="fa-solid fa-star" [ngClass]="{'star-color': isImportant(project)}"
+                    <td scope="row"><i class="fa-solid fa-star" [ngClass]="{'star-color': project.isStar}"
                             (click)="star(project)">
 
                         </i></td>
-                    <td> <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10403?size=medium" alt="">{{project.projectName}}
+                    <td (click)="selectProject(project)"> <img class="css-1vqlrw"
+                            src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10403?size=medium"
+                            alt="">
+                            {{project.projectName}}
                     </td>
                     <td>{{project.projectKey}}</td>
-                    <td class="data" ><p class="leader">{{leader | newInitial   }}</p>
-                    <p>{{leader}}</p>
+                    <td class="data">
+                        <p class="leader">{{leader | newInitial }}</p>
+                        <p>{{leader}}</p>
                     </td>
                     <td>Team-managed software</td>
-                    <!-- <td>
-                        <i (click)="toggleTrashDiv(i)" class="fa-duotone fa-solid fa-ellipsis"></i>
-                        <div *ngIf="selectedProjectIndex === i" class="trash-div">
-                            <button (click)="moveToTrash()">Move to Trash</button>
-                        </div>
 
-                    </td> -->
 
                     <td>
-                        <button mat-button [matMenuTriggerFor]="menu"> <i  class="fa-duotone fa-solid fa-ellipsis"></i></button>
+                        <button mat-button [matMenuTriggerFor]="menu"> <i
+                                class="fa-duotone fa-solid fa-ellipsis"></i></button>
                         <mat-menu #menu="matMenu">
                             <button mat-menu-item (click)="moveToTrash(i)">Move To Trash</button>
-                            
+
                         </mat-menu>
                     </td>
                 </tr>

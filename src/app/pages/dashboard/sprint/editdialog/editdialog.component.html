@@ -25,9 +25,9 @@
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker>{{startDate|date}}</mat-datepicker>
         </mat-form-field> -->
-        <input type="text" ngbDatepicker #d="ngbDatepicker"/>
+        <!-- <input type="text" ngbDatepicker #d="ngbDatepicker"/> -->
       </div>
-      <div class="input">
+      <!-- <div class="input">
         <label for="duration">Duration</label>
         <ng-select formControlName="duration" [(ngModel)]="selectedWeeks" (ngModelChange)="onWeeksChange()">
           <ng-option *ngFor="let week of weeks" [value]="week">{{ week }}</ng-option>
@@ -48,7 +48,7 @@
       </div>
       <div>
         <p>End Date: {{ endDate | date: 'dd/MM/yyyy' }}</p>
-      </div>
+      </div> -->
       <div class="goal">
         <label for="goal">Sprint Goal</label>
         <input type="text" id="goal" formControlName="summary" placeholder="message">
@@ -58,7 +58,7 @@
   
     <div class="action">
       <button class="but" (click)="onCancel()">Cancel</button>
-      <button (click)="onSave()" class="but" style="background-color: #0052CC; color: white;" [disabled]="registerProject.invalid">Update</button>
+      <button (click)="onSave()" mat-dialog-close class="but" style="background-color: #0052CC; color: white;" [disabled]="registerProject.invalid">Update</button>
     </div>
    </div>
   </div>

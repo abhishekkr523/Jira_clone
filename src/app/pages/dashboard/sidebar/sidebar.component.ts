@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { DataServiceService } from '../../../service/data-service.service';
 import { Project } from '../../../user.interface';
 
@@ -14,18 +14,17 @@ export class SidebarComponent implements OnInit{
   
   // projectName:any
    ngOnInit(): void {
-      //  this.service.projectNameSubject.subscribe((data:any)=>{
-      //   console.log('projectName',data)
-      //    this.projectName=data
-      //  })
+   this.service.getActiveProject();
         
     this.service.selectedProjectSubject.subscribe((project:Project | null) => {
-      if (project) {
-        // console.log('tarun',project);
+      if (project && project.isSelected) {
         this.selectedProject = project;
       }
+      console.log('tarun',project);
      
     })
+
+    
 
 
        

@@ -34,6 +34,8 @@ export interface Task {
     projectName: string;
     projectKey: string;
     isStar: boolean;
+    isSelected: boolean;
+    isMoveToTrash:boolean;
     sprints: Sprint[];
   }
   

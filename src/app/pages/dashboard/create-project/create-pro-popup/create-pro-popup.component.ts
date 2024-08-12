@@ -54,6 +54,7 @@ projectName:string=''
   selectedSprintId: number | null = null;
   findproject: Project | undefined;
   selectSprint: { task: Task[]; [key: string]: any } = { task: [] };
+  selectedProject!:Project
   constructor(
     private dialog: MatDialogRef<CreateProPopupComponent>,
     private toast: ToastrService,
@@ -84,11 +85,16 @@ projectName:string=''
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
-    const selectProject = JSON.parse(localStorage.getItem('selectedProject') || '[]');
-    this.projectName=selectProject.projectName
-    this.sprints=selectProject.sprints
-    console.log(this.projectName,"projectname")
-  }
+  
+    this.serv.getActiveProject();
+        
+    this.serv.selectedProjectSubject.subscribe((project:Project | null) => {
+      if (project && project.isSelected) {
+        this.selectedProject = project;
+        this.projectName=this.selectedProject.projectName
+      }
+     
+    })  }
 
  
   onFileSelected(event: any) {

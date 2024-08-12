@@ -50,6 +50,7 @@
             </li>
             <hr>
             <li><a class="dropdown-item" routerLink="/showAllProjects">View All Projects</a></li>
+            <li><a class="dropdown-item" routerLink="/allTrashProjects">All Trash Projects </a></li>
             <li><a class="dropdown-item" routerLink="/create-project">Create Project</a></li>
 
           </ul>
@@ -82,7 +83,7 @@
 
       <div class="after">
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" >
           <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
         </form>
         <div class="after-icon">
@@ -91,7 +92,7 @@
           <i class="fa-solid fa-gear"></i>
           <i 
           matTooltipPosition="above"
-                matTooltip="layout"
+                matTooltip="logOut"
           class="fa-solid fa-user"
           (click)="logOut()"
           ></i>

@@ -62,8 +62,9 @@ import { LogoutPopUpComponent } from './pages/dashboard/header/logout-pop-up/log
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Error404Component } from './pages/error-404/error-404.component';
+import { AllTrashProjectComponent } from './pages/dashboard/project/all-trash-project/all-trash-project.component';
 import { provideNativeDateAdapter } from '@angular/material/core';
-// import { MatFormFieldModule } from '@angular/material/form-field';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -93,6 +94,10 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     DeleteBacklogComponent,
     LogoutPopUpComponent,
     Error404Component,
+    AllTrashProjectComponent,
+  
+   
+   
   ],
   imports: [
     BrowserModule,
