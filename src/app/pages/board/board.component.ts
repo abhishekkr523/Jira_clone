@@ -250,6 +250,8 @@ export class BoardComponent implements OnInit {
   cancelColumn() {
     this.add = false;
     this.plus = true;
+    this.titleInput = '';
+    this.errorMessage = '';
   }
   saveToLocalStorage() {
     const projects = JSON.parse(
@@ -351,9 +353,9 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  create() {
-    this.createIssue = false;
-  }
+  // create() {
+  //   this.createIssue = false;
+  // }
 
   //   filterByAssignee(assignee: string) {
   //     console.log('assignee', assignee);
@@ -429,12 +431,10 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  //full screen
-
-  //full screen
 
   toggleFullScreen() {
     this.iconChange = !this.iconChange;
     this.fullScreenService.setFullScreen(!this.isFullScreen);
   }
+  
 }

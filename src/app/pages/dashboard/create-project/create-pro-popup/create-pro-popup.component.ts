@@ -108,6 +108,7 @@ export class CreateProPopupComponent implements OnInit {
       this.peopleList=JSON.parse(getPeopleList);
       console.log("kik",this.peopleList)
     }
+
    
 
     // this.getProjectsFromLocalStorage()

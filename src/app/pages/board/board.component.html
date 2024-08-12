@@ -68,7 +68,6 @@
               type="search"
               class="form-control border-0"
               placeholder="Search..."
-              aria-label="Search"
               style="background: transparent;"
             />
           </form>
@@ -76,6 +75,7 @@
             class="drop-down_container col-5 d-flex align-item-center justify-content-center"
             style="align-items: center"
           >
+          <div class="outer-profile-container">
             <div class="c-profile__list">
               <a
                 *ngFor="let person of peopleList"
@@ -91,6 +91,7 @@
                 {{ person.nameEmail | initial }}
               </a>
             </div>
+          </div>
             <div
               class="user-circle btn-light text-dark"
               (click)="addPeople()"
@@ -301,6 +302,9 @@
     <button mat-menu-item>Item 1</button>
     <button mat-menu-item>Item 2</button>
   </mat-menu> -->
+  
+  
 </div>
+
 
 
