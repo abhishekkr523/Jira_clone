@@ -89,6 +89,7 @@ export class CreateProjectComponent implements OnInit {
         projectName: this.projectName.value,
         projectKey: this.keyValue,
         isStar: false,
+        isSelected: false,
         sprints: [],
       };
 
