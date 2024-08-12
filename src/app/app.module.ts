@@ -62,6 +62,7 @@ import { LogoutPopUpComponent } from './pages/dashboard/header/logout-pop-up/log
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Error404Component } from './pages/error-404/error-404.component';
+import { AllTrashProjectComponent } from './pages/dashboard/project/all-trash-project/all-trash-project.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { Error404Component } from './pages/error-404/error-404.component';
     DeleteBacklogComponent,
     LogoutPopUpComponent,
     Error404Component,
+    AllTrashProjectComponent,
   
    
    

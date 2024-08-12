@@ -37,20 +37,25 @@
                             (click)="star(project)">
 
                         </i></td>
-                    <td> <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10403?size=medium" alt="">{{project.projectName}}
+                    <td (click)="selectProject(project)"> <img class="css-1vqlrw"
+                            src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10403?size=medium"
+                            alt="">
+                            {{project.projectName}}
                     </td>
                     <td>{{project.projectKey}}</td>
-                    <td class="data" ><p class="leader">{{leader | newInitial   }}</p>
-                    <p>{{leader}}</p>
+                    <td class="data">
+                        <p class="leader">{{leader | newInitial }}</p>
+                        <p>{{leader}}</p>
                     </td>
                     <td>Team-managed software</td>
-                  
+
 
                     <td>
-                        <button mat-button [matMenuTriggerFor]="menu"> <i  class="fa-duotone fa-solid fa-ellipsis"></i></button>
+                        <button mat-button [matMenuTriggerFor]="menu"> <i
+                                class="fa-duotone fa-solid fa-ellipsis"></i></button>
                         <mat-menu #menu="matMenu">
                             <button mat-menu-item (click)="moveToTrash(i)">Move To Trash</button>
-                            
+
                         </mat-menu>
                     </td>
                 </tr>

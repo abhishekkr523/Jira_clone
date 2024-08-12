@@ -44,8 +44,7 @@ export class CreateProjectComponent implements OnInit {
   generateProjectKey(name: string) {
     let word = name.trim().split(/\s+/);
     let firstLetter = word.map((word) => word.charAt(0).toUpperCase()).join('');
-    // let digit = name.replace(/\D/g, '');
-    // return firstLetter + digit;
+    
     let middleLetter = word.length > 1 ? word[1].charAt(0).toUpperCase() : '';
     
     let randomString = Math.random().toString(36).substring(2, 3).toUpperCase(); // Generates a random string of length 6
@@ -79,6 +78,7 @@ export class CreateProjectComponent implements OnInit {
         this.toast.error('Project Same Name already exists.');
         return;
       } else if (duplicateKey) {
+        
         this.toast.error(' Same Key already exists.');
         return;
       }
@@ -90,6 +90,7 @@ export class CreateProjectComponent implements OnInit {
         projectKey: this.keyValue,
         isStar: false,
         isSelected: false,
+        isMoveToTrash: false,
         sprints: [],
       };
 
@@ -112,7 +113,7 @@ export class CreateProjectComponent implements OnInit {
   onCancel()
   {
     this.router.navigate(['showAllProjects']);
-    this.toast.error(' Project not created');
+    // this.toast.error(' Project not created');
   }
   // get user from local storage
 

@@ -30,35 +30,16 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     // this.selectProject(this.importantProjects[0]);
     this.projectService.projectsSubject.subscribe((projects: Project[]) => {
-      this.Normalprojects = projects.filter((project) => !project.isStar);
-      this.importantProjects = projects.filter((project) => project.isStar);
+
+    
+      this.Normalprojects = projects.filter((project) => !project.isStar && !project.isMoveToTrash);
+      this.importantProjects = projects.filter((project) => project.isStar && !project.isMoveToTrash);
     });
 
-    // this.projectService.importantProjectsSubject.subscribe((importantProjects: Project[]) => {
-    //   this.importantProjects = importantProjects;
-    // });
+   
   }
 
-  // openDialog(): void {
-  //   // this.serv.isVisible.next(true)
-
-  //   const dialogRef = this.dialog.open(CreateProPopupComponent, {
-  //     width: '1100px',
-  //     height: '650px',
-  //     maxWidth: 'none',
-  //     panelClass: 'custom-dialog-container',
-  //     data: { name: '', email: '' }
-  //   });
-  //   // this.serv.isVisible.next(true)
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //     console.log('Form data:', result);
-  //   });
-
-  //   // selectProjectData : any= [...this.Normalprojects,...this.importantProjects]
-
-  // }
+ 
   openDialog(): void {
     // Retrieve selectedProject from local storage
     const selectedProject = JSON.parse(
@@ -129,6 +110,6 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/dashboard']);
     this.toster.success('Project Selected');
 
-    // localStorage.setItem('selectedProject', JSON.stringify(project));
+   
   }
 }
