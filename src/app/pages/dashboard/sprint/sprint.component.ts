@@ -32,7 +32,7 @@ export class SprintComponent implements OnInit {
   }
 
   sprints: Sprint[] = [];
-  selectProject: { sprints: Sprint[]; [key: string]: any } = { sprints: [] };
+  selectProject: { sprints: Sprint[];[key: string]: any } = { sprints: [] };
   // projects: { sprints: Sprint[], [key: string]: any } = { sprints: [] };
   // importantProjects: { sprints: Sprint[], [key: string]: any } = { sprints: [] };
 
@@ -77,7 +77,6 @@ export class SprintComponent implements OnInit {
         ...(projectFromProjects || {}),
         ...(projectFromImportantProjects || {}),
       };
-      // console.log('bahubali',this.selectProject.sprints)
     }
   }
 
@@ -86,12 +85,10 @@ export class SprintComponent implements OnInit {
     return `Sprint ${sprintCount}`;
   }
   createSprint() {
-    const projects = 
-      localStorage.getItem('selectedProject')
-    
+    const projects =JSON.parse(localStorage.getItem('selectedProject')||'[]')
+const sprint=projects.sprints
 
-    if(projects)
-    {
+    if (projects) {
       const newSprint: Sprint = {
         sprintName: this.getNextSprintName(),
         sprintId: Date.now(),
@@ -101,25 +98,25 @@ export class SprintComponent implements OnInit {
         summary: '',
         tasks: [],
       };
-  
+      
+      this.openEditDialog(newSprint)
       this.selectProject.sprints.push(newSprint);
-      this.toast.success('Sprint created successfully');
-  
-      // console.log('tarun', this.sprints)
-      // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
+      // this.toast.success('Sprint created successfully');
+      
+      
       this.saveToLocalStorage();
-    }else{
+    } else {
 
       this.toast.error('Please select a project');
     }
-  
+
   }
 
   openEditDialog(sprint: Sprint) {
     const dialogRef = this.dialog.open(EditdialogComponent, {
       width: '500px',
       height: '500px',
-      data: { sprint: { ...sprint } },
+      data: { sprint: { ...sprint,sprintName:this.getNextSprintName() } },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -129,17 +126,16 @@ export class SprintComponent implements OnInit {
         );
         if (index !== -1) {
           this.selectProject.sprints[index] = result;
-          // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
           this.saveToLocalStorage();
         }
       }
     });
   }
 
-  // delete sprint
   openDeleteDialog(sprint: Sprint) {
+    const confirmationMessage = `Are you sure you want to delete this <strong>${sprint.sprintName}</strong>?`;
     const dialogRef = this.dialog.open(DeletedialogComponent, {
-      data: { message: 'Are you sure you want to delete this sprint?' },
+      data: { message: confirmationMessage },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -153,7 +149,6 @@ export class SprintComponent implements OnInit {
     this.selectProject.sprints = this.selectProject.sprints.filter(
       (s) => s.sprintId !== sprint.sprintId
     );
-    // localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
     this.saveToLocalStorage();
   }
 
@@ -194,11 +189,8 @@ export class SprintComponent implements OnInit {
 
   startSprint(sprint: any) {
     this.storeService.setSprint(sprint);
-    console.log('tarun', sprint);
   }
-  // full screen
-  //full screen
-
+ 
   isFullScreen = false;
 
   iconChange: boolean = false;

@@ -19,7 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CreateProPopupComponent implements OnInit {
   cancel = faCancel;
-
+projectName:string=''
   coffie = faCoffee;
   imageUrl: string | undefined;
 
@@ -73,7 +73,6 @@ export class CreateProPopupComponent implements OnInit {
       Assign: [''],
       attachment: [''],
       Label: [''],
-      Parent: [''],
       sprint: ['', [Validators.required]],
       Time: [''],
       Reporter: ['', [Validators.required]],
@@ -81,24 +80,17 @@ export class CreateProPopupComponent implements OnInit {
       CreateAnotherIssue: [''],
     });
     this.loadProjects();
-    // this.getProjectsFromLocalStorage()
-    let existingData = this.localStorageService.getItem('Issue');
-    console.log(existingData);
-    console.log(typeof existingData);
+  
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
+    const selectProject = JSON.parse(localStorage.getItem('selectedProject') || '[]');
+    this.projectName=selectProject.projectName
+    this.sprints=selectProject.sprints
+    console.log(this.projectName,"projectname")
   }
 
-  // getProjectsFromLocalStorage() {
-  //   if (typeof Storage !== 'undefined') {
-  //     const projects: Project[] = this.localStorageService.getItem('projects')
-  //     console.log(projects)
-  //     this.projects = projects.map(project => project.projectName);
-
-  //   }
-  // }
-
+ 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
@@ -110,26 +102,18 @@ export class CreateProPopupComponent implements OnInit {
           attachment: this.imageUrl, // Update the form control with the base64 string
         });
 
-        // console.log("ImageUrl",this.imageUrl)
       };
     }
   }
   onCloseDialog(): void {
-    this.serv.isVisible.next(false);
-    this.serv.isVisible.subscribe((res) => {
-      this.isVisible2 = res;
-    });
+    
     this.dialog.close();
   }
 
   onProjectSelect(selectedProjectId: number): void {
-    // const selectElement = event.target as HTMLSelectElement; // Cast event target to HTMLSelectElement
-    // const projectId = Number(selectElement.value);
-    // console.log('Selected Project ID:', projectId);
+ 
     this.selectedProjectId = selectedProjectId;
     this.sprints = this.getSprintsByProjectId(selectedProjectId);
-    console.log(this.sprints, 'hjojojo');
-    // this.tasks = this.getAllTasksByProjectId(projectId);
   }
   getSprintsByProjectId(projectId: number): Sprint[] {
     this.findproject = this.projects.find(
@@ -149,7 +133,6 @@ export class CreateProPopupComponent implements OnInit {
   }
   addTaskToSprint(): void {
     const selectedSprintId2 = this.registerProject.value.sprint; // Retrieve the selected sprint ID
-    console.log(selectedSprintId2, 'sprintid');
     const getProjectName = this.findproject?.projectName ?? 'Hello world';
     if (
       this.registerProject.valid &&
@@ -167,7 +150,6 @@ export class CreateProPopupComponent implements OnInit {
         Assign: this.registerProject.value.Assign,
         attachment: this.registerProject.value.attachment,
         Label: this.registerProject.value.Label,
-        Parent: this.registerProject.value.Parent,
         sprint: this.registerProject.value.sprint,
         Time: this.registerProject.value.Time,
         Reporter: this.registerProject.value.Reporter,

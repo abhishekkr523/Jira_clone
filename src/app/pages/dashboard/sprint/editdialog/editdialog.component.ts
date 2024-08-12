@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Sprint } from '../../../../user.interface';
@@ -9,12 +9,12 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './editdialog.component.html',
   styleUrl: './editdialog.component.css'
 })
-export class EditdialogComponent implements OnInit {
+export class EditdialogComponent implements OnInit,AfterViewInit {
   weeks = [1, 2, 3, 4];
-  selectedWeeks: number | string = 1;
+  selectedWeeks: number | Date|string = 1;
   customWeeks: number | null = null;
-  startDate: Date | null = null;
-  endDate: Date | null = null;
+  startDate!: Date | number;
+  endDate: Date | string = '';
   registerProject!: FormGroup;
   sprint: Sprint;
 
@@ -30,20 +30,24 @@ export class EditdialogComponent implements OnInit {
   ngOnInit(): void {
     this.registerProject = this.fb.group({
       sprintName: [this.sprint.sprintName, [Validators.required]],
-      startDate: [this.sprint.startDate, [Validators.required]],
-      duration: [this.sprint.duration],
-      endDate: [this.sprint.endDate],
+      startDate: ['', [Validators.required]],
+      customWeeks: [this.sprint.startDate, [Validators.required]],
+      duration: [this.sprint.duration, [Validators.required]],
+      endDate: [this.sprint.endDate, [Validators.required]],
       summary: [this.sprint.summary]
     });
 
-    this.selectedWeeks = this.sprint.duration;
-    this.startDate = this.sprint.startDate ? new Date(this.sprint.startDate) : null;
+    // this.selectedWeeks = this.sprint.duration;
+    // this.startDate = this.sprint.startDate ? new Date(this.sprint.startDate) : null;
     this.calculateEndDate();
+  }
+  ngAfterViewInit(): void {
+   
   }
 
   calculateEndDate(): void {
     if (!this.startDate) {
-      this.endDate = null;
+      this.endDate = 'Enter the starting date.';
       return;
     }
 
@@ -52,7 +56,7 @@ export class EditdialogComponent implements OnInit {
       this.endDate = new Date(this.startDate);
       this.endDate.setDate(this.endDate.getDate() + weeksToAdd * 7);
     } else {
-      this.endDate = null;
+      this.endDate = 'Enter the starting date.';
     }
   }
 
@@ -75,14 +79,13 @@ export class EditdialogComponent implements OnInit {
         ...this.registerProject.value,
         endDate: this.endDate
       };
-      this.toast.success('Sprint updated successfully')
+      this.toast.success('Sprint Created successfully')
       this.dialogRef.close(updatedSprint);
      
     }
   }
 
   onCancel(): void {
-    this.toast.warning('Sprint not updated')
     this.dialogRef.close();
    
   }

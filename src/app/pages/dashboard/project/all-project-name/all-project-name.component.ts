@@ -137,7 +137,7 @@ export class AllProjectNameComponent implements OnInit {
   }
 
   // important project  start
-  star(project: any) {
+  star(project: Project) {
     project.isStar = !project.isStar;
     // if (project.isStar==false) {
     if (this.isImportant(project)) {

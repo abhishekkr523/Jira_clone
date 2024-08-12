@@ -11,23 +11,24 @@
 
     </div>
   </div>
-  <div class="inner">
+
+ 
+
     <div class="container ">
       <form [formGroup]="registerProject" class="formLa">
         <h5 style="flex-basis: 900px;">Required fields are marked with an asterisk <span class="star">*</span></h5>
         <div class="form-group">
-          <label for="project" style="margin-top: 5px;margin-bottom: 13px;">Project<span class="star">*</span></label>
-          <ng-select id="project" formControlName="ProjectName" (change)="onProjectSelect($event)">
-            <ng-option *ngFor="let pro of projects" [value]="pro.projectId">{{pro.projectName}}</ng-option>
-          </ng-select>
+          <label for="project" >Project<span class="star">*</span></label>
+          <input type="text" class="form-control" id="project" [value]="projectName" disabled>
+          <!-- <ng-select id="project" formControlName="ProjectName" (change)="onProjectSelect($event)" >
+            <ng-option *ngFor="let pro of projects" [value]="pro.projectId" style="border: 1px solid red;">{{pro.projectName}}</ng-option>
+          </ng-select> -->
           <div
             *ngIf="registerProject.get('ProjectName')!.invalid &&( registerProject.get('ProjectName')?.touched || registerProject.get('ProjectName')?.dirty)">
             <span *ngIf="registerProject.get('ProjectName')?.errors!['required']" style="color: red;"> Select Project
             </span>
           </div>
-          <!-- <select class="form-control form-select" id="country" formControlName ="ProjectName" required>
-            <option>Scrum-2</option>
-          </select> -->
+          
         </div>
         <div class="form-group">
           <label for="issueType">Issue Type <span class="star">*</span></label>
@@ -44,14 +45,15 @@
         <div class="form-group2 " style="margin-left:7px ;">
           <label for="summary">Summary<span class="star">*</span></label>
           <input type="text" class="form-control" value="summary" formControlName="summary" id="summary">
-          <div *ngIf=" registerProject.get('summary')!.invalid && (registerProject.get('summary')?.touched || registerProject.get('summary')?.dirty )">
+          <div
+            *ngIf=" registerProject.get('summary')!.invalid && (registerProject.get('summary')?.touched || registerProject.get('summary')?.dirty )">
             <span *ngIf="registerProject.get('summary')?.errors!['required']" style="color: red;">Summary is
               required</span>
           </div>
         </div>
         <div class="form-group2 " style="margin-left:7px ;">
           <label for="description">Description</label>
-          <quill-editor id="description"  formControlName="description" [styles]="{'height':'300px'}" ></quill-editor>
+          <quill-editor id="description" formControlName="description" [styles]="{'height':'300px'}"></quill-editor>
         </div>
         <div class="form-group">
           <label for="assign">Assignee</label>
@@ -65,18 +67,15 @@
             <option value="label">sdfljansdf</option>
           </select>
         </div>
-        <div class="form-group">
-          <label for="parent">Parent</label>
-          <select class="form-control form-select" id="parent" formControlName="Parent">
-            <option value="parent">sdfljansdf</option>
-          </select>
-        </div>
+
         <div class="form-group">
           <label for="sprint">Sprint</label>
-          <select class="form-control form-select" id="sprint" formControlName="sprint">
-            <option *ngFor="let sprint of sprints" [value]="sprint.sprintId">{{sprint.sprintName}}</option>
+          <select class="form-control form-select" id="sprint" formControlName="sprint" >
+            <option  *ngFor="let sprint of sprints" [value]="sprint.sprintId">{{sprint.sprintName}}</option>
+            <option *ngIf="!sprints || sprints.length === 0">No Sprint Found</option>
           </select>
-          <div *ngIf=" registerProject.get('sprint')!.invalid && (registerProject.get('sprint')?.touched || registerProject.get('sprint')?.dirty )">
+          <div
+            *ngIf=" registerProject.get('sprint')!.invalid && (registerProject.get('sprint')?.touched || registerProject.get('sprint')?.dirty )">
             <span *ngIf="registerProject.get('sprint')?.errors!['required']" style="color: red;">Field is
               required</span>
           </div>
@@ -90,7 +89,8 @@
           <select class="form-control form-select" id="reporter" formControlName="Reporter">
             <option *ngFor="let repo of reporter" [value]="repo">{{repo}}</option>
           </select>
-          <div *ngIf=" registerProject.get('Reporter')!.invalid && (registerProject.get('Reporter')?.touched || registerProject.get('Reporter')?.dirty )">
+          <div
+            *ngIf=" registerProject.get('Reporter')!.invalid && (registerProject.get('Reporter')?.touched || registerProject.get('Reporter')?.dirty )">
             <span *ngIf="registerProject.get('Reporter')?.errors!['required']" style="color: red;">Field is
               required</span>
           </div>
@@ -101,8 +101,7 @@
             <label style="cursor: pointer;" for="Upload">
               <img [src]="imageUrl?imageUrl:'add image icon.png'"
                 style="max-width: 120px; margin-bottom: 30px;"></label>
-            <input type="file"  id="Upload" class="d-none"
-              (change)="onFileSelected($event)" >
+            <input type="file" accept="image/*" id="Upload" class="d-none" (change)="onFileSelected($event)">
           </div>
         </div>
         <div class="form-group" id="extra">
@@ -116,28 +115,22 @@
           </select>
           <p *ngIf="Option.length === 0" class="no-match">No match found</p>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <input class="form-check-input bot" type="radio" name="flexRadioDefault" id="flagged">
           <label for="flagged" id="bot">Flagged</label>
 
-        </div>
+        </div> -->
 
       </form>
-    </div>
-
-  </div>
-  <div class="footer">
-    <div style=" width: 45%;">
-      <div class="form-check">
-        <input class="form-check-input bot" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-        <label class="form-check-label" id="bot" for="flexRadioDefault1">
-          Create another issue
-        </label>
+      <div class="footer">
+        <div style=" width: 45%;">
+        
+        </div>
+        <div class="footer2">
+          <button class="but">Cancel</button>
+          <button class="btn btn-primary" (click)="addTaskToSprint()" [disabled]="registerProject.invalid">Create</button>
+        </div>
       </div>
     </div>
-    <div class="footer2">
-      <button class="but">Cancel</button>
-      <button class="btn btn-primary" (click)="addTaskToSprint()" [disabled]="registerProject.invalid">Create</button>
-    </div>
   </div>
-</div>
+

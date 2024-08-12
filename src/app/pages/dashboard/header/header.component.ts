@@ -41,29 +41,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  // openDialog(): void {
-  //   // this.serv.isVisible.next(true)
-    
-  //   const dialogRef = this.dialog.open(CreateProPopupComponent, {
-  //     width: '1100px',
-  //     height: '650px',
-  //     maxWidth: 'none',
-  //     panelClass: 'custom-dialog-container',
-  //     data: { name: '', email: '' }
-  //   });
-  //   // this.serv.isVisible.next(true)
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //     console.log('Form data:', result);
-  //   });
-
-   
-
-
-  //   // selectProjectData : any= [...this.Normalprojects,...this.importantProjects]
-
-  // }
   openDialog(): void {
     // Retrieve selectedProject from local storage
     const selectedProject = JSON.parse(localStorage.getItem('selectedProject') || '{}');
@@ -84,7 +62,7 @@ export class HeaderComponent implements OnInit {
         console.log('Form data:', result);
       });
     } else {
-      this.toster.error('Please the create sprint ')
+      this.toster.error('Please create the sprint. ')
      
         this.router.navigate(['/dashboard/sprint'])
       
@@ -115,7 +93,6 @@ export class HeaderComponent implements OnInit {
     selectProject(project: Project)
     {
       this.projectService.selectedProjectSubject.next(project);
-      //  console.log('bahubali',project)
       this.router.navigate(['/dashboard'])
       this.toster.success('Project Selected')
 

@@ -59,9 +59,10 @@ import { AddPeopleDialogComponent } from './pages/board/add-people-dialog/add-pe
 import { EditBacklogComponent } from './pages/dashboard/sprint/edit-backlog/edit-backlog.component';
 import { DeleteBacklogComponent } from './pages/dashboard/sprint/delete-backlog/delete-backlog.component';
 import { LogoutPopUpComponent } from './pages/dashboard/header/logout-pop-up/logout-pop-up.component';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Error404Component } from './pages/error-404/error-404.component';
+import { provideNativeDateAdapter } from '@angular/material/core';
 // import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
@@ -79,7 +80,6 @@ import { Error404Component } from './pages/error-404/error-404.component';
     // EditPopUpComponent,
     EditdialogComponent,
     DeletedialogComponent,
-    
     AllProjectNameComponent,
     SmallPopUpComponent,
     BacklogComponent,
@@ -93,8 +93,6 @@ import { Error404Component } from './pages/error-404/error-404.component';
     DeleteBacklogComponent,
     LogoutPopUpComponent,
     Error404Component,
-   
-   
   ],
   imports: [
     BrowserModule,
@@ -113,18 +111,19 @@ import { Error404Component } from './pages/error-404/error-404.component';
     MatMenuModule,
     MatMenuModule,
     MatIconModule,
+    MatDatepickerModule,
     MatTooltipModule,ToastrModule.forRoot({
-      timeOut: 3000,
-      // positionClass: 'toast-bottom-right',
+      timeOut: 2000,
+      positionClass: 'toast-top-center',
       preventDuplicates: true,
     }),
-
     MatAutocompleteModule,
     MatFormFieldModule,
   ],
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
+    provideNativeDateAdapter()
     
   ],
   bootstrap: [AppComponent],
@@ -134,23 +133,3 @@ export class AppModule {
     library.add(fas);
   }
  }
-  //  import: [ToastrModule.forRoot(),
-   
-  //   BrowserAnimationsModule,
-  //   DragDropModule,
-  //   MatSelectModule,SelectDropDownModule,
-  //   MatMenuModule,
-  //   MatIconModule,
-  //   MatTooltipModule
-  // ],
-  // providers: [
-  //   provideClientHydration(),
-  //   provideAnimationsAsync(),
-  //   // provideHotToastConfig({
-  //   //   reverseOrder: true,
-  //   //   dismissible: true,
-  //   //   autoClose: false,
-  //   // })
-  // ],
-//   bootstrap: [AppComponent],
-// })
