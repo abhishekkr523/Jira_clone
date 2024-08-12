@@ -46,7 +46,7 @@ export class AllTrashProjectComponent implements OnInit {
       allProjects[projectIndex].isMoveToTrash = false;
       localStorage.setItem('projects', JSON.stringify(allProjects));
       this.loadProjects(); // Reload the list to reflect the restored project
-     
+     this.dataService.updateProjects(allProjects);
       this.toaster.success('Project restored from trash successfully');
      
       

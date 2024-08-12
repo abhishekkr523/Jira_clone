@@ -104,7 +104,8 @@ export class HeaderComponent implements OnInit {
 
     localStorage.setItem('projects', JSON.stringify(allProjects));
     
-    this.projectService.selectedProjectSubject.next(project);
+    this.projectService.getActiveProject()
+
 
     //  console.log('bahubali',project)
     this.router.navigate(['/dashboard']);

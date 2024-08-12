@@ -149,7 +149,7 @@ export class AllProjectNameComponent implements OnInit {
 
     localStorage.setItem('projects', JSON.stringify(allProjects));
     
-    this.dataService.selectedProjectSubject.next(project);
+    this.dataService.getActiveProject()
 
     //  console.log('bahubali',project)
     this.router.navigate(['/dashboard']);
