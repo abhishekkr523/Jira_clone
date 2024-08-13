@@ -28,14 +28,12 @@ export class CreateProjectComponent implements OnInit {
   ]);
 
   keyValue: string = '';
-  manualKeyUpdate: boolean = false; 
+  manualKeyUpdate: boolean = false;
   ngOnInit() {
     this.getStoredEmail();
 
     this.projectName.valueChanges.subscribe((data: any) => {
-      if(!this.manualKeyUpdate)
-      {
-
+      if (!this.manualKeyUpdate) {
         this.keyValue = this.generateProjectKey(data);
       }
     });
@@ -44,44 +42,47 @@ export class CreateProjectComponent implements OnInit {
   generateProjectKey(name: string) {
     let word = name.trim().split(/\s+/);
     let firstLetter = word.map((word) => word.charAt(0).toUpperCase()).join('');
-    
+
     let middleLetter = word.length > 1 ? word[1].charAt(0).toUpperCase() : '';
-    
+
     let randomString = Math.random().toString(36).substring(2, 3).toUpperCase(); // Generates a random string of length 6
 
-    return firstLetter +middleLetter+ randomString;
-
-
- 
-
+    return firstLetter + middleLetter + randomString;
   }
   startDate!: string;
 
   saveToLocalStorage(): void {
     if (this.projectName.valid) {
-      // console.log(this.projectName.value)
-
       let existingProjects: Project[] = JSON.parse(
         localStorage.getItem('projects') || '[]'
       );
       const duplicateName = existingProjects.find(
-        (project) => 
-          project.projectName.toLowerCase() === this.projectName.value.toLowerCase()
+        (project) =>
+          project.projectName.toLowerCase() ===
+          this.projectName.value.toLowerCase()
       );
-  
+
       const duplicateKey = existingProjects.find(
         (project) =>
           project.projectKey.toLowerCase() === this.keyValue.toLowerCase()
       );
-  
+
       if (duplicateName) {
         this.toast.error('Project Same Name already exists.');
         return;
       } else if (duplicateKey) {
-        
-        this.toast.error(' Same Key already exists.');
-        return;
+        // this.toast.error(' Same Key already exists.');
+        let word = this.projectName.value.trim().split(/\s+/);
+        let firstLetter = word.map((word:any) => word.charAt(0).toUpperCase()).join('');
+    
+        let middleLetter = word.length > 1 ? word[1].charAt(0).toUpperCase() : '';
+    
+        let randomString = Math.random().toString(36).substring(2, 3).toUpperCase(); // Generates a random string of length 6
+    
+       this.keyValue= firstLetter + middleLetter + randomString;
+        // return;
       }
+      
       const startDate = new Date(this.startDate);
       const endDate = new Date(startDate);
       const newProject: Project = {
@@ -95,14 +96,13 @@ export class CreateProjectComponent implements OnInit {
       };
 
       existingProjects.push(newProject);
-      
+
       localStorage.setItem('projects', JSON.stringify(existingProjects));
 
       this.dataService.projectsSubject.next(existingProjects);
       this.dataService.updateProjects(existingProjects);
 
       this.toast.success('Successfully Add Project');
-      //  this.toast.error('Something went wrong');
 
       this.router.navigate(['showAllProjects']);
     } else {
@@ -110,10 +110,8 @@ export class CreateProjectComponent implements OnInit {
     }
   }
 
-  onCancel()
-  {
+  onCancel() {
     this.router.navigate(['showAllProjects']);
-    // this.toast.error(' Project not created');
   }
   // get user from local storage
 

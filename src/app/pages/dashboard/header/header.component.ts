@@ -31,9 +31,13 @@ export class HeaderComponent implements OnInit {
     // this.selectProject(this.importantProjects[0]);
     this.projectService.projectsSubject.subscribe((projects: Project[]) => {
 
-    
-      this.Normalprojects = projects.filter((project) => !project.isStar && !project.isMoveToTrash);
-      this.importantProjects = projects.filter((project) => project.isStar && !project.isMoveToTrash);
+      this.Normalprojects = projects
+      .filter((project) => !project.isStar && !project.isMoveToTrash)
+      .slice(0, 2); // Limit to 2 normal projects
+
+  this.importantProjects = projects
+      .filter((project) => project.isStar && !project.isMoveToTrash)
+      .slice(0, 2); // Limit to 2 important projects
     });
 
    
