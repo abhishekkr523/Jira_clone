@@ -59,7 +59,8 @@ export class BoardComponent implements OnInit {
   peopleList: any[] = [];
   sprintData: any[] = [];
   ss: any[] = [];
-  errorMessage='';
+  errorMessage = '';
+  sprints: any;
   constructor(
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -213,7 +214,10 @@ export class BoardComponent implements OnInit {
               }
             );
             console.log('Updated Pproject:', selectedProject);
-            localStorage.setItem('selectedProject', JSON.stringify(selectedProject));
+            localStorage.setItem(
+              'selectedProject',
+              JSON.stringify(selectedProject)
+            );
           }
         }
       }
@@ -226,7 +230,7 @@ export class BoardComponent implements OnInit {
       column.tasks.splice(index, 1);
       column.tasks.unshift(task);
     }
-    this.saveColumnsToLocalStorage();
+    // this.saveColumnsToLocalStorage();
   }
 
   moveToBottom(task: any, column: any) {
@@ -236,7 +240,7 @@ export class BoardComponent implements OnInit {
 
       column.tasks.push(task);
     }
-    this.saveColumnsToLocalStorage();
+    // this.saveColumnsToLocalStorage();
   }
 
   trackByFn(index: number, item: any): any {
@@ -289,7 +293,7 @@ export class BoardComponent implements OnInit {
       // If no input, do not proceed with saving the column
       this.errorMessage = 'Name cannot be empty.';
       return;
-  }
+    }
     console.log('selected project', this.selectProject);
     const getSprint = localStorage.getItem('selectedSprint');
     if (getSprint) {
@@ -328,22 +332,67 @@ export class BoardComponent implements OnInit {
       localStorage.setItem('selectedSprint', JSON.stringify(parseSprints));
       this.getPipelinesToLocalStorage();
     }
-     // Reset the input field after saving the column
-     this.titleInput = '';
-     this.errorMessage = '';
+    // Reset the input field after saving the column
+    this.titleInput = '';
+    this.errorMessage = '';
     this.add = false;
     this.plus = true;
   }
-  getPipelinesToLocalStorage() {
-    const currentSprint = localStorage.getItem('selectedSprint');
+  // getPipelinesToLocalStorage() {
+  //   const projects = localStorage.getItem('projects');
 
-    // console.log("aa",currentSprint)
-    if (currentSprint) {
-      // console.log("aaa",currentSprint)
-      const parsCurrentSprint = JSON.parse(currentSprint);
-      console.log('aa', parsCurrentSprint);
-      this.pipeLine = parsCurrentSprint[0].pipelines;
-      console.log('xxx', this.pipeLine);
+  //   console.log('aa',projects);
+  //   if (projects) {
+  //     console.log('ss',projects);
+  //     let activeProject = projects.find(
+  //       (project: Project) => project.isSelected ===true
+  //     );
+  //     this.sprints = activeProject.sprints;
+
+  //     console.log('x', this.sprints);
+  //     this.pipeLine = this.sprints;
+  //     console.log('xxx', this.pipeLine);
+  //   }
+  // }
+  getPipelinesToLocalStorage() {
+    const projects = localStorage.getItem('projects');
+
+    console.log('aa', projects);
+
+    if (projects) {
+      const parsedProjects = JSON.parse(projects);
+      let activeProject = parsedProjects.find(
+        (project: Project) => project.isSelected === true
+      );
+
+      if (activeProject) {
+        // this.sprints = activeProject.sprints;
+        if (activeProject) {
+          this.sprints = activeProject.sprints;
+
+          console.log('x', this.sprints);
+
+          const selectedSprint = this.sprints
+            .map((sprint: any) => {
+              if (sprint.isSprintSelected) {
+                return sprint;
+              }
+              return null; // Return null for non-matching items
+            })
+            .filter((sprint: null) => sprint !== null); // Filter out null values
+
+          this.pipeLine = selectedSprint;
+          console.log('xxxpp', this.pipeLine);
+        }
+
+        // console.log('x', this.sprints);
+        // this.pipeLine = this.sprints;
+        // console.log('xxx', this.pipeLine);
+      } else {
+        console.log('No active project found');
+      }
+    } else {
+      console.log('No projects found in localStorage');
     }
   }
 
@@ -402,10 +451,6 @@ export class BoardComponent implements OnInit {
     // this.loadColumnsFromLocalStorage();
   }
 
-  saveColumnsToLocalStorage() {
-    localStorage.setItem('columns', JSON.stringify(this.columns));
-  }
-
   openDialog(data: any) {
     const dialogRef = this.dialog.open(TaskDetailsComponent, {
       width: '90vw',
@@ -431,10 +476,8 @@ export class BoardComponent implements OnInit {
     });
   }
 
-
   toggleFullScreen() {
     this.iconChange = !this.iconChange;
     this.fullScreenService.setFullScreen(!this.isFullScreen);
   }
-  
 }

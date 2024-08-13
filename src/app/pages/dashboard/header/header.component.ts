@@ -19,7 +19,8 @@ export class HeaderComponent implements OnInit {
 
   Normalprojects: Project[] = [];
   importantProjects: Project[] = [];
-selectedProject!:Project
+  selectedProject!:Project
+
   constructor(
     private projectService: DataServiceService,
     private toster: ToastrService,
@@ -33,14 +34,21 @@ selectedProject!:Project
 
     this.projectService.projectsSubject.subscribe((projects: Project[]) => {
 
-    
-      this.Normalprojects = projects.filter((project) => !project.isStar && !project.isMoveToTrash);
-      this.importantProjects = projects.filter((project) => project.isStar && !project.isMoveToTrash);
+      this.Normalprojects = projects
+      .filter((project) => !project.isStar && !project.isMoveToTrash)
+      .slice(0, 2); // Limit to 2 normal projects
+
+  this.importantProjects = projects
+      .filter((project) => project.isStar && !project.isMoveToTrash)
+      .slice(0, 2); // Limit to 2 important projects
     });
     this.getActiveProject()
 
-   
+    this.getActiveProject()
   }
+
+ 
+
   getActiveProject(){
     this.projectService.getActiveProject();
         
@@ -52,8 +60,6 @@ selectedProject!:Project
      
     })
   }
-
- 
   openDialog(): void {
     this.getActiveProject()
     // Retrieve selectedProject from local storage
@@ -86,6 +92,7 @@ selectedProject!:Project
     }
   }
 
+  //
   // logout
 
   logOut() {

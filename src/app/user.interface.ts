@@ -11,6 +11,7 @@ export interface Task {
   Assign?: string;
   attachment?: string;
   Label?: string;
+  // Parent?: string;
   sprint?: string;
   Time?: string;
   Reporter: string;
@@ -25,9 +26,8 @@ export interface Task {
     duration:number;
     endDate:Date;
     summary:string;
-    pipelines:any[];
+    isSprintSelected:boolean;
     tasks: Task[];
-    isSelectedSprint: boolean;
   }
   
   export interface Project {
