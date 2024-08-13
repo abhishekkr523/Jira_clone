@@ -1,8 +1,9 @@
+
 import { MatDialog } from '@angular/material/dialog';
 import { CreateProPopupComponent } from '../create-project/create-pro-popup/create-pro-popup.component';
 import { DataServiceService } from '../../../service/data-service.service';
 import { Component, OnInit } from '@angular/core';
-import { Project, ProjectList, Sprint } from '../../../user.interface';
+import { Project, ProjectList } from '../../../user.interface';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LogoutPopUpComponent } from './logout-pop-up/logout-pop-up.component';
@@ -14,76 +15,84 @@ import { Router } from '@angular/router';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
- 
   activeLink: HTMLElement | null = null;
+  showMenu: boolean = true;
 
   Normalprojects: Project[] = [];
   importantProjects: Project[] = [];
-  selectProject2: { sprints: Sprint[]; [key: string]: any } = { sprints: [] };
-
-
-  constructor(private projectService: DataServiceService,
+selectedProject!:Project
+  constructor(
+    private projectService: DataServiceService,
     private toster: ToastrService,
     private dialog: MatDialog,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {}
+
 
   ngOnInit() {
     // this.selectProject(this.importantProjects[0]);
-    this.projectService.projectsSubject.subscribe((projects: Project[]) => {
-      this.Normalprojects = projects;
-    });
 
-    this.projectService.importantProjectsSubject.subscribe((importantProjects: Project[]) => {
-      this.importantProjects = importantProjects;
+    this.projectService.projectsSubject.subscribe((projects: Project[]) => {
+
+    
+      this.Normalprojects = projects.filter((project) => !project.isStar && !project.isMoveToTrash);
+      this.importantProjects = projects.filter((project) => project.isStar && !project.isMoveToTrash);
     });
+    this.getActiveProject()
+
+   
   }
-  createIssue() {
-    // const checkProject=JSON.parse(localStorage.getItem('projects')||'[]')
-    const checkSelectedProjet = JSON.parse(localStorage.getItem('selectedProject') || '[]')
-    // Check if selectedProject is not empty
-    const hasSelectedProject = Array.isArray(checkSelectedProjet) && checkSelectedProjet.length > 0;
-    const hasNonEmptySprints = checkSelectedProjet.some((project: { sprints: Sprint[] | any[]; }) => Array.isArray(project.sprints) && project.sprints.length > 0);
-    if (!hasNonEmptySprints) {
-      this.toster.error('Please the create sprint ')
-      // Set a timeout to clear the message after 1 seconds 
-      setTimeout(() => {
-        this.router.navigate(['/dashboard/sprint'])
-      }, 1000);
-  
+  getActiveProject(){
+    this.projectService.getActiveProject();
+        
+    this.projectService.selectedProjectSubject.subscribe((project:Project | null) => {
+      if (project && project.isSelected) {
+        this.selectedProject = project;
+      }
+      console.log('tarun',project);
+     
+    })
   }
-  // console.log(hasNonEmptySprints)
-   else if(hasSelectedProject) {
-      // console.log("joojojojo")
+
+ 
+  openDialog(): void {
+    this.getActiveProject()
+    // Retrieve selectedProject from local storage
+    console.log("HEllo world",this.selectedProject)
+
+    // Check if sprints array in selectedProject is empty
+    if (
+      this.selectedProject &&
+      this.selectedProject.sprints &&
+      this.selectedProject.sprints.length > 0
+    ) {
+      
+      // If sprints array is not empty, open the dialog
       const dialogRef = this.dialog.open(CreateProPopupComponent, {
         width: '1100px',
         height: '650px',
         maxWidth: 'none',
         panelClass: 'custom-dialog-container',
-        data: { name: '', email: '' }
+        data: { name: '', email: '' },
       });
-      // this.serv.isVisible.next(true)
 
-      dialogRef.afterClosed().subscribe(result => {
-        // console.log('The dialog was closed');
-        // console.log('Form data:', result);
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log('The dialog was closed');
+        console.log('Form data:', result);
       });
- }
-    else {
-      this.toster.error('Please select the Project or create a sprint first.')
+    } else {
+      this.toster.error('Please the create sprint ');
+
+      this.router.navigate(['/dashboard/sprint']);
     }
   }
-
-
-
 
   // logout
 
   logOut() {
     this.dialog.open(LogoutPopUpComponent, {
-      width: '250px'
+      width: '250px',
     });
-    
   }
   setActive(event: Event) {
     if (this.activeLink) {
@@ -95,62 +104,28 @@ export class HeaderComponent implements OnInit {
     this.activeLink = target;
   }
 
-  // select project 
+  // select project
   selectProject(project: Project) {
+    const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
     
-    let checkSelectedProjet: Project[] = JSON.parse(localStorage.getItem('selectedProject') || '[]');
-    let checkProjet = JSON.parse(localStorage.getItem('projects') || '[]');
-    // const projectExists = checkSelectedProjet.some(project => project.projectId === project.projectId);
-//     let newUpdateProject:Project[]=[];
-//     checkProjet=checkProjet['projectId']
+    allProjects.forEach((proj: Project) => proj.isSelected = false);
 
-//       // if(!projectExists){
-        checkSelectedProjet  =[project] //  console.log('bahubali',project)
-        this.toster.success('Project Selected')
-//         // this.projectService.selectedProjectSubject.next(project);
-// newUpdateProject=checkSelectedProjet.map((p)=>{
-// p.projectId!==checkProjet?{...p,sprints:}
-// })
-        // localStorage.setItem('selectedProject', JSON.stringify(checkSelectedProjet));
-        this.saveToLocalStorage(checkSelectedProjet)
-// localStorage.setItem('projects',JSON.stringify(checkSelectedProjet))
-        
-        
-      // }
-      // else {
-      //   this.toster.error('Already Selected Project')
-       
-      // }
+    let selectedProject = allProjects.find((proj: Project) => proj.projectId === project.projectId);
+
+    if (selectedProject) {
+      selectedProject.isSelected = true;
+    }
+
+
+    localStorage.setItem('projects', JSON.stringify(allProjects));
     
-    
-   
-  }
-  saveToLocalStorage(checkProject:Project[]) {
-    localStorage.setItem('selectedProject', JSON.stringify(checkProject));
+    this.projectService.getActiveProject()
 
-    const projects = JSON.parse(
-      localStorage.getItem('projects') || '[]'
-    ) as Project[];
-    const importantProjects = JSON.parse(
-      localStorage.getItem('importantProjects') || '[]'
-    ) as Project[];
-    const projectId = this.selectProject2['projectId']; // Use bracket notation
 
-    // Update the `projects` and `importantProjects` arrays
-    const updatedProjects = projects.map((p) =>
-      p.projectId === projectId
-        ? { ...p, sprints: this.selectProject2.sprints }
-        : p
-    );
+    //  console.log('bahubali',project)
+    this.router.navigate(['/dashboard']);
+    this.toster.success('Project Selected');
 
-    const updatedImportantProjects = importantProjects.map((p) =>
-      p.projectId === projectId
-        ? { ...p, sprints: projects[0].sprints }
-        : p
-    );
-
-    // Save updated arrays back to local storage
-    // localStorage.setItem('projects', JSON.stringify(updatedProjects));
    
   }
 }

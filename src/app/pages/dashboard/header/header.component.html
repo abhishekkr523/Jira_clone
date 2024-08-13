@@ -10,7 +10,7 @@
 
         <li class="nav-item dropdown" >
           <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false" [class.disabled]="showMenu">
+            data-bs-toggle="dropdown" aria-expanded="false" >
             Your Work
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
@@ -31,7 +31,7 @@
             <p >Important project</p>
             <li *ngFor="let impProject of importantProjects ; let i= index">
 
-              <div (click)="selectProject(impProject)">
+              <div>
                 <i class="fa-solid fa-star"></i>
                 <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10425?size=medium" alt="">
                 {{impProject.projectName}} ({{impProject.projectKey}})
@@ -43,7 +43,7 @@
             <p>Recent Project </p>
             <li *ngFor="let project of Normalprojects; let i = index">
 
-              <div (click)="selectProject(project)">
+              <div >
                 <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10403?size=medium" alt="">
                 {{project.projectName}} ({{project.projectKey}})
               </div>
@@ -57,7 +57,7 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false" [class.disabled]="showMenu">
+            data-bs-toggle="dropdown" aria-expanded="false" >
             Dashboards
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
@@ -68,7 +68,7 @@
         </li>
         <li class="nav-item dropdown" >
           <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false" [class.disabled]="showMenu" >
+            data-bs-toggle="dropdown" aria-expanded="false"  >
             Teams
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">

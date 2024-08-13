@@ -59,8 +59,9 @@ export class SprintComponent implements OnInit {
   }
   newSprint!:Sprint
   createSprint() {
-    const projects = JSON.parse(localStorage.getItem('selectedProject') || '[]')
-    const sprint = projects.sprints
+    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
+
+    // const sprint = projects
 
     if (projects) {
       const newSprint: Sprint = {
@@ -71,9 +72,11 @@ export class SprintComponent implements OnInit {
         endDate: new Date(),
         summary: '',
         tasks: [],
+        isSprintSelected:false
       };
 
       this.openEditDialog(newSprint)
+      
       
       // this.saveToLocalStorage(newSprint)
     } else {
@@ -110,9 +113,9 @@ this.getSprint()
   }
 
   openDeleteDialog(sprint: Sprint) {
-    const confirmationMessage = `Are you sure you want to delete this <strong>${sprint.sprintName}</strong>?`;
+    // const confirmationMessage = Are you sure you want to delete this <strong>${sprint.sprintName}</strong>?;
     const dialogRef = this.dialog.open(DeletedialogComponent, {
-      data: { message: confirmationMessage },
+      // data: { message: confirmationMessage },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
