@@ -1,0 +1,55 @@
+<app-header></app-header>
+
+<div class="box">
+  <div class="heading">
+    <h2>Trash Project</h2>
+    <button type="button" class="btn btn-primary" routerLink="/create-project">Create Project</button>
+  </div>
+
+  <div class="search">
+    <!-- <input type="text" placeholder="Search Project.." /> -->
+  </div>
+
+  <div class="table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">
+            <i class="fa-solid fa-star"></i>
+          </th>
+          <th scope="col">Project Name</th>
+          <th scope="col">Key</th>
+          <th scope="col">Lead</th>
+          <th scope="col">Type</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!-- Loop through the projects array and display each project -->
+        <tr *ngFor="let project of projects">
+          <td>
+            <i class="fa-solid fa-star" [class.starred]="project.isStar"></i>
+          </td>
+          <td>{{ project.projectName }}</td>
+          <td>{{ project.projectKey }}</td>
+          <td class="data" ><p class="leader">{{leader | newInitial   }}</p>
+            <p>{{leader}}</p>
+            </td>
+          <td>Team-managed software</td>
+          <td>
+            <button mat-button [matMenuTriggerFor]="menu">
+              <i class="fa-duotone fa-solid fa-ellipsis"></i>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="restoreFromTrash(project)">
+                Restore Project
+              </button>
+            </mat-menu>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <hr />
+</div>

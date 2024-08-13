@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light head">
   <div class="container-fluid">
-    <div class="icon">
+    <div class="icon" routerLink="/dashboard">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcc2TZvbHh60NDISnKd4Vk-BgGqoL_JWCpIw&s" alt="">
       <h1>jira</h1>
     </div>
@@ -8,9 +8,9 @@
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" >
           <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+            data-bs-toggle="dropdown" aria-expanded="false" [class.disabled]="showMenu">
             Your Work
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
@@ -28,34 +28,36 @@
             Projects
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-            <p>star project</p>
+            <p >Important project</p>
             <li *ngFor="let impProject of importantProjects ; let i= index">
 
               <div (click)="selectProject(impProject)">
+                <i class="fa-solid fa-star"></i>
                 <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10425?size=medium" alt="">
                 {{impProject.projectName}} ({{impProject.projectKey}})
-                 <i class="fa-solid fa-star"></i>
+                
               </div>
 
             </li>
             <hr>
-            <p>Resent </p>
+            <p>Recent Project </p>
             <li *ngFor="let project of Normalprojects; let i = index">
 
-              <div (click)="selectProject(project)" (click)="refreshPage()" >
+              <div (click)="selectProject(project)" >
                 <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10403?size=medium" alt="">
                 {{project.projectName}} ({{project.projectKey}})
               </div>
             </li>
             <hr>
             <li><a class="dropdown-item" routerLink="/showAllProjects">View All Projects</a></li>
+            <li><a class="dropdown-item" routerLink="/allTrashProjects">All Trash Projects </a></li>
             <li><a class="dropdown-item" routerLink="/create-project">Create Project</a></li>
 
           </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+            data-bs-toggle="dropdown" aria-expanded="false" [class.disabled]="showMenu">
             Dashboards
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
@@ -64,9 +66,9 @@
 
           </ul>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" >
           <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+            data-bs-toggle="dropdown" aria-expanded="false" [class.disabled]="showMenu" >
             Teams
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
@@ -75,13 +77,13 @@
 
           </ul>
         </li>
-        <button type="button" class="btn btn-primary" (click)="openDialog()">Create</button>
+        <button type="button" class="create-button btn btn-primary"  (click)="openDialog()">Create Issue</button>
 
       </ul>
 
       <div class="after">
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" >
           <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
         </form>
         <div class="after-icon">
@@ -90,7 +92,7 @@
           <i class="fa-solid fa-gear"></i>
           <i 
           matTooltipPosition="above"
-                matTooltip="layout"
+                matTooltip="logOut"
           class="fa-solid fa-user"
           (click)="logOut()"
           ></i>

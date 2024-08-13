@@ -3,38 +3,51 @@
         <div class="con1">
             <div class="heading-para">
                 <h1>Add Project Details</h1>
-                <p>Explore what's possible when you collaborate with your team. Edit project details anytime in project settings.</p>
+                <p>Explore what's possible when you collaborate with your team. Edit project details anytime in project
+                    settings.</p>
                 <p>Required fields are marked with an asterissk <span>*</span></p>
             </div>
             <div class="input-teg">
                 <label for="">Name <span>*</span></label>
-                <input type="text"  [formControl]="projectName" >
-                <span style="color: red;"
-                    *ngIf=" projectName?.invalid && projectName?.touched && projectName?.dirty">
+                <input type="text" [formControl]="projectName">
+                <span style="color: red;" *ngIf=" projectName?.invalid && projectName?.touched && projectName?.dirty">
                     <span *ngIf="projectName?.errors?.['required']">This field is required</span>
-                    
-                    <span *ngIf="projectName?.errors?.['pattern']">Only characters &Number allowed</span>
-                   
-    
+
+                    <span *ngIf="projectName?.errors?.['pattern']">Only characters & Number allowed</span>
+
+
                 </span>
-                <p><strong>Access:</strong> Anyone with access to <span>{{leader}}</span> can access and administer this project. <span class="Upgrad">Upgrade your plan</span> to customize project permissions.</p>
+                <p><strong>Access:</strong> Anyone with access to <span>{{leader}}</span> can access and administer this
+                    project. <span class="Upgrad">Upgrade your plan</span> to customize project permissions.</p>
             </div>
-    
+
             <div class="key">
-                <label for="">Key<i class="fa-solid fa-circle-info"></i><span>*</span></label>
-                <input type="text" [value]="keyValue">
+               <div class="key-inner">
+                <label for="">Key </label>
+                <button mat-button [matMenuTriggerFor]="menu">
+                    <i class="fa-solid fa-circle-info" matTooltip="Information"
+                        matTooltipPosition="above"></i><span>*</span></button>
+                <mat-menu #menu="matMenu">
+                    <p mat-menu-item>Choose a descriptive prefix for your project’s issue keys to recognize work
+                        from this project.</p>
+
+                </mat-menu>
+               </div>
+
+
+                <input type="text" [(ngModel)]="keyValue" (ngModelChange)="manualKeyUpdate = true">
             </div>
         </div>
         <div class="con2">
             <img src="create-project-pic.png" alt="">
-           
+
         </div>
-        
+
     </div>
     <div class="main-btn">
-        <button type="button" class=" btn1 btn btn-light">Cancel</button>
+        <button type="button" class=" btn1 btn btn-light" (click)="onCancel()">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="saveToLocalStorage()">Next</button>
     </div>
-    
-    
+
+
 </div>

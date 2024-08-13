@@ -1,81 +1,87 @@
-
-
- .after{
-    width: 30%;
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    /* justify-content: space-around; */
- }
-  .icon {
-    width: 6%;
-    display: flex;
-    /* justify-content: center; */
-    gap: 5px;
-    align-items: center;
-    padding-left: 0px;
-  }
-  .icon h1{
-font-weight: 400;
-font-size: 25px;
-  }
-  .icon img {
-    height: 29px;
-    /* width: 31px; */
-  }
-  
-  .after-icon{
-    width: 40%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: space-around;
-    
-  }
-
-  .after-icon .fa-solid{
-    font-size: 20px;
-  }
-
-  // .head{
-  //   position: fixed;
-  // }
-  .after-icon .fa-solid:hover{
-    /* border-width: 25px; */
-    /* width: 22%; */
-    /* height: auto; */
-    color: #ff3f34;
-    
-  }
-  
-
-
-  hr {
-    margin: 0rem 0;
-    color: inherit;
-    background-color: currentColor;
-    border: 0;
-    opacity: .25;
+.disabled {
+  // pointer-events: none;
+  cursor: none;
+  // opacity: 0.9;
 }
 
-.nav-link{
+
+.after {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  /* justify-content: space-around; */
+}
+.icon {
+  width: 6%;
+  display: flex;
+  /* justify-content: center; */
+  gap: 5px;
+  align-items: center;
+  padding-left: 0px;
+  cursor: pointer;
+}
+.icon h1 {
+  font-family: apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 14px;
+  color: black;
+}
+.icon img {
+  height: 24px;
+  padding-right: 3px;
+  padding-top: 3px;
+}
+
+.after-icon {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+.after-icon .fa-solid {
+  font-size: 20px;
+}
+
+// .head{
+//   position: fixed;
+// }
+.after-icon .fa-solid:hover {
+  /* border-width: 25px; */
+  /* width: 22%; */
+  /* height: auto; */
+  color: #ff3f34;
+}
+
+hr {
+  margin: 0rem 0;
+  color: inherit;
+  background-color: currentColor;
+  border: 0;
+  opacity: 0.25;
+}
+
+.nav-link {
   font-weight: 400;
   font-size: 18px;
 }
-          
-.nav-link:hover{
+
+.nav-link:hover {
   background-color: lightgrey;
 }
-
-
 
 .active-link {
   color: blue !important;
 }
 
-
-button{
-  margin-left: 40px;
+.create-button {
+  margin-left: 15px;
+    margin-top: 7px;
+   
 }
 
 /* new css start */
@@ -117,10 +123,21 @@ button{
 .dropdown-menu .dropdown-item {
   display: block;
   padding: 8px 10px;
-  color: #007bff;
+  // color: #007bff;
   text-decoration: none;
   border-radius: 3px;
   margin: 5px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color:  rgb(23, 43, 77);
+
+  p{
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    color:   rgb(68, 84, 111)
+  }
 }
 
 /* Hover effect for links */
@@ -128,6 +145,7 @@ button{
   background-color: #f1f1f1;
   color: #0056b3;
 }
+
 
 /* Responsive design */
 @media (max-width: 768px) {
@@ -139,24 +157,27 @@ button{
 /* Additional styling for the dropdown toggle */
 .nav-link.dropdown-toggle {
   cursor: pointer;
+  font-size: 14px;
+  font-weight: var(--ds-font-weight-medium, 500);
+  line-height: 32px;
+  color: rgb(68, 84, 111);
 }
-
 
 /* new css end  */
 
-p{
+p {
   font-weight: 500;
   margin-top: 2px;
   margin-bottom: 2px;
   color: #313030;
 }
 
-.dropdown-menu img{
+.dropdown-menu img {
   width: 11%;
   padding-right: 1px;
 }
 
-.fa-star{
+.fa-star {
   color: yellow;
-  padding-left: 43%;
+  padding-right: 9px;
 }

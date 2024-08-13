@@ -4,70 +4,93 @@ import { DataServiceService } from '../../../service/data-service.service';
 import { Component, OnInit } from '@angular/core';
 import { Project, ProjectList } from '../../../user.interface';
 import { ToastrService } from 'ngx-toastr';
-import {  MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { LogoutPopUpComponent } from './logout-pop-up/logout-pop-up.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-
-
 export class HeaderComponent implements OnInit {
-
   activeLink: HTMLElement | null = null;
+  showMenu: boolean = true;
 
   Normalprojects: Project[] = [];
   importantProjects: Project[] = [];
-
-
-  constructor(private projectService: DataServiceService,
+selectedProject!:Project
+  constructor(
+    private projectService: DataServiceService,
     private toster: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
   ) {}
+
 
   ngOnInit() {
     // this.selectProject(this.importantProjects[0]);
+
     this.projectService.projectsSubject.subscribe((projects: Project[]) => {
-      this.Normalprojects = projects;
-    });
 
-    this.projectService.importantProjectsSubject.subscribe((importantProjects: Project[]) => {
-      this.importantProjects = importantProjects;
+    
+      this.Normalprojects = projects.filter((project) => !project.isStar && !project.isMoveToTrash);
+      this.importantProjects = projects.filter((project) => project.isStar && !project.isMoveToTrash);
     });
-  }
-
-  openDialog(): void {
-    // this.serv.isVisible.next(true)
-    const dialogRef = this.dialog.open(CreateProPopupComponent, {
-      width: '1100px',
-      height: '650px',
-      maxWidth: 'none',
-      panelClass: 'custom-dialog-container',
-      data: { name: '', email: '' }
-    });
-    // this.serv.isVisible.next(true)
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log('Form data:', result);
-    });
+    this.getActiveProject()
 
    
-
-
-    // selectProjectData : any= [...this.Normalprojects,...this.importantProjects]
-
+  }
+  getActiveProject(){
+    this.projectService.getActiveProject();
+        
+    this.projectService.selectedProjectSubject.subscribe((project:Project | null) => {
+      if (project && project.isSelected) {
+        this.selectedProject = project;
+      }
+      console.log('tarun',project);
+     
+    })
   }
 
+ 
+  openDialog(): void {
+    this.getActiveProject()
+    // Retrieve selectedProject from local storage
+    console.log("HEllo world",this.selectedProject)
 
+    // Check if sprints array in selectedProject is empty
+    if (
+      this.selectedProject &&
+      this.selectedProject.sprints &&
+      this.selectedProject.sprints.length > 0
+    ) {
+      
+      // If sprints array is not empty, open the dialog
+      const dialogRef = this.dialog.open(CreateProPopupComponent, {
+        width: '1100px',
+        height: '650px',
+        maxWidth: 'none',
+        panelClass: 'custom-dialog-container',
+        data: { name: '', email: '' },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log('The dialog was closed');
+        console.log('Form data:', result);
+      });
+    } else {
+      this.toster.error('Please the create sprint ');
+
+      this.router.navigate(['/dashboard/sprint']);
+    }
+  }
 
   // logout
 
   logOut() {
     this.dialog.open(LogoutPopUpComponent, {
-      width: '250px'
+      width: '250px',
     });
   }
   setActive(event: Event) {
@@ -79,51 +102,29 @@ export class HeaderComponent implements OnInit {
     target.classList.add('active-link');
     this.activeLink = target;
   }
-  
-    // select project 
-    selectProject(project: Project)
-    {
-      this. transferPreSelectedSprintToProject()
-      localStorage.removeItem('selectedSprint');
-      this.projectService.selectedProjectSubject.next(project);
-      //  console.log('bahubali',project)
-      this.toster.success('Project Selected')
-      localStorage.setItem('selectedProject', JSON.stringify(project));
 
+  // select project
+  selectProject(project: Project) {
+    const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+    
+    allProjects.forEach((proj: Project) => proj.isSelected = false);
+
+    let selectedProject = allProjects.find((proj: Project) => proj.projectId === project.projectId);
+
+    if (selectedProject) {
+      selectedProject.isSelected = true;
     }
 
-    transferPreSelectedSprintToProject() {
-      const getSelectedProject = localStorage.getItem('selectedProject');
-      const getProjects = localStorage.getItem('projects');
-  
-      if (getSelectedProject && getProjects) {
-          const parseProject = JSON.parse(getSelectedProject);
-          const parseProjects = JSON.parse(getProjects);
-          
-          const selectedProjectId = parseProject.projectId;
-          const projectIndex = parseProjects.findIndex(
-              (project: any) => project.projectId === selectedProjectId
-          );
-  
-          if (projectIndex !== -1) {
-              // Replace the found project with the selected project
-              parseProjects[projectIndex] = parseProject;
-              console.log("Updated Projects Array:", parseProjects);
-          } else {
-              // If the project is not found, you may want to add the selected project to the array
-              parseProjects.push(parseProject);
-              console.log("Project not found. Added to Projects Array:", parseProjects);
-          }
-  
-          // Update the localStorage with the modified projects array
-          localStorage.setItem('projects', JSON.stringify(parseProjects));
-      }
-  }
 
-  refreshPage() {
-    window.location.reload();
+    localStorage.setItem('projects', JSON.stringify(allProjects));
+    
+    this.projectService.getActiveProject()
+
+
+    //  console.log('bahubali',project)
+    this.router.navigate(['/dashboard']);
+    this.toster.success('Project Selected');
+
+   
   }
 }
-
-
-

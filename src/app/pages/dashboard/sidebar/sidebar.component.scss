@@ -135,12 +135,13 @@
  }
 
  .drop li:hover {
-    color: #3437ffda;
-    padding-left: 25px;
+   //  color: #3437ffda;
+   //  padding-left: 25px;
     cursor: pointer;
-    background-color: lightgrey;
-    width: 50%;
-    height: 10%;
+    background-color: rgba(8, 36, 68, 0.137);
+   //  width: 50%;
+
+   //  height: 40%;
  }
  
  .drop li label {

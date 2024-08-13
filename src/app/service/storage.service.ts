@@ -9,14 +9,7 @@ export class StorageService {
   sprintSource = new BehaviorSubject<Sprint | null>(null);
   flag=new BehaviorSubject<boolean>(false)
   constructor() {}
-  setItem(key: string, value: any): void {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-
-  getItem(key: string): any {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : [];
-  }
+ 
 
   setSprint(sprint: any) {
     // this.sprintSource.next(sprint);

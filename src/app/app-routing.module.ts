@@ -17,6 +17,7 @@ import { BacklogComponent } from './pages/backlog/backlog.component';
 import { loginGuard } from './login.guard';
 import { Error404Component } from './pages/error-404/error-404.component';
 import { SprintComponent } from './pages/dashboard/sprint/sprint.component';
+import { AllTrashProjectComponent } from './pages/dashboard/project/all-trash-project/all-trash-project.component';
 // import { TaskDetailsComponent } from './pages/task-details/task-details.component';
 // import { TaskDetailsComponent } from './pages/task-details/task-details.component';
 
@@ -67,6 +68,9 @@ const routes: Routes = [
   {
     path: 'showAllProjects',
     component: AllProjectNameComponent,
+  },{
+path:'allTrashProjects',
+component:AllTrashProjectComponent
   },
   { path: 'taskDetails', component: TaskDetailsComponent },
   { path: 'addPeople', component: AddPeopleDialogComponent },

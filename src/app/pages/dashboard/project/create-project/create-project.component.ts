@@ -11,7 +11,7 @@ import { Project, ProjectList } from '../../../../user.interface';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
-  styleUrl: './create-project.component.css',
+  styleUrl: './create-project.component.scss',
 })
 export class CreateProjectComponent implements OnInit {
   projects: ProjectList = { projects: [] };
@@ -27,44 +27,32 @@ export class CreateProjectComponent implements OnInit {
     Validators.pattern('^[a-zA-Z0-9 ]*$'),
   ]);
 
-  keyValue: any = '';
-
+  keyValue: string = '';
+  manualKeyUpdate: boolean = false; 
   ngOnInit() {
     this.getStoredEmail();
 
     this.projectName.valueChanges.subscribe((data: any) => {
-      this.keyValue = this.generateProjectKey(data);
+      if(!this.manualKeyUpdate)
+      {
+
+        this.keyValue = this.generateProjectKey(data);
+      }
     });
   }
 
   generateProjectKey(name: string) {
     let word = name.trim().split(/\s+/);
     let firstLetter = word.map((word) => word.charAt(0).toUpperCase()).join('');
-    let digit = name.replace(/\D/g, '');
-    return firstLetter + digit;
+    
+    let middleLetter = word.length > 1 ? word[1].charAt(0).toUpperCase() : '';
+    
+    let randomString = Math.random().toString(36).substring(2, 3).toUpperCase(); // Generates a random string of length 6
+
+    return firstLetter +middleLetter+ randomString;
 
 
-
-    // const words = name.trim().split(' ');
-
-    // // Collect all the letters from each word into a single array
-    // let letters:string[] = [];
-    // words.forEach(word => {
-    //     // Remove non-letter characters
-    //     const filteredLetters = word.replace(/[^a-zA-Z]/g, '');
-    //     if (filteredLetters) {
-    //         letters = letters.concat(filteredLetters.split(''));
-    //     }
-    // });
-
-    // // Randomly decide which letters to include in the shortform
-    // const shortform = letters
-    //     .filter(() => Math.random() < 0.5) // Adjust the probability as needed
-    //     .slice(0, 3) // Adjust the number of letters if needed
-    //     .join('')
-    //     .toUpperCase();
-
-    // return shortform;
+ 
 
   }
   startDate!: string;
@@ -76,12 +64,22 @@ export class CreateProjectComponent implements OnInit {
       let existingProjects: Project[] = JSON.parse(
         localStorage.getItem('projects') || '[]'
       );
-      const duplicateProject = existingProjects.find(
-        (project) => project.projectName.toLowerCase() === this.projectName.value.toLowerCase()
+      const duplicateName = existingProjects.find(
+        (project) => 
+          project.projectName.toLowerCase() === this.projectName.value.toLowerCase()
       );
-
-      if (duplicateProject) {
-        this.toast.error('Project with the same name already exists.');
+  
+      const duplicateKey = existingProjects.find(
+        (project) =>
+          project.projectKey.toLowerCase() === this.keyValue.toLowerCase()
+      );
+  
+      if (duplicateName) {
+        this.toast.error('Project Same Name already exists.');
+        return;
+      } else if (duplicateKey) {
+        
+        this.toast.error(' Same Key already exists.');
         return;
       }
       const startDate = new Date(this.startDate);
@@ -91,6 +89,8 @@ export class CreateProjectComponent implements OnInit {
         projectName: this.projectName.value,
         projectKey: this.keyValue,
         isStar: false,
+        isSelected: false,
+        isMoveToTrash: false,
         sprints: [],
       };
 
@@ -104,12 +104,17 @@ export class CreateProjectComponent implements OnInit {
       this.toast.success('Successfully Add Project');
       //  this.toast.error('Something went wrong');
 
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['showAllProjects']);
     } else {
       alert('Please fix the errors in the form before saving.');
     }
   }
 
+  onCancel()
+  {
+    this.router.navigate(['showAllProjects']);
+    // this.toast.error(' Project not created');
+  }
   // get user from local storage
 
   leader: string | null = '';

@@ -23,7 +23,7 @@ export class DeletedialogComponent {
   }
 
   onCancel(): void {
-    this.toast.error('Sprint not deleted')
+    this.toast.error('Sprint is not deleted.')
     this.dialogRef.close(false);
     
   }
