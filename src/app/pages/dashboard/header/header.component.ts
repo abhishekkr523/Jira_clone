@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
 
   Normalprojects: Project[] = [];
   importantProjects: Project[] = [];
+  selectedProject!:Project
 
   constructor(
     private projectService: DataServiceService,
@@ -40,22 +41,34 @@ export class HeaderComponent implements OnInit {
       .slice(0, 2); // Limit to 2 important projects
     });
 
-   
+    this.getActiveProject()
   }
 
  
+
+  getActiveProject(){
+    this.projectService.getActiveProject();
+        
+    this.projectService.selectedProjectSubject.subscribe((project:Project | null) => {
+      if (project && project.isSelected) {
+        this.selectedProject = project;
+      }
+      console.log('tarun',project);
+     
+    })
+  }
   openDialog(): void {
+    this.getActiveProject()
     // Retrieve selectedProject from local storage
-    const selectedProject = JSON.parse(
-      localStorage.getItem('selectedProject') || '{}'
-    );
+    console.log("HEllo world",this.selectedProject)
 
     // Check if sprints array in selectedProject is empty
     if (
-      selectedProject &&
-      selectedProject.sprints &&
-      selectedProject.sprints.length > 0
+      this.selectedProject &&
+      this.selectedProject.sprints &&
+      this.selectedProject.sprints.length > 0
     ) {
+      
       // If sprints array is not empty, open the dialog
       const dialogRef = this.dialog.open(CreateProPopupComponent, {
         width: '1100px',
@@ -76,6 +89,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  //
   // logout
 
   logOut() {
