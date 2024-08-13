@@ -15,7 +15,7 @@ export class EditBacklogComponent {
  
     const dialogRef = this.dialog.open(EditdialogComponent, {
       width:'700px',
-      height:'650px',
+      maxHeight:'700px',
   
     });
     if (this.dialogRef) {

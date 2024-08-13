@@ -25,11 +25,13 @@ export class HeaderComponent implements OnInit {
     private projectService: DataServiceService,
     private toster: ToastrService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
   ) {}
+
 
   ngOnInit() {
     // this.selectProject(this.importantProjects[0]);
+
     this.projectService.projectsSubject.subscribe((projects: Project[]) => {
 
       this.Normalprojects = projects
@@ -40,9 +42,11 @@ export class HeaderComponent implements OnInit {
       .filter((project) => project.isStar && !project.isMoveToTrash)
       .slice(0, 2); // Limit to 2 important projects
     });
-
     this.getActiveProject()
+
+
   }
+ 
 
  
 
