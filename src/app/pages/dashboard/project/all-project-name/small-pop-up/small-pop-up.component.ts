@@ -28,7 +28,7 @@ export class SmallPopUpComponent {
   onSubmit(): void {
    
     this.dialogRef.close('delete');
-    this.toastService.success('Project  delete successfully');
+    this.toastService.success('Project successfully Move To Trash');
 
      
       

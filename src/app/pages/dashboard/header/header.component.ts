@@ -3,7 +3,7 @@ import { CreateProPopupComponent } from '../create-project/create-pro-popup/crea
 import { DataServiceService } from '../../../service/data-service.service';
 import { Component, OnInit } from '@angular/core';
 import { Project, ProjectList, Sprint } from '../../../user.interface';
-import { Toast, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LogoutPopUpComponent } from './logout-pop-up/logout-pop-up.component';
 import { Router } from '@angular/router';
@@ -13,10 +13,8 @@ import { Router } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-
-
 export class HeaderComponent implements OnInit {
-
+ 
   activeLink: HTMLElement | null = null;
 
   Normalprojects: Project[] = [];
@@ -155,8 +153,4 @@ export class HeaderComponent implements OnInit {
     // localStorage.setItem('projects', JSON.stringify(updatedProjects));
    
   }
- 
 }
-
-
-

@@ -43,7 +43,7 @@ export class ChooseTempletComponent {
 
   openDialog()
   {
-   this.router.navigate(['/dashboard'])
+   this.router.navigate(['/create-project'])
   }
 
 }

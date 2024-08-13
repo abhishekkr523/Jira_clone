@@ -81,4 +81,7 @@ img{
     display: flex;
   }
   
+  tbody tr td:nth-child(2) {
+    cursor: pointer;
+  }
   

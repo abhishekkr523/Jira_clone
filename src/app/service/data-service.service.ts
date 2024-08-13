@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Project, ProjectList, Sprint, Task } from '../user.interface';
+import { json } from 'stream/consumers';
+import { Console } from 'console';
 
 @Injectable({
   providedIn: 'root',
@@ -13,42 +15,36 @@ export class DataServiceService {
   isLoggedin = new BehaviorSubject<boolean>(false);
 
   // projectNameSubject = new Subject<string>()
-   projectsSubject = new BehaviorSubject<Project[]>([]);
-   importantProjectsSubject = new BehaviorSubject<Project[]>([]);
+  projectsSubject = new BehaviorSubject<Project[]>([]);
+  importantProjectsSubject = new BehaviorSubject<Project[]>([]);
   //  selectedProjectSubject = new BehaviorSubject<any>(null);
-  selectedProjectSubject = new BehaviorSubject<Project | null>(
-    this.getSelectedProjectFromLocalStorage()
-  );
+  selectedProjectSubject = new BehaviorSubject<Project | null>(null);
   selectedProject$ = this.selectedProjectSubject.asObservable();
+
 
 
   constructor() {
     this.loadProjects();
-    this.loadImportantProjects();
   }
 
-  getSelectedProjectFromLocalStorage() {
-    if (typeof Storage !== 'undefined') {
-      {
-        const project = localStorage.getItem('selectedProject');
-        return project ? JSON.parse(project) : null;
-      }
-    }
+  getActiveProject()
+  {
+    
+   const local= localStorage.getItem('projects')
+   console.log('bat',local)
+   if(local)
+   {
+     let projects = JSON.parse(local);
+     let activeProject = projects.find((project:Project) => project.isSelected === true);
+     this.selectedProjectSubject.next(activeProject);
+
+   }
   }
   loadProjects() {
     if (typeof Storage !== 'undefined') {
       const storedProjects = localStorage.getItem('projects');
       if (storedProjects) {
         this.projectsSubject.next(JSON.parse(storedProjects));
-      }
-    }
-  }
-
-  loadImportantProjects() {
-    if (typeof Storage !== 'undefined') {
-      const storedProjects = localStorage.getItem('importantProjects');
-      if (storedProjects) {
-        this.importantProjectsSubject.next(JSON.parse(storedProjects));
       }
     }
   }
@@ -60,13 +56,6 @@ export class DataServiceService {
   }
 
   // Method to update important projects
-  updateImportantProjects(importantProjects: any[]) {
-    this.importantProjectsSubject.next(importantProjects);
-    localStorage.setItem(
-      'importantProjects',
-      JSON.stringify(importantProjects)
-    );
-  }
 
 
   // Add a new sprint to a specific project
@@ -129,8 +118,8 @@ export class DataServiceService {
   }
   // Get tasks for a specific sprint and project
 
-// for zoom the screen 
-// private isFullScreenSubject = new BehaviorSubject<boolean>(false);
+  // for zoom the screen
+  // private isFullScreenSubject = new BehaviorSubject<boolean>(false);
   getTasksBySprintId(projectId: number, sprintId: number): Task[] | null {
     const projects: Project[] = JSON.parse(
       localStorage.getItem('projects') || '[]'

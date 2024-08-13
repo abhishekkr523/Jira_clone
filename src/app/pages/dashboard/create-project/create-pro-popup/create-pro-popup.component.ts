@@ -19,7 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CreateProPopupComponent implements OnInit {
   cancel = faCancel;
-
+projectName:string=''
   coffie = faCoffee;
   imageUrl: string | undefined;
 
@@ -54,13 +54,23 @@ export class CreateProPopupComponent implements OnInit {
   sprints: Sprint[] = [];
   tasks: Task[] = [];
   selectedSprintId: number | null = null;
-  findproject: Project | undefined
+  findproject: Project | undefined;
+  selectSprint: { task: Task[]; [key: string]: any } = { task: [] };
+  selectedProject!:Project
+  constructor(
+    private dialog: MatDialogRef<CreateProPopupComponent>,
+    private toast: ToastrService,
+    private serv: DataServiceService,
+    private localStorageService: StorageService,
+    private fb: FormBuilder
+  ) {}
+  // findproject: Project | undefined
   getSelectedProject!:Project[]
   selectProject: { sprints: Sprint[], [key: string]: any } = { sprints: [] }; 
   loadUser=[] 
-  constructor(private dialog: MatDialogRef<CreateProPopupComponent>, private toast: ToastrService, private serv: DataServiceService, private localStorageService: StorageService, private fb: FormBuilder) {
+  // constructor(private dialog: MatDialogRef<CreateProPopupComponent>, private toast: ToastrService, private serv: DataServiceService, private localStorageService: StorageService, private fb: FormBuilder) {
 
-  }
+  // }
   ngOnInit(): void {
     this.registerProject = this.fb.group({
       taskId: [''],
@@ -72,34 +82,30 @@ export class CreateProPopupComponent implements OnInit {
       description: [''],
       Assign: [''],
       attachment: [''],
-      Label: ['',],
+      Label: [''],
       sprint: ['', [Validators.required]],
       Time: ['',],
       Reporter: ['', [Validators.required]],
       LinkedIssue: [''],
       CreateAnotherIssue: [''],
     });
-    this.loadProjects()
-   
+    this.loadProjects();
+  
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
-    this.getSelectedProject= JSON.parse(localStorage.getItem('selectedProject') || '[]');
-    this.importantProjects = JSON.parse(localStorage.getItem('importantProjects') || '[]');
-    this.loadUser= JSON.parse(localStorage.getItem('addPeopleList') || '[]');
-    console.log(this.loadUser)
-    this.projects=[...this.projects,...this.importantProjects]
-  }
+  
+    this.serv.getActiveProject();
+        
+    this.serv.selectedProjectSubject.subscribe((project:Project | null) => {
+      if (project && project.isSelected) {
+        this.selectedProject = project;
+        this.projectName=this.selectedProject.projectName
+      }
+     
+    })  }
 
-  // getProjectsFromLocalStorage() {
-  //   if (typeof Storage !== 'undefined') {
-  //     const projects: Project[] = this.localStorageService.getItem('projects')
-  //     console.log(projects)
-  //     this.projects = projects.map(project => project.projectName);
-
-  //   }
-  // }
-
+ 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
@@ -111,26 +117,18 @@ export class CreateProPopupComponent implements OnInit {
           attachment: this.imageUrl, // Update the form control with the base64 string
         });
 
-        // console.log("ImageUrl",this.imageUrl)
       };
     }
   }
   onCloseDialog(): void {
-    this.serv.isVisible.next(false);
-    this.serv.isVisible.subscribe((res) => {
-      this.isVisible2 = res;
-    });
+    
     this.dialog.close();
   }
 
   onProjectSelect(selectedProjectId: number): void {
-    // const selectElement = event.target as HTMLSelectElement; // Cast event target to HTMLSelectElement
-    // const projectId = Number(selectElement.value);
-    // console.log('Selected Project ID:', projectId);
+ 
     this.selectedProjectId = selectedProjectId;
-    this.sprints = this.getSprintsByProjectId(this.selectedProjectId);
-    console.log(this.sprints)
-    // this.tasks = this.getAllTasksByProjectId(projectId);
+    this.sprints = this.getSprintsByProjectId(selectedProjectId);
   }
   
   getSprintsByProjectId(projectId: number): Sprint[] {
@@ -144,10 +142,12 @@ export class CreateProPopupComponent implements OnInit {
 
   addTaskToSprint(): void {
     const selectedSprintId2 = this.registerProject.value.sprint; // Retrieve the selected sprint ID
-    console.log(selectedSprintId2, 'sprintid');
     const getProjectName = this.findproject?.projectName ?? 'Hello world';
-    // const getUsername=this.loadUser.
-    if (this.registerProject.valid &&this.selectedProjectId &&selectedSprintId2) {
+    if (
+      this.registerProject.valid &&
+      this.selectedProjectId &&
+      selectedSprintId2 
+    ) {
       const newTask: Task = {
         taskId: Math.floor(Math.random() * 1000), // Generate a random ID
         ProjectName: getProjectName,
@@ -159,6 +159,7 @@ export class CreateProPopupComponent implements OnInit {
         Assign: this.registerProject.value.Assign,
         attachment: this.registerProject.value.attachment,
         Label: this.registerProject.value.Label,
+        sprint: this.registerProject.value.sprint,
         Time: this.registerProject.value.Time,
         Reporter: this.registerProject.value.Reporter,
         LinkedIssue: this.registerProject.value.LinkedIssue,
