@@ -72,14 +72,16 @@ export class CreateProjectComponent implements OnInit {
         return;
       } else if (duplicateKey) {
         // this.toast.error(' Same Key already exists.');
-        let word = this.projectName.value.trim().split(/\s+/);
-        let firstLetter = word.map((word:any) => word.charAt(0).toUpperCase()).join('');
+      //   let word = this.projectName.value.trim().split(/\s+/);
+      //   let firstLetter = word.map((word:any) => word.charAt(0).toUpperCase()).join('');
     
-        let middleLetter = word.length > 1 ? word[1].charAt(0).toUpperCase() : '';
+      //   let middleLetter = word.length > 1 ? word[1].charAt(0).toUpperCase() : '';
     
-        let randomString = Math.random().toString(36).substring(2, 3).toUpperCase(); // Generates a random string of length 6
+      //   let randomString = Math.random().toString(36).substring(2, 3).toUpperCase(); // Generates a random string of length 6
     
-       this.keyValue= firstLetter + middleLetter + randomString;
+      //  this.keyValue= firstLetter + middleLetter + randomString;
+
+      this.keyValue = this.generateProjectKey(this.projectName.value);
         // return;
       }
       
