@@ -135,10 +135,10 @@ export class SprintComponent implements OnInit {
         }
 
         // Update the project in the projects array
-        // project.sprints = this.selectProject.sprints[sprintIndex];
+        project.sprints = this.selectProject.sprints;
         console.log(projects)
 
-        // localStorage.setItem('projects', JSON.stringify(projects));
+        localStorage.setItem('projects', JSON.stringify(projects));
       }
     });
 

@@ -180,7 +180,7 @@ export class CreateProPopupComponent implements OnInit {
         sprint.tasks.push(newTask);
 
         // Optionally, save back to local storage or call a service to save the update
-        // localStorage.setItem('projects', JSON.stringify(this.projects));
+        localStorage.setItem('projects', JSON.stringify(this.projects));
         if (sprint.tasks.push(newTask)) {
           this.dialog.close()
           this.toast.success('Task added successfully to the sprint.');
