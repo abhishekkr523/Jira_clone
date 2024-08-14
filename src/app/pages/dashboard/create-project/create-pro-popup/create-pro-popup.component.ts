@@ -86,7 +86,7 @@ export class CreateProPopupComponent implements OnInit {
       description: [''],
       Assign: [''],
       attachment: [''],
-      Label: [''],
+      
       sprint: ['', Validators.required],
       Time: [''],
       Reporter: ['', Validators.required],
@@ -187,8 +187,7 @@ export class CreateProPopupComponent implements OnInit {
       description: this.registerProject.get('description')?.value,
       Assign: this.registerProject.get('Assign')?.value,
       attachment: this.registerProject.get('attachment')?.value,
-      Label: this.registerProject.get('Label')?.value,
-      // If you want to add a parent-child relationship
+
       sprint: sprint?.sprintName,
       Time: this.registerProject.get('Time')?.value,
       Reporter: this.registerProject.get('Reporter')?.value,

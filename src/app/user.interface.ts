@@ -10,7 +10,7 @@ export interface Task {
   description?: string;
   Assign?: string;
   attachment?: string;
-  Label?: string;
+
   // Parent?: string;
   sprint?: string;
   Time?: string;
