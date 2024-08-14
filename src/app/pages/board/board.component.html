@@ -107,7 +107,7 @@
               >
                 +{{ peopleList.length - 3 }} more
               </button>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu hide-scrollbars" style="height: 100px; overflow-x: auto;overflow-y: auto;">
                 <li *ngFor="let person of peopleList">
                   <span
                     (click)="filterByAssignee(person.nameEmail)"

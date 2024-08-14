@@ -116,14 +116,20 @@ export class CreateProjectComponent implements OnInit {
   // get user from local storage
 
   leader: string | null = '';
+  email:string | null = '';
   getStoredEmail(): void {
     if (typeof Storage !== 'undefined') {
       this.leader = localStorage.getItem('userLogin');
       if (this.leader) {
-        console.log('Retrieved email from local storage:', this.leader);
+        this.email= this.leader.split(',')[0].split(':')[1].split('"')[1];
+        console.log('Retrieved email from local storage:', this.email);
+
+        
       } else {
         console.log('No email found in local storage');
       }
     }
   }
+
+
 }

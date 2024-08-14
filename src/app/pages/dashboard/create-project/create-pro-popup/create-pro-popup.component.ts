@@ -9,7 +9,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
-import { Issue, Project, Sprint, Task } from '../../../../user.interface';
+import { Issue, Project, Sprint, Task, Team } from '../../../../user.interface';
 import { json } from 'stream/consumers';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -59,6 +59,8 @@ export class CreateProPopupComponent implements OnInit {
   selectSprint: { task: Task[]; [key: string]: any } = { task: [] };
   selectedProject!: Project;
   pipelines: any[]=[];
+  selectedSprint:Sprint[]=[]
+  Team:string[]=[]
   constructor(
     private dialog: MatDialogRef<CreateProPopupComponent>,
     private toast: ToastrService,
@@ -97,6 +99,16 @@ export class CreateProPopupComponent implements OnInit {
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
+    let addPeople = JSON.parse(localStorage.getItem('addPeopleList') || '[]');
+    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
+    // console.log(projects.find((p:Project)=> p.isSelected))
+    let SelectedProject = projects.find((p: Project) => p.isSelected)
+    let SelectedSprint=SelectedProject?.sprints.find((s:Sprint)=>s.isSprintSelected===true)
+    console.log([SelectedSprint])
+    if(SelectedSprint){
+      this.selectedSprint=[SelectedSprint]
+    }
+    this.Team=addPeople.map((p:Team)=>p.nameEmail)
 
     this.serv.getActiveProject();
 
@@ -158,28 +170,81 @@ export class CreateProPopupComponent implements OnInit {
 
 
 
+  // createTask(): Task {
+  //   let description = this.registerProject.value.description;
+
+  //   // Remove surrounding <p> and </p> tags if they exist
+  //   description = description.replace(/^<p>/, '').replace(/<\/p>$/, '');
+  //   const newTask: Task = {
+  //     taskId: Date.now(), // You might want to generate a unique ID for the task
+  //     taskName: this.registerProject.get('summary')?.value,
+  //     storyPoints: this.registerProject.get('storyPoints')?.value,
+  //     ProjectName: this.registerProject.get('ProjectName')?.value,
+  //     IssueType: this.registerProject.get('IssueType')?.value,
+  //     status: this.registerProject.get('status')?.value,
+  //     summary: this.registerProject.get('summary')?.value,
+  //     description: this.registerProject.get('description')?.value,
+  //     Assign: this.registerProject.get('Assign')?.value,
+  //     attachment: this.registerProject.get('attachment')?.value,
+  //     Label: this.registerProject.get('Label')?.value,
+  //     // If you want to add a parent-child relationship
+  //     sprint: this.registerProject.get('sprint')?.value,
+  //     Time: this.registerProject.get('Time')?.value,
+  //     Reporter: this.registerProject.get('Reporter')?.value,
+  //     LinkedIssue: this.registerProject.get('LinkedIssue')?.value,
+  //     CreateAnotherIssue: this.registerProject.get('CreateAnotherIssue')?.value,
+      
+  //   };
+  //   return newTask;
+  // }
   createTask(): Task {
+    // Get form values
+    const selectedSprintId = this.registerProject.get('sprint')?.value;
+    const activeProject = this.projects.find((project) => project.isSelected);
+    const sprintt = activeProject?.sprints.find(
+      (sprint) => sprint.sprintId == selectedSprintId
+    );
+    const summary = this.registerProject.get('summary')?.value;
+    const storyPoints = this.registerProject.get('storyPoints')?.value;
+    const projectName = this.registerProject.get('ProjectName')?.value;
+    const issueType = this.registerProject.get('IssueType')?.value;
+    const status = this.registerProject.get('status')?.value;
+    const description = this.registerProject.get('description')?.value;
+    const assign = this.registerProject.get('Assign')?.value;
+    const attachment = this.registerProject.get('attachment')?.value;
+    const label = this.registerProject.get('Label')?.value;
+    const sprint =sprintt?.sprintName
+    const time = this.registerProject.get('Time')?.value;
+    const reporter = this.registerProject.get('Reporter')?.value;
+    const linkedIssue = this.registerProject.get('LinkedIssue')?.value;
+    const createAnotherIssue = this.registerProject.get('CreateAnotherIssue')?.value;
+  
+    // Remove <p> tags from description
+    const cleanedDescription = description.replace(/<\/?p>/g, '').trim();
+  
+    // Create and return the task object
     const newTask: Task = {
-      taskId: Date.now(), // You might want to generate a unique ID for the task
-      taskName: this.registerProject.get('summary')?.value,
-      storyPoints: this.registerProject.get('storyPoints')?.value,
-      ProjectName: this.registerProject.get('ProjectName')?.value,
-      IssueType: this.registerProject.get('IssueType')?.value,
-      status: this.registerProject.get('status')?.value,
-      summary: this.registerProject.get('summary')?.value,
-      description: this.registerProject.get('description')?.value,
-      Assign: this.registerProject.get('Assign')?.value,
-      attachment: this.registerProject.get('attachment')?.value,
-      Label: this.registerProject.get('Label')?.value,
-      // If you want to add a parent-child relationship
-      sprint: this.registerProject.get('sprint')?.value,
-      Time: this.registerProject.get('Time')?.value,
-      Reporter: this.registerProject.get('Reporter')?.value,
-      LinkedIssue: this.registerProject.get('LinkedIssue')?.value,
-      CreateAnotherIssue: this.registerProject.get('CreateAnotherIssue')?.value,
+      taskId: Date.now(), // Generate a unique ID for the task
+      taskName: summary,
+      storyPoints: storyPoints,
+      ProjectName: projectName,
+      IssueType: issueType,
+      status: status,
+      summary: summary,
+      description: cleanedDescription,
+      Assign: assign,
+      attachment: attachment,
+      Label: label,
+      sprint: sprint,
+      Time: time,
+      Reporter: reporter,
+      LinkedIssue: linkedIssue,
+      CreateAnotherIssue: createAnotherIssue,
     };
+  
     return newTask;
   }
+  
 
   addTaskToSprint(): void {
     const newTask = this.createTask();

@@ -274,4 +274,7 @@ $black: #2c2c54;
 ::ng-deep .custom-dialog-container .mat-mdc-dialog-surface{
   border-radius: 0px !important;
 }
+.hide-scrollbars::-webkit-scrollbar {
+  display: none;
+}
 

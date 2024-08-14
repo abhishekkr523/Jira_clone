@@ -62,13 +62,7 @@ export class SprintComponent implements OnInit {
   selectProject!: Project;
 
   ngOnInit(): void {
-    if (typeof Storage !== 'undefined') {
-
-      // if (saveSprint)
-
-      // Merge the found project data into selectProject
-
-    }
+   
     this.getSprint();
   }
 
@@ -151,16 +145,20 @@ export class SprintComponent implements OnInit {
         const sprintIndex = this.selectProject.sprints.findIndex(
           (s) => s.sprintId === sprint.sprintId
         );
-        console.log(sprintIndex);
+
 
         // If the sprint exists, remove it
         if (sprintIndex !== -1) {
-          this.selectProject.sprints.splice(sprintIndex, 1);
+          this.selectProject.sprints=[
+            ...this.selectProject.sprints.slice(0, sprintIndex),
+            ...this.selectProject.sprints.slice(sprintIndex + 1)
+          ];
+          // console.log(this.selectProject.sprints[sprintIndex])
         }
-
+        
+        // project.sprints =this.selectProject.sprints.filter((sprint) => sprint.sprintId !== sprint.sprintId);
         // Update the project in the projects array
         project.sprints = this.selectProject.sprints;
-        console.log(projects)
 
         localStorage.setItem('projects', JSON.stringify(projects));
       }
@@ -231,6 +229,7 @@ export class SprintComponent implements OnInit {
           selectedSprint.isSprintSelected = true;
         }
         localStorage.setItem('projects', JSON.stringify(parsedProjects));
+        this.getSprint()
       }
     }
   }

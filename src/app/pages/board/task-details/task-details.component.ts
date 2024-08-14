@@ -42,7 +42,6 @@ export class TaskDetailsComponent implements OnInit {
       status: [''],
     });
 
-    this.getTaskDetails();
     console.log('taskform', this.taskForm.value);
     // Use the data passed to the dialog
     if (this.data) {
@@ -166,12 +165,6 @@ export class TaskDetailsComponent implements OnInit {
   });
   }
 
-  getTaskDetails() {
-    const taskData = localStorage.getItem('taskData');
-    if (taskData) {
-      this.taskForm.patchValue(JSON.parse(taskData));
-    }
-  }
   onCancel(): void {}
 
   toggleDropdown(isOpen: boolean) {
