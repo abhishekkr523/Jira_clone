@@ -21,7 +21,7 @@ export class DataServiceService {
   //  selectedProjectSubject = new BehaviorSubject<any>(null);
   selectedProjectSubject = new BehaviorSubject<Project | null>(null);
   selectedProject$ = this.selectedProjectSubject.asObservable();
-
+isSprintSelected$=new BehaviorSubject<boolean>(false)
 
 
   constructor() {

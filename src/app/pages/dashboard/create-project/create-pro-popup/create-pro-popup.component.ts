@@ -9,7 +9,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
-import { Issue, Project, Sprint, Task } from '../../../../user.interface';
+import { Issue, Project, Sprint, Task, Team } from '../../../../user.interface';
 import { json } from 'stream/consumers';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -59,6 +59,8 @@ export class CreateProPopupComponent implements OnInit {
   selectSprint: { task: Task[]; [key: string]: any } = { task: [] };
   selectedProject!: Project;
   pipelines: any[]=[];
+  selectedSprint:Sprint[]=[]
+  Team:string[]=[]
   constructor(
     private dialog: MatDialogRef<CreateProPopupComponent>,
     private toast: ToastrService,
@@ -97,6 +99,16 @@ export class CreateProPopupComponent implements OnInit {
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
+    let addPeople = JSON.parse(localStorage.getItem('addPeopleList') || '[]');
+    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
+    // console.log(projects.find((p:Project)=> p.isSelected))
+    let SelectedProject = projects.find((p: Project) => p.isSelected)
+    let SelectedSprint=SelectedProject?.sprints.find((s:Sprint)=>s.isSprintSelected===true)
+    console.log([SelectedSprint])
+    if(SelectedSprint){
+      this.selectedSprint=[SelectedSprint]
+    }
+    this.Team=addPeople.map((p:Team)=>p.nameEmail)
 
     this.serv.getActiveProject();
 

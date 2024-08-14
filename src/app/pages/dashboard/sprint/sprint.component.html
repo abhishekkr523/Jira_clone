@@ -94,13 +94,14 @@
 
     <div class="sprintList" *ngFor="let sprint of selectProject.sprints">
         <div class="title">
-            <div class="sprint">
+            <div class="sprint" (click)="openEditDialog(sprint)">
                <div class="sprintName">
                 <p class="name">{{ sprint.sprintName }}</p>
                </div>
                 <div class="pencil">
                     <i class="fas fa-pencil" (click)="openEditDialog(sprint)"></i>
                     <p>Add dates</p>
+                    <strong *ngIf="sprint.isSprintSelected==true"> Selected</strong>
                 </div>
             </div>
             <div class="tripleDot">

@@ -76,3 +76,8 @@ export interface Task {
     showInput: boolean;
     tasks: Task[];
   }
+  export interface Team{
+    
+nameEmail:string
+role:string
+  }
