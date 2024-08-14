@@ -58,7 +58,7 @@
   
     <div class="action">
       <button class="but" (click)="onCancel()">Cancel</button>
-      <button (click)="onSave()" mat-dialog-close class="but" style="background-color: #0052CC; color: white;" [disabled]="registerProject.invalid">Update</button>
+      <button (click)="onSave(registerProject.value)" mat-dialog-close class="but" style="background-color: #0052CC; color: white;" >Update</button>
     </div>
    </div>
   </div>

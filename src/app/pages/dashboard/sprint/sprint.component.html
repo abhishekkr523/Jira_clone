@@ -100,8 +100,10 @@
                </div>
                 <div class="pencil">
                     <i class="fas fa-pencil" (click)="openEditDialog(sprint)"></i>
-                    <p>Add dates</p>
-                    <strong *ngIf="sprint.isSprintSelected==true"> Selected</strong>
+                    <p class="date" *ngIf="!sprint.endDate">Add dates</p>
+                    <p class="date"  style="color: red;" *ngIf="sprint.endDate">{{sprint.endDate|date: 'dd/MM/yyyy'}}</p>
+                    <span  class="badge rounded-pill bg-info text-light" style="width: 80px; font-weight: none; font-size: 16px;" *ngIf="sprint.isSprintSelected==true"> Selected</span>
+                   
                 </div>
             </div>
             <div class="tripleDot">

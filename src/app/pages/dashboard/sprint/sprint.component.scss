@@ -165,7 +165,7 @@
   
    
     .pencil {
-      width: 50%;
+      width: 60%;
       height: 100%;
       display: flex;
       align-items: center;
@@ -180,7 +180,7 @@
         font-weight: 500;
   
         line-height: 20.5714px;
-  
+  flex-basis: 50%;
         color: rgb(23, 43, 77);
         margin-bottom: 0;
       }

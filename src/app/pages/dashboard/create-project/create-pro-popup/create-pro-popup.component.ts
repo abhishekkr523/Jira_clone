@@ -170,6 +170,12 @@ export class CreateProPopupComponent implements OnInit {
 
 
   createTask(): Task {
+    const selectedSprintId = this.registerProject.get('sprint')?.value;
+
+    const activeProject = this.projects.find((project) => project.isSelected);
+    const sprint = activeProject?.sprints.find(
+      (sprint) => sprint.sprintId == selectedSprintId
+    );
     const newTask: Task = {
       taskId: Date.now(), // You might want to generate a unique ID for the task
       taskName: this.registerProject.get('summary')?.value,
@@ -183,7 +189,7 @@ export class CreateProPopupComponent implements OnInit {
       attachment: this.registerProject.get('attachment')?.value,
       Label: this.registerProject.get('Label')?.value,
       // If you want to add a parent-child relationship
-      sprint: this.registerProject.get('sprint')?.value,
+      sprint: sprint?.sprintName,
       Time: this.registerProject.get('Time')?.value,
       Reporter: this.registerProject.get('Reporter')?.value,
       LinkedIssue: this.registerProject.get('LinkedIssue')?.value,
@@ -226,8 +232,7 @@ export class CreateProPopupComponent implements OnInit {
 
           // Add the new task to the corresponding column
           pipelineColumn.tasks.push(newTask);
-          console.log('Updated Sprint:', sprint);
-          console.log('Updated Sprint:', this.projects);
+         
           localStorage.setItem('projects', JSON.stringify(this.projects));
 
           // Optional: Refresh the UI or show a success message

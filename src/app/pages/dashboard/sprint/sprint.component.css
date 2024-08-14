@@ -132,4 +132,9 @@ justify-content: space-between;
   justify-content: space-between;
   
 }
+.date{
+  width: 40%;
+  flex-basis: 40%;
+}
+
 

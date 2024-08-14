@@ -80,8 +80,11 @@ export class EditdialogComponent implements OnInit,AfterViewInit {
 
 
   // save data
-      onSave(){
-    if (this.registerProject.valid) {
+      onSave(sprint:Sprint){
+        const projects = JSON.parse(localStorage.getItem('projects') || '[]')
+        let SelectedProject = projects.find((p: Project) => p.isSelected==true)
+        let check = SelectedProject.sprints.find((s: Sprint) => s.sprintId == sprint.sprintId)
+    if (this.registerProject.valid || !check) {
       const updatedSprint = {
         ...this.sprint,
         ...this.registerProject.value,
