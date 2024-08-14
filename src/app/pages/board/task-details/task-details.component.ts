@@ -13,6 +13,7 @@ export class TaskDetailsComponent implements OnInit {
   peoples: any[] = [];
   columnTitle: any[] = [];
   isDropdownOpen = false;
+  peopleList: any;
   // taskDetails: any[]=[];
 
   constructor(
@@ -23,38 +24,84 @@ export class TaskDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.taskForm = this.fb.group({
-      taskName: [''],
+      summary: [''],
       description: [''],
-      assignee: [''],
-      labels: [''],
-      parent: [''],
+      Assign: [''],
+      Label: [''],
+      Parent: [''],
       sprint: [''],
-      storyPoints: [''],
-      reporter: [''],
+      Time: [''],
+      Reporter: [''],
+      taskId:['']
     });
 
     this.getTaskDetails();
-
+    console.log('taskform', this.taskForm.value);
     // Use the data passed to the dialog
     if (this.data) {
-      this.taskForm.patchValue(this.data);
+      console.log('dataa', this.data);
+
+      this.taskForm.patchValue(this.data[0]);
+      console.log('dataaa', this.taskForm.value);
     }
 
-    this.srv.peoples.subscribe((data) => {
-      // this.peoples=data;
-      console.log(data, 'kpk');
-    });
-
-    this.srv.columns.subscribe(data=>{
-      this.columnTitle=data
-      console.log("data",data)
-    })
+    const getPeopleList = localStorage.getItem('addPeopleList');
+    console.log('kikk', getPeopleList);
+    if (getPeopleList) {
+      this.peopleList = JSON.parse(getPeopleList);
+      console.log('kik', this.peopleList);
+    }
   }
 
-  onSave(): void {
-    localStorage.setItem('taskData', JSON.stringify(this.taskForm.value));
-    console.log('Data saved to local storage:', this.taskForm.value);
+  onSubmit(): void {
+    if (this.taskForm.valid) {
+      const formData = this.taskForm.value;
+      console.log('Form Data:', formData);
+  
+      const getSelectedSprint = localStorage.getItem('selectedSprint');
+      const getSelectedProject = localStorage.getItem('selectedProject');
+  
+      if (getSelectedSprint && getSelectedProject) {
+        const hh = JSON.parse(getSelectedSprint);
+        const selectedProject = JSON.parse(getSelectedProject);
+        const idoftask = this.data[0].taskId;
+        console.log('Task ID:', idoftask);
+        console.log('Sprint Data:', hh);
+  
+        // Updating the task within the sprint
+        for (let pipeline of hh[0].pipelines) {
+          for (let taskGroup of pipeline.tasks) {
+            for (let i = 0; i < taskGroup.length; i++) {
+              if (taskGroup[i].taskId === idoftask) {
+                taskGroup[i] = {...formData };
+                console.log('Updated Task:', taskGroup[i]);
+                console.log('Updated Task:', hh[0]);
+                 localStorage.setItem('selectedSprint', JSON.stringify([hh[0]]));
+                break;
+              }
+            }
+          }
+        }
+  
+        // Finding and updating the sprint in selectedProject
+        for (let i = 0; i < selectedProject.sprints.length; i++) {
+          if (selectedProject.sprints[i].sprintId === hh[0].sprintId) {
+            selectedProject.sprints[i] = hh[0];
+            console.log('Updated Sprint in Project:', selectedProject.sprints[i]);
+            console.log('Updated Sprint in Projecttt:', selectedProject);
+                    localStorage.setItem('selectedProject', JSON.stringify(selectedProject));
+
+            break;
+          }
+        }
+  
+        console.log('Updated Project Data Saved to Local Storage:', selectedProject);
+      }
+    }
   }
+  
+  
+  
   getTaskDetails() {
     const taskData = localStorage.getItem('taskData');
     if (taskData) {

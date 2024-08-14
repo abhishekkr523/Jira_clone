@@ -11,7 +11,10 @@ import { AddPeopleDialogComponent } from './add-people-dialog/add-people-dialog.
 import { DataServiceService } from '../../service/data-service.service';
 import { DateAdapter } from '@angular/material/core';
 import { StorageService } from '../../service/storage.service';
-import { Sprint } from '../../user.interface';
+import { Project, Sprint } from '../../user.interface';
+import { filter, from, map, switchMap, take, toArray } from 'rxjs';
+import { pipeline } from 'stream';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-board',
@@ -28,30 +31,13 @@ export class BoardComponent implements OnInit {
   isFullScreen = false;
 
   iconChange: boolean = false;
-
-
-
-   columns = [
+  pipeLine: any;
+  selectProject: { sprints: Sprint[]; [key: string]: any } = { sprints: [] };
+  columns: any = [
     {
       title: 'TO DO',
       showInput: false,
-      tasks: [
-        {
-          taskName: 'ui design',
-          project_name: 'Jira_clone',
-          assignee: 'Tarun pareta',
-        },
-        {
-          taskName: 'use reactive form',
-          project_name: 'Jira_clone',
-          assignee: 'Abhishek kumar',
-        },
-        {
-          taskName: 'filter implementation',
-          project_name: 'Jira_clone',
-          assignee: 'Krishna rai',
-        },
-      ],
+      tasks: [],
     },
     {
       title: 'IN PROGRESS',
@@ -71,63 +57,43 @@ export class BoardComponent implements OnInit {
   ];
 
   peopleList: any[] = [];
-  sprintData: any[]=[];
+  sprintData: any[] = [];
+  ss: any[] = [];
+  errorMessage = '';
+  sprints: any;
   constructor(
+    private route: ActivatedRoute,
     public dialog: MatDialog,
     private router: Router,
-    private srv: DataServiceService,private fullScreenService:DataServiceService, private storageSrv:StorageService
-  ) {this.srv.peoples.subscribe((people) => {
-    this.peopleList = people.map((person) => ({
-      ...person,
-      color: this.getRandomColor(),
-    }));
-  });
-  this.fullScreenService.isFullScreen$.subscribe(isFullScreen => {
-    this.isFullScreen = isFullScreen;
-  });
-}
- 
+    private srv: DataServiceService,
+    private fullScreenService: DataServiceService,
+    private storageSrv: StorageService
+  ) {
+    this.srv.peoples.subscribe((people) => {
+      this.peopleList = people.map((person) => ({
+        ...person,
+      }));
+    });
+    this.fullScreenService.isFullScreen$.subscribe((isFullScreen) => {
+      this.isFullScreen = isFullScreen;
+    });
+  }
+
   // sprint: Sprint | null = null;
   ngOnInit(): void {
-    console.log("bee",this.srv.isLoggedin.value)
-    this.loadColumnsFromLocalStorage();
-    // this.filteredColumns = [...this.columns]; // Initialize filteredColumns
-    // this.srv.peoples.subscribe((people) => {
-    //   this.peopleList = people.map((person) => ({
-    //     ...person,
-    //     color: this.getRandomColor(),
-    //   }));
-    // });
+    console.log('bee', this.srv.isLoggedin.value);
+    // this.loadColumnsFromLocalStorage();
+    this.filteredColumns = [...this.columns];
+    console.log('oo', this.filteredColumns);
+    this.getPipelinesToLocalStorage();
 
     const savedPeopleList = localStorage.getItem('addPeopleList');
     if (savedPeopleList) {
       this.peopleList = JSON.parse(savedPeopleList);
     }
-
-    this.srv.columns.next(this.columns);
-    console.log("ngColumns",this.columns)
-    // this.storeDataService.sprintSource.subscribe((sprint) => {
-    //   // this.sprint = sprint;
-    //   if(sprint){
-    //     console.log('Sprint received in SprintDetailsComponent:', sprint);
-    //   }
-      
-    // })
-    const getSprintData =this.storageSrv.sprintSource.value
-    console.log("o",this.sprintData)
-    this.sprintData!=getSprintData?.tasks;
-    console.log("oo",this.sprintData)
+    this.flag = true;
   }
 
-  getRandomColor(): string {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-  
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
@@ -143,7 +109,85 @@ export class BoardComponent implements OnInit {
         event.currentIndex
       );
     }
-    this.saveColumnsToLocalStorage();
+    console.log('Itemsb:', this.pipeLine);
+
+
+    const projects = localStorage.getItem('projects');
+    if (projects) {
+      const parsedProjects = JSON.parse(projects);
+      let activeProject = parsedProjects.find(
+        (project: Project) => project.isSelected === true
+      );
+
+      if (activeProject) {
+        // this.sprints = activeProject.sprints;
+        if (activeProject) {
+          this.sprints = activeProject.sprints;
+
+          console.log('x', this.sprints);
+
+          const selectedSprint = this.sprints
+            .map((sprint: any) => {
+              if (sprint.isSprintSelected) {
+                return sprint;
+              }
+              return null; // Return null for non-matching items
+            })
+            .filter((sprint: null) => sprint !== null); // Filter out null values
+
+         
+
+          const recentPipeline = selectedSprint[0].pipelines;
+          recentPipeline.length=0
+          recentPipeline.length = 0; // Clear the existing array
+          recentPipeline.push(...this.pipeLine);
+        }
+        console.log('ttbb', parsedProjects);
+         localStorage.setItem('projects', JSON.stringify(parsedProjects));
+      }
+      console.log('Updatedd parsedProjects:', activeProject);
+    }
+    // ***************************************************
+  }
+  getPipelinesToLocalStorage() {
+    const projects = localStorage.getItem('projects');
+    if (projects) {
+      const parsedProjects = JSON.parse(projects);
+      let activeProject = parsedProjects.find(
+        (project: Project) => project.isSelected === true
+      );
+
+      if (activeProject) {
+        // this.sprints = activeProject.sprints;
+        if (activeProject) {
+          this.sprints = activeProject.sprints;
+
+          console.log('xv', this.sprints);
+
+          const selectedSprint = this.sprints
+            .map((sprint: any) => {
+              if (sprint.isSprintSelected) {
+                return sprint;
+              }
+              return null; // Return null for non-matching items
+            })
+            .filter((sprint: null) => sprint !== null); // Filter out null values
+          this.pipeLine = this.columns;
+
+          const sprint = selectedSprint;
+          console.log('tt', sprint[0].pipelines);
+          this.pipeLine = sprint[0].pipelines;
+          console.log('ttt', this.pipeLine);
+
+          console.log('Filtered Pipelines:', this.pipeLine);
+          // this.pipeLine = selectedSprint;
+        }
+      } else {
+        console.log('No active project found');
+      }
+    } else {
+      console.log('No projects found in localStorage');
+    }
   }
 
   moveToTop(task: any, column: any) {
@@ -152,16 +196,17 @@ export class BoardComponent implements OnInit {
       column.tasks.splice(index, 1);
       column.tasks.unshift(task);
     }
-    this.saveColumnsToLocalStorage();
+    // this.saveColumnsToLocalStorage();
   }
 
   moveToBottom(task: any, column: any) {
     const index = column.tasks.indexOf(task);
     if (index > -1) {
       column.tasks.splice(index, 1);
+
       column.tasks.push(task);
     }
-    this.saveColumnsToLocalStorage();
+    // this.saveColumnsToLocalStorage();
   }
 
   trackByFn(index: number, item: any): any {
@@ -175,78 +220,102 @@ export class BoardComponent implements OnInit {
   cancelColumn() {
     this.add = false;
     this.plus = true;
+    this.titleInput = '';
+    this.errorMessage = '';
   }
+
 
   saveColumn() {
-    if (this.titleInput.trim()) {
-      this.columns.push({
-        title: this.titleInput,
-        showInput: false,
-        tasks: [],
-      });
-      this.titleInput = '';
-      this.add = false;
+    // Check if the title input is empty
+    if (!this.titleInput || this.titleInput.trim() === '') {
+      this.errorMessage = 'Column title cannot be empty';
+      return;
     }
-    this.plus = true;
-    this.srv.columns.next(this.columns);
-    this.srv.columns.subscribe((abc) => {
-      console.log('oo', abc);
-    });
-  }
+  
+    // Check for duplicate column titles
+    const isDuplicate = this.pipeLine.some((col: { title: any; }) => col.title === this.titleInput.trim());
+    if (isDuplicate) {
+      this.errorMessage = 'Column title already exists';
+      return;
+    }
+  
+    // Add the new column to the columns array
+    const newColumn = {
+      title: this.titleInput.trim(),
+      showInput: false,
+      tasks: [],
+    };
+    this.pipeLine.push(newColumn);
+    
+    // Clear the input field and error message
+    this.titleInput = '';
+    this.errorMessage = '';
+  
+    // Update the pipeline
+    this.pipeLine = [...this.pipeLine];
+    console.log("ppppipeLine",this.pipeLine)
+    // Save the updated columns to local storage
+    this.saveColumnsToLocalStorage();
 
+    this.add = false;
+    this.plus = true;
+  }
+  saveColumnsToLocalStorage() {
+    console.log("ppppipeLineppp",this.pipeLine)
+    const projects = localStorage.getItem('projects');
+    if (projects) {
+      const parsedProjects = JSON.parse(projects);
+      let activeProject = parsedProjects.find(
+        (project: Project) => project.isSelected === true
+      );
+  
+      if (activeProject) {
+        const selectedSprint = activeProject.sprints
+          .map((sprint: any) => {
+            if (sprint.isSprintSelected) {
+              return sprint;
+            }
+            return null;
+          })
+          .filter((sprint: null) => sprint !== null);
+  
+        if (selectedSprint.length > 0) {
+          selectedSprint[0].pipelines = [...this.pipeLine];
+          localStorage.setItem('projects', JSON.stringify(parsedProjects));
+        }
+      }
+    }
+  }
   create_issue(i: number) {
-    this.columns.forEach((item, ind) => {
+    this.columns.forEach((item: any, ind: any) => {
       item.showInput = ind === i;
     });
   }
 
-  create() {
-    this.createIssue = false;
-  }
+
 
   filterByAssignee(assignee: string) {
-    console.log("assignee",assignee);
     const normalizedAssignee = assignee.trim().toLowerCase();
 
-    this.filteredColumns = this.columns.map((column) => ({
-      ...column,
-      tasks: column.tasks.filter(
-        (task) => task.assignee.trim().toLowerCase() === normalizedAssignee
-      ),
-    }));
-    console.log("filtcol",this.filteredColumns);
-    console.log("columns",this.columns);
-    // this.columns=this.filteredColumns
+    this.filteredColumns = this.pipeLine.map((column: any) => {
+      const filteredTasks = column.tasks.filter(
+        (task: any) => task.Assign.trim().toLowerCase() === normalizedAssignee
+      );
+
+      return {
+        ...column,
+        tasks: filteredTasks,
+      };
+    });
+
     this.flag = false;
   }
+
   clearFilter() {
     this.flag = true;
     console.log('lll');
-    this.loadColumnsFromLocalStorage();
+    // this.loadColumnsFromLocalStorage();
   }
-
-  saveColumnsToLocalStorage() {
-    localStorage.setItem('columns', JSON.stringify(this.columns));
-  }
-
-  loadColumnsFromLocalStorage() {
-    if (typeof Storage !== 'undefined') {
-      const savedColumns = localStorage.getItem('columns');
-      if (savedColumns) {
-        this.columns = JSON.parse(savedColumns);
-        this.filteredColumns = [...this.columns]; // Initialize filteredColumns
-        if (typeof Storage !== 'undefined') {
-          const savedColumns = localStorage.getItem('columns');
-          if (savedColumns) {
-            this.columns = JSON.parse(savedColumns);
-          }
-        }
-        console.log('ll', this.columns);
-      }
-    }
-  }
-
-
 
   openDialog(data: any) {
     const dialogRef = this.dialog.open(TaskDetailsComponent, {
@@ -266,23 +335,15 @@ export class BoardComponent implements OnInit {
       maxWidth: '26vw',
       height: '58vh',
       panelClass: 'custom-dialog-container',
-      // data: data,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
- 
-//full screen
 
-  //full screen
-
- 
-
-toggleFullScreen() {
-  this.iconChange = !this.iconChange;
+  toggleFullScreen() {
+    this.iconChange = !this.iconChange;
     this.fullScreenService.setFullScreen(!this.isFullScreen);
- 
   }
 }

@@ -24,7 +24,7 @@ export class CreateProPopupComponent implements OnInit {
   coffie = faCoffee;
   imageUrl: string | undefined;
 
-  Option = ['In progress', 'Done', 'Ready to deploy'];
+  Option = [];
   issue = ['Task', 'Bug', 'Story', 'Epic'];
   linkedIssue = [
     'blocks',
@@ -39,7 +39,7 @@ export class CreateProPopupComponent implements OnInit {
     'is caused by',
     'related to',
   ];
-  status = ['To Do', 'In Progress', 'Ready to Deploy', 'Done'];
+  status = [];
   faCoffee: any;
   isVisible2: boolean = false;
   registerProject!: FormGroup;
@@ -56,8 +56,9 @@ export class CreateProPopupComponent implements OnInit {
   tasks: Task[] = [];
   selectedSprintId: number | null = null;
   findproject: Project | null = null;
-  selectSprint: { task: Task[];[key: string]: any } = { task: [] };
-  selectedProject!: Project
+  selectSprint: { task: Task[]; [key: string]: any } = { task: [] };
+  selectedProject!: Project;
+  pipelines: any[]=[];
   constructor(
     private dialog: MatDialogRef<CreateProPopupComponent>,
     private toast: ToastrService,
@@ -74,7 +75,7 @@ export class CreateProPopupComponent implements OnInit {
   // }
   ngOnInit(): void {
     this.registerProject = this.fb.group({
-      taskId: [''],  // Assuming you generate or handle taskId separately
+      taskId: [''], // Assuming you generate or handle taskId separately
       ProjectName: ['', Validators.required],
       IssueType: ['', Validators.required],
       storyPoints: [''],
@@ -92,7 +93,6 @@ export class CreateProPopupComponent implements OnInit {
     });
 
     this.loadProjects();
-
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
@@ -102,19 +102,40 @@ export class CreateProPopupComponent implements OnInit {
     this.serv.selectedProjectSubject.subscribe((project: Project | null) => {
       if (project && project.isSelected) {
         this.selectedProject = project;
-        this.projectName = this.selectedProject.projectName
+        this.projectName = this.selectedProject.projectName;
       }
-
-    })
-    const local = localStorage.getItem('projects')
+    });
+    const local = localStorage.getItem('projects');
     if (local) {
       let projects = JSON.parse(local);
-      let activeProject = projects.find((project: Project) => project.isSelected === true);
-      this.sprints = activeProject.sprints
+      let activeProject = projects.find(
+        (project: Project) => project.isSelected === true
+      );
+      this.sprints = activeProject.sprints;
+      if (activeProject) {
+        const selectedSprint = activeProject.sprints
+          .map((sprint: any) => {
+            if (sprint.isSprintSelected) {
+              return sprint;
+            }
+            return null;
+          })
+          .filter((sprint: null) => sprint !== null);
+          console.log("aaaaaa",selectedSprint)
+        if (selectedSprint.length > 0) {
+          this.Option = selectedSprint[0].pipelines;
+         
+          this.pipelines=this.Option.map((pipeline: any) => pipeline.title);
+          console.log("Pipeline Titles:",this.pipelines);
+          // this.Option={...titles}
+          console.log("opt",)
+          
+    
+        }
+      }
 
     }
   }
-
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -126,7 +147,6 @@ export class CreateProPopupComponent implements OnInit {
         this.registerProject.patchValue({
           attachment: this.imageUrl, // Update the form control with the base64 string
         });
-
       };
     }
   }
@@ -139,7 +159,7 @@ export class CreateProPopupComponent implements OnInit {
 
   createTask(): Task {
     const newTask: Task = {
-      taskId: Date.now(),  // You might want to generate a unique ID for the task
+      taskId: Date.now(), // You might want to generate a unique ID for the task
       taskName: this.registerProject.get('summary')?.value,
       storyPoints: this.registerProject.get('storyPoints')?.value,
       ProjectName: this.registerProject.get('ProjectName')?.value,
@@ -160,37 +180,55 @@ export class CreateProPopupComponent implements OnInit {
     return newTask;
   }
 
-
   addTaskToSprint(): void {
     const newTask = this.createTask();
     const selectedSprintId = this.registerProject.get('sprint')?.value;
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]')
-    let SelectedProject = projects.find((p: Project) => p.isSelected)
-    //For checking that the taskId always be unique not same as taskId stored in  local storage
-    let check = SelectedProject.sprints.map((s:Sprint)=>{
-      s.tasks.find((s: Task) => s.taskId == newTask.taskId)
-    })
-    console.log(!check)
 
-    const activeProject = this.projects.find(project => project.isSelected === true);
+    const activeProject = this.projects.find((project) => project.isSelected);
+    console.log('yy', activeProject);
     if (activeProject) {
-      const sprint = activeProject.sprints.find(sprint => sprint.sprintId ==selectedSprintId);
-
+      const sprint = activeProject.sprints.find(
+        (sprint) => sprint.sprintId == selectedSprintId
+      );
       if (sprint) {
-        sprint.tasks.push(newTask);
+        // Find the corresponding pipeline column based on the task status
+        const taskStatus = newTask.status.trim();
+        console.log('Task Status:', taskStatus);
 
-        // Optionally, save back to local storage or call a service to save the update
-        localStorage.setItem('projects', JSON.stringify(this.projects));
-        if (sprint.tasks.push(newTask)) {
-          this.dialog.close()
-          this.toast.success('Task added successfully to the sprint.');
+        // Log all pipeline titles to see if there's a matching one
+        sprint.pipelines.forEach((column: { title: string }) => {
+          console.log('Pipeline Title:', column.title.trim());
+        });
+
+        // Find the pipeline column that matches the task status
+        const pipelineColumn = sprint.pipelines.find(
+          (column: { title: string; tasks: Task[] }) =>
+            column.title.trim().toLowerCase() === taskStatus.toLowerCase()
+        );
+
+        if (pipelineColumn) {
+          // Initialize tasks array if not already done
+          if (!pipelineColumn.tasks) {
+            pipelineColumn.tasks = [];
+          }
+
+          // Add the new task to the corresponding column
+          pipelineColumn.tasks.push(newTask);
+          console.log('Updated Sprint:', sprint);
+          console.log('Updated Sprint:', this.projects);
+          localStorage.setItem('projects', JSON.stringify(this.projects));
+
+          // Optional: Refresh the UI or show a success message
+          this.toast.success('Task added successfully!');
+          this.dialog.close();
+        } else {
+          this.toast.error('No matching pipeline column for the task status.');
         }
-      }
-      else {
-        this.toast.error('Sprint not found');
+      } else {
+        this.toast.error('Selected sprint not found.');
       }
     } else {
-      this.toast.error('No active project found');
+      this.toast.error('No active project selected.');
     }
   }
 
