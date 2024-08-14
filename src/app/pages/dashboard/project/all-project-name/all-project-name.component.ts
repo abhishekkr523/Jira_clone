@@ -24,6 +24,7 @@ export class AllProjectNameComponent implements OnInit {
   searchControl: FormControl = new FormControl('');
   showOnlyImportant: boolean = false;
   leader: string | null = '';
+  email: string | null = '';
   // pop up dialog
   filter: Project[] = [];
   constructor(
@@ -158,7 +159,8 @@ export class AllProjectNameComponent implements OnInit {
     if (typeof Storage !== 'undefined') {
       this.leader = localStorage.getItem('userLogin');
       if (this.leader) {
-        console.log('Retrieved email from local storage:', this.leader);
+        this.email= this.leader.split(',')[0].split(':')[1].split('"')[1];
+        // console.log('Retrieved email from local storage:', this.leader);
       } else {
         console.log('No email found in local storage');
       }

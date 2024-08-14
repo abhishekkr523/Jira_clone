@@ -32,7 +32,7 @@ isSprintSelected$=new BehaviorSubject<boolean>(false)
   {
     
    const local= localStorage.getItem('projects')
-   console.log('bat',local)
+   
    if(local)
    {
      let projects = JSON.parse(local);

@@ -10,7 +10,7 @@
 
         <li class="nav-item dropdown" >
           <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false" >
+            data-bs-toggle="dropdown" aria-expanded="false" [class.disabled]="showMenu">
             Your Work
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
@@ -31,7 +31,7 @@
             <p >Important project</p>
             <li *ngFor="let impProject of importantProjects ; let i= index">
 
-              <div>
+              <div (click)="selectProject(impProject)">
                 <i class="fa-solid fa-star"></i>
                 <img class="css-1vqlrw" src="https://tarunkalal841.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10425?size=medium" alt="">
                 {{impProject.projectName}} ({{impProject.projectKey}})
@@ -57,7 +57,7 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false" >
+            data-bs-toggle="dropdown" aria-expanded="false" [class.disabled]="showMenu">
             Dashboards
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
@@ -68,7 +68,7 @@
         </li>
         <li class="nav-item dropdown" >
           <a class="nav-link dropdown-toggle" (click)="setActive($event)" id="navbarScrollingDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false"  >
+            data-bs-toggle="dropdown" aria-expanded="false" [class.disabled]="showMenu" >
             Teams
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">

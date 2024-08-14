@@ -81,6 +81,8 @@ export class BoardComponent implements OnInit {
 
   // sprint: Sprint | null = null;
   ngOnInit(): void {
+
+    
     console.log('bee', this.srv.isLoggedin.value);
     // this.loadColumnsFromLocalStorage();
     this.filteredColumns = [...this.columns];
@@ -333,7 +335,7 @@ export class BoardComponent implements OnInit {
   addPeople() {
     const dialogRef = this.dialog.open(AddPeopleDialogComponent, {
       maxWidth: '26vw',
-      height: '58vh',
+      height: '38vh',
       panelClass: 'custom-dialog-container',
     });
 

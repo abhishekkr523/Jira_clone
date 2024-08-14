@@ -11,7 +11,7 @@ import { DataServiceService } from '../../service/data-service.service';
 export class UserLoginComponent {
 
   constructor(private router: Router , private toast:ToastrService) {}
-
+  email: string = '';
   onSubmit(emailForm: any) {
     if (emailForm.valid) {
       localStorage.setItem('userLogin',JSON.stringify([{email : emailForm.value.email}]));

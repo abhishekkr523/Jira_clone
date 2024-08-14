@@ -20,6 +20,7 @@ export class SidebarComponent implements OnInit{
       if (project && project.isSelected) {
         this.selectedProject = project;
       }
+      // console.log('tarun',project);
      
     })
 

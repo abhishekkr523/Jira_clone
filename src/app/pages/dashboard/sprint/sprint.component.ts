@@ -1,4 +1,5 @@
 
+
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
@@ -89,7 +90,7 @@ export class SprintComponent implements OnInit {
       const projects = JSON.parse(localStorage.getItem('projects') || '[]')
       let SelectedProject = projects.find((p: Project) => p.isSelected==true)
       let check = SelectedProject.sprints.find((s: Sprint) => s.sprintId == newSprint.sprintId)
-      if (!check ) {
+      if (!check) {
         this.openEditDialog(newSprint)
         // this.saveToLocalStorage(newSprint)
 
@@ -231,6 +232,7 @@ export class SprintComponent implements OnInit {
         }
         localStorage.setItem('projects', JSON.stringify(parsedProjects));
         this.getSprint()
+        this.toast.success("Sprint started")
       }
     }
   }

@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateProPopupComponent } from '../create-project/create-pro-popup/create-pro-popup.component';
 import { DataServiceService } from '../../../service/data-service.service';
 import { Component, OnInit } from '@angular/core';
-import { Project, ProjectList } from '../../../user.interface';
-import { ToastrService } from 'ngx-toastr';
+import { Project, ProjectList, Sprint } from '../../../user.interface';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LogoutPopUpComponent } from './logout-pop-up/logout-pop-up.component';
 import { Router } from '@angular/router';
@@ -38,35 +38,40 @@ selectedProject!:Project
       this.Normalprojects = projects.filter((project) => !project.isStar && !project.isMoveToTrash);
       this.importantProjects = projects.filter((project) => project.isStar && !project.isMoveToTrash);
     });
-    this.getActiveProject()
+    this.getProject()
 
-   
+  
   }
-  getActiveProject(){
+
+ 
+
+  getProject(){
     this.projectService.getActiveProject();
         
     this.projectService.selectedProjectSubject.subscribe((project:Project | null) => {
       if (project && project.isSelected) {
         this.selectedProject = project;
       }
+      // console.log('tarun',project);
      
     })
   }
 
  
   openDialog(): void {
-    this.getActiveProject()
-    // Retrieve selectedProject from local storage
-
-    // Check if sprints array in selectedProject is empty
-   
+    this.getProject()
+    
     if (
       this.selectedProject &&
       this.selectedProject.sprints &&
       this.selectedProject.sprints.length > 0
     ) {
-      
-      // If sprints array is not empty, open the dialog
+
+       const projects = JSON.parse(localStorage.getItem('projects') || '[]')
+      let SelectedProject = projects.find((p: Project) => p.isSelected==true)
+      let check = SelectedProject.sprints.find((s: Sprint) => s.isSprintSelected == true)
+      if(check){
+         // If sprints array is not empty, open the dialog
       const dialogRef = this.dialog.open(CreateProPopupComponent, {
         width: '1100px',
         height: '650px',
@@ -79,8 +84,13 @@ selectedProject!:Project
         console.log('The dialog was closed');
         console.log('Form data:', result);
       });
+      }
+      else{
+        this.toster.error("Please start the sprint")
+      }
+     
     } else {
-      this.toster.error('Please the create sprint ');
+        this.toster.error('Please create the sprint. ');
 
       this.router.navigate(['/dashboard/sprint']);
     }

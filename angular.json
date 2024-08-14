@@ -41,8 +41,7 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css",
-              "node_modules/@ng-select/ng-select/themes/default.theme.css",
-              "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.css"
+              "node_modules/@ng-select/ng-select/themes/default.theme.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

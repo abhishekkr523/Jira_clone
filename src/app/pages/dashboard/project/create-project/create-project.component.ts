@@ -71,18 +71,10 @@ export class CreateProjectComponent implements OnInit {
         this.toast.error('Project Same Name already exists.');
         return;
       } else if (duplicateKey) {
-        // this.toast.error(' Same Key already exists.');
-        let word = this.projectName.value.trim().split(/\s+/);
-        let firstLetter = word.map((word:any) => word.charAt(0).toUpperCase()).join('');
-    
-        let middleLetter = word.length > 1 ? word[1].charAt(0).toUpperCase() : '';
-    
-        let randomString = Math.random().toString(36).substring(2, 3).toUpperCase(); // Generates a random string of length 6
-    
-       this.keyValue= firstLetter + middleLetter + randomString;
-        // return;
+       
+        this.keyValue = this.generateProjectKey(this.projectName.value);
       }
-      
+
       const startDate = new Date(this.startDate);
       const endDate = new Date(startDate);
       const newProject: Project = {
@@ -116,11 +108,12 @@ export class CreateProjectComponent implements OnInit {
   // get user from local storage
 
   leader: string | null = '';
+  email: string | null = '';
   getStoredEmail(): void {
     if (typeof Storage !== 'undefined') {
       this.leader = localStorage.getItem('userLogin');
       if (this.leader) {
-        console.log('Retrieved email from local storage:', this.leader);
+        this.email = this.leader.split(',')[0].split(':')[1].split('"')[1];
       } else {
         console.log('No email found in local storage');
       }
