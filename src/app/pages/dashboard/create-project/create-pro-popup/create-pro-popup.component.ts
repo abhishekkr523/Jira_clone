@@ -20,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CreateProPopupComponent implements OnInit {
   cancel = faCancel;
-projectName:string=''
+  projectName: string = ''
   coffie = faCoffee;
   imageUrl: string | undefined;
 
@@ -56,19 +56,19 @@ projectName:string=''
   tasks: Task[] = [];
   selectedSprintId: number | null = null;
   findproject: Project | null = null;
-  selectSprint: { task: Task[]; [key: string]: any } = { task: [] };
-  selectedProject!:Project
+  selectSprint: { task: Task[];[key: string]: any } = { task: [] };
+  selectedProject!: Project
   constructor(
     private dialog: MatDialogRef<CreateProPopupComponent>,
     private toast: ToastrService,
     private serv: DataServiceService,
     private localStorageService: StorageService,
     private fb: FormBuilder
-  ) {}
+  ) { }
   // findproject: Project | undefined
-  getSelectedProject!:Project[]
-  selectProject: { sprints: Sprint[], [key: string]: any } = { sprints: [] }; 
-  loadUser=[] 
+  getSelectedProject!: Project[]
+  selectProject: { sprints: Sprint[], [key: string]: any } = { sprints: [] };
+  loadUser = []
   // constructor(private dialog: MatDialogRef<CreateProPopupComponent>, private toast: ToastrService, private serv: DataServiceService, private localStorageService: StorageService, private fb: FormBuilder) {
 
   // }
@@ -90,32 +90,32 @@ projectName:string=''
       LinkedIssue: [''],
       CreateAnotherIssue: [''],
     });
-    
+
     this.loadProjects();
-  
+
   }
   loadProjects(): void {
     this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
-  
+
     this.serv.getActiveProject();
-        
-    this.serv.selectedProjectSubject.subscribe((project:Project | null) => {
+
+    this.serv.selectedProjectSubject.subscribe((project: Project | null) => {
       if (project && project.isSelected) {
         this.selectedProject = project;
-        this.projectName=this.selectedProject.projectName
+        this.projectName = this.selectedProject.projectName
       }
-     
-    })
-    const local= localStorage.getItem('projects')
-    if(local){
-      let projects = JSON.parse(local);
-      let activeProject = projects.find((project:Project) => project.isSelected === true);
-      this.sprints=activeProject.sprints
-     
-    } 
-   }
 
- 
+    })
+    const local = localStorage.getItem('projects')
+    if (local) {
+      let projects = JSON.parse(local);
+      let activeProject = projects.find((project: Project) => project.isSelected === true);
+      this.sprints = activeProject.sprints
+
+    }
+  }
+
+
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
@@ -131,12 +131,12 @@ projectName:string=''
     }
   }
   onCloseDialog(): void {
-    
+
     this.dialog.close();
   }
 
 
-  
+
   createTask(): Task {
     const newTask: Task = {
       taskId: Date.now(),  // You might want to generate a unique ID for the task
@@ -150,7 +150,7 @@ projectName:string=''
       Assign: this.registerProject.get('Assign')?.value,
       attachment: this.registerProject.get('attachment')?.value,
       Label: this.registerProject.get('Label')?.value,
-       // If you want to add a parent-child relationship
+      // If you want to add a parent-child relationship
       sprint: this.registerProject.get('sprint')?.value,
       Time: this.registerProject.get('Time')?.value,
       Reporter: this.registerProject.get('Reporter')?.value,
@@ -159,26 +159,33 @@ projectName:string=''
     };
     return newTask;
   }
-  
+
 
   addTaskToSprint(): void {
     const newTask = this.createTask();
     const selectedSprintId = this.registerProject.get('sprint')?.value;
-  
-    const activeProject = this.projects.find(project => project.isSelected===true);
+    const projects = JSON.parse(localStorage.getItem('projects') || '[]')
+    let SelectedProject = projects.find((p: Project) => p.isSelected)
+    //For checking that the taskId always be unique not same as taskId stored in  local storage
+    let check = SelectedProject.sprints.map((s:Sprint)=>{
+      s.tasks.find((s: Task) => s.taskId == newTask.taskId)
+    })
+    console.log(!check)
+
+    const activeProject = this.projects.find(project => project.isSelected === true);
     if (activeProject) {
-      const sprint = activeProject.sprints.find(sprint => sprint.sprintId == this.registerProject.get('sprint')?.value);
-      
+      const sprint = activeProject.sprints.find(sprint => sprint.sprintId ==selectedSprintId);
+
       if (sprint) {
         sprint.tasks.push(newTask);
-  
+
         // Optionally, save back to local storage or call a service to save the update
-        localStorage.setItem('projects', JSON.stringify(this.projects));
-  if(sprint.tasks.push(newTask)){
-this.dialog.close()
-this.toast.success('Task added successfully to the sprint.');
-  }
-} 
+        // localStorage.setItem('projects', JSON.stringify(this.projects));
+        if (sprint.tasks.push(newTask)) {
+          this.dialog.close()
+          this.toast.success('Task added successfully to the sprint.');
+        }
+      }
       else {
         this.toast.error('Sprint not found');
       }
@@ -186,7 +193,7 @@ this.toast.success('Task added successfully to the sprint.');
       this.toast.error('No active project found');
     }
   }
-  
+
 
   updateLocalStorage(): void {
     const projects = JSON.parse(localStorage.getItem('projects') || '[]');
@@ -199,7 +206,7 @@ this.toast.success('Task added successfully to the sprint.');
       localStorage.setItem('projects', JSON.stringify(projects));
     }
   }
-  
-  
-  
+
+
+
 }

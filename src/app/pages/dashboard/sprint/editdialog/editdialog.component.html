@@ -13,20 +13,12 @@
         </div>
       </div>
       <div class="input">
-<<<<<<< HEAD
         <label for="start">Start Date</label>
-        <input type="date" formControlName="startDate" (ngModelChange)="calculateEndDate()">
+        <input type="date" formControlName="startDate" [value]="sprint.startDate" (ngModelChange)="calculateEndDate()">
         <div *ngIf=" registerProject.get('startDate')!.invalid && (registerProject.get('startDate')?.touched || registerProject.get('startDate')?.dirty )">
           <span *ngIf="registerProject.get('startDate')?.errors!['required']" style="color: red;">Field is
             required</span>
         </div>
-=======
-        <!-- <label for="start">Start Date</label>
-        <input type="date" formControlName="startDate" [value]="selectedWeeks" (ngModelChange)="calculateEndDate()">
-        <div *ngIf=" registerProject.get('startDate')!.invalid && (registerProject.get('startDate')?.touched || registerProject.get('startDate')?.dirty )">
-          <span *ngIf="registerProject.get('startDate')?.errors!['required']" style="color: red;">Field is
-            required</span>
-        </div> -->
         <!-- <mat-form-field appearance="fill">
           <mat-label>Choose a date</mat-label>
           <input matInput [matDatepicker]="picker">
@@ -34,13 +26,12 @@
           <mat-datepicker #picker>{{startDate|date}}</mat-datepicker>
         </mat-form-field> -->
         <!-- <input type="text" ngbDatepicker #d="ngbDatepicker"/> -->
->>>>>>> 789375539d3fd3699b40b270b7504852f6cd67bf
       </div>
-      <!-- <div class="input">
-        <label for="duration">Duration</label>
-        <ng-select formControlName="duration" [(ngModel)]="selectedWeeks" (ngModelChange)="onWeeksChange()">
+      <div class="input">
+        <label for="duration">Duration (Weeks)</label>
+        <ng-select formControlName="duration"  [(ngModel)]="selectedWeeks" (ngModelChange)="onWeeksChange()">
           <ng-option *ngFor="let week of weeks" [value]="week">{{ week }}</ng-option>
-          <ng-option value="custom">Custom</ng-option>
+          <ng-option value="custom">Custom </ng-option>
         </ng-select>
         <div *ngIf=" registerProject.get('duration')!.invalid && (registerProject.get('duration')?.touched || registerProject.get('duration')?.dirty )">
           <span *ngIf="registerProject.get('duration')?.errors!['required']" style="color: red;">Field is
@@ -56,22 +47,18 @@
         </div>
       </div>
       <div>
-        <p>End Date: {{ endDate | date: 'dd/MM/yyyy' }}</p>
-      </div> -->
+        <p>End Date: {{ endDate |date: 'dd/MM/yyyy'}}</p>
+      </div>
       <div class="goal">
         <label for="goal">Sprint Goal</label>
-        <input type="text" id="goal" formControlName="summary" placeholder="message">
+        <input type="text" id="goal" [value]="goal" formControlName="summary" placeholder="message">
       </div>
       
     </form>
   
     <div class="action">
       <button class="but" (click)="onCancel()">Cancel</button>
-<<<<<<< HEAD
-      <button (click)="onSave()" class="but" style="background-color: #0052CC; color: white;" [disabled]="registerProject.invalid">Update</button>
-=======
       <button (click)="onSave()" mat-dialog-close class="but" style="background-color: #0052CC; color: white;" [disabled]="registerProject.invalid">Update</button>
->>>>>>> 789375539d3fd3699b40b270b7504852f6cd67bf
     </div>
    </div>
   </div>

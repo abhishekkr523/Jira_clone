@@ -112,12 +112,11 @@ justify-content: space-between;
 
 
 
-
 /* new css  */
 
 
 .sprint{
-  width: 14%;
+  width: 15%;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -133,3 +132,4 @@ justify-content: space-between;
   justify-content: space-between;
   
 }
+

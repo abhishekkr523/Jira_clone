@@ -20,15 +20,7 @@
         <div class="form-group">
           <label for="project" >Project<span class="star">*</span></label>
           <input type="text" class="form-control" id="project" [value]="projectName" disabled>
-          <!-- <ng-select id="project" formControlName="ProjectName" (change)="onProjectSelect($event)" >
-            <ng-option *ngFor="let pro of projects" [value]="pro.projectId" style="border: 1px solid red;">{{pro.projectName}}</ng-option>
-          </ng-select> -->
-          <!-- <div
-            *ngIf="registerProject.get('ProjectName')!.invalid &&( registerProject.get('ProjectName')?.touched || registerProject.get('ProjectName')?.dirty)">
-            <span *ngIf="registerProject.get('ProjectName')?.errors!['required']" style="color: red;"> Select Project
-            </span>
-          </div>
-           -->
+          
         </div>
         <div class="form-group">
           <label for="issueType">Issue Type <span class="star">*</span></label>

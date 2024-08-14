@@ -1,51 +1,10 @@
-<!-- <div style="width: 80%; height: 600px;margin-left: 20%; display: flex; flex-direction: column; position: relative;"> -->
-<!-- <div>
-        <h2 style="margin-bottom: 20px;">Sprint</h2>
-    </div>
-    <div style="border: .8px solid black; border-radius: 4px; width: 30%; ">
-        <fa-icon [icon]="searchIcon" ></fa-icon>
-        <input type="text" placeholder="Search" class="search">
-    </div>
-    <div class="drop">
-        <div style="width: 70%;">
-            <ng-select class="select" >
-                <fa-icon [icon]="cancel"></fa-icon>
-                <ng-option class="option">alsjkdfhakj</ng-option>
-                <ng-template ng-label-tmp let-item="item">
-                    <i [class]="item.icon"></i> {{ item.label }}
-                  </ng-template>
-            </ng-select>
-        </div>
-        <div class="in2">
-            <button class="but" (click)="openDialog()">Complete Sprint</button>
-            <button class="but" (click)="openDialog2()"><fa-icon [icon]="horizontal"></fa-icon></button>
-        </div>
-    </div>
-   <div class="back">
-    <h4>Backlog</h4>
-    <div *ngIf="tasks.length > 0; else noTasks" >
-        <ul >
-            <li *ngFor="let task of filteredData" class="list" >
-              <strong class="sum">{{task.summary}}</strong>
-              <select>
-                <option *ngFor="let option of filteredData" [value]="option.status">{{ option.status }}</option>
-              </select>
-              <button class="but" (click)="openDialog3()"><fa-icon [icon]="horizontal"></fa-icon></button>
-            </li>
-          </ul>
-          
-    </div>
-   
-      <ng-template #noTasks>
-        <p>No tasks available.</p>
-      </ng-template>
-   </div> -->
+
    <div class="outer-container">
     <header>
         <nav class="container-fluid p-0" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 px-3">
                 <li class="breadcrumb-item"><a href="#">Projects</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Backlock</li>
+                <li class="breadcrumb-item active" aria-current="page">Backlogs</li>
             </ol>
         </nav>
         <div class="px-3 text-bg-dark border-bottom">
@@ -53,7 +12,7 @@
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                     <a class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none text-dark"
                         style="font-size: 30px; font-weight: 500">
-                        BackLock
+                        BackLogs
                     </a>
 
                     <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -83,10 +42,7 @@
             <div class="container-fluid d-flex flex-wrap justify-content-between">
                 <div class="row w-100 sub-heading">
                     <form class="col-2 mb-2 " role="search">
-                        <!-- <i class="fa-solid fa-magnifying-glass d-flex justify-content-center align-item-center"
-                            style="align-items: center;"></i>
-                        <input type="search" class="form-control border-0" placeholder="Search..."
-                            aria-label="Search" /> -->
+                       
                     </form>
                     <div class="drop-down_container col-3">
                         <div class="user-circle">
@@ -137,9 +93,11 @@
 
 
     <div class="sprintList" *ngFor="let sprint of selectProject.sprints">
-        <div class="title">
+        <div class="title" (click)="openEditDialog(sprint)">
             <div class="sprint">
+               <div class="sprintName">
                 <p class="name">{{ sprint.sprintName }}</p>
+               </div>
                 <div class="pencil">
                     <i class="fas fa-pencil" (click)="openEditDialog(sprint)"></i>
                     <p>Add dates</p>

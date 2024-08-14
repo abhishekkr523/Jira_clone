@@ -49,7 +49,6 @@ selectedProject!:Project
       if (project && project.isSelected) {
         this.selectedProject = project;
       }
-      console.log('tarun',project);
      
     })
   }
@@ -58,9 +57,9 @@ selectedProject!:Project
   openDialog(): void {
     this.getActiveProject()
     // Retrieve selectedProject from local storage
-    console.log("HEllo world",this.selectedProject)
 
     // Check if sprints array in selectedProject is empty
+   
     if (
       this.selectedProject &&
       this.selectedProject.sprints &&
@@ -122,7 +121,6 @@ selectedProject!:Project
     this.projectService.getActiveProject()
 
 
-    //  console.log('bahubali',project)
     this.router.navigate(['/dashboard']);
     this.toster.success('Project Selected');
 
