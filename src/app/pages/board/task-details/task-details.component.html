@@ -146,9 +146,9 @@
       </div>
       <div class="container-right">
         <div class="d-flex py-2">
-          <select class="form-select" aria-label="Default select example">
-            <option *ngFor="let item of columnTitle" selected>
-              {{ item.title }}
+          <select class="form-select" formControlName="status" aria-label="Default select example">
+            <option *ngFor="let item of pipelines" selected>
+              {{ item }}
             </option>
           </select>
           <div class="dropdown" style="border: none; background-color: #e9ecef">
@@ -236,12 +236,6 @@
                   <div class="label">Label</div>
                   <div class="field">
                     <input formControlName="Label" type="text" />
-                  </div>
-                </div>
-                <div class="parent d-flex py-2">
-                  <div class="label">Parent</div>
-                  <div class="field">
-                    <input formControlName="Parent" type="text" />
                   </div>
                 </div>
                 <div class="sprint d-flex py-2">

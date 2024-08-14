@@ -198,26 +198,7 @@ button i {
   border-radius: 1px !important;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 $black: #2c2c54;
-// @mixin transition {
-//   transition: all 200ms ease;
-// }
 .outer-profile-container{
   display: inline-flex;
   overflow-x: auto;    // Enable horizontal scrolling
@@ -274,6 +255,9 @@ $black: #2c2c54;
 		width: auto;
     height: 70px;
     align-items: center;
+    
+    padding-right: 6px;
+
 	}
 }
 
@@ -287,14 +271,7 @@ $black: #2c2c54;
 	}
 }
 
-
-
-// .mat-mdc-dialog-surface {
-//   border-radius: 0px;
-// }
-// .custom-dialog-container{
-//   border-radius: 0px;
-// }
 ::ng-deep .custom-dialog-container .mat-mdc-dialog-surface{
   border-radius: 0px !important;
 }
+

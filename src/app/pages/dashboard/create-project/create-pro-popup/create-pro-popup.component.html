@@ -95,17 +95,6 @@
             <input type="file" accept="image/*" id="Upload" class="d-none" (change)="onFileSelected($event)">
           </div>
         </div>
-        <div class="form-group" id="extra">
-          <label for="linkedIssue">Linked Issue</label>
-          <select class="form-control form-select" id="linkedIssue" formControlName="LinkedIssue">
-            <option *ngFor="let issue of linkedIssue" [value]="issue">{{issue}}</option>
-
-          </select>
-          <select class="form-control" id="linkedIssue" formControlName="CreateAnotherIssue">
-            <option *ngFor="let i of Option" [value]="i">{{i}}</option>
-          </select>
-          <p *ngIf="Option.length === 0" class="no-match">No match found</p>
-        </div>
         <!-- <div class="form-group">
           <input class="form-check-input bot" type="radio" name="flexRadioDefault" id="flagged">
           <label for="flagged" id="bot">Flagged</label>
@@ -118,7 +107,7 @@
         
         </div>
         <div class="footer2">
-          <button class="but">Cancel</button>
+          <button class="but" mat-dialog-close="">Cancel</button>
           <button class="btn btn-primary" (click)="addTaskToSprint()" >Create</button>
         </div>
       </div>

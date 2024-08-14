@@ -12,7 +12,7 @@ import {
 import { Issue, Project, Sprint, Task } from '../../../../user.interface';
 import { json } from 'stream/consumers';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-create-pro-popup',
   templateUrl: './create-pro-popup.component.html',
@@ -64,7 +64,8 @@ export class CreateProPopupComponent implements OnInit {
     private toast: ToastrService,
     private serv: DataServiceService,
     private localStorageService: StorageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router:Router
   ) { }
   // findproject: Project | undefined
   getSelectedProject!: Project[]
@@ -126,7 +127,7 @@ export class CreateProPopupComponent implements OnInit {
           this.Option = selectedSprint[0].pipelines;
          
           this.pipelines=this.Option.map((pipeline: any) => pipeline.title);
-          console.log("Pipeline Titles:",this.pipelines);
+          console.log("Pipelineeee Titles:",this.pipelines);
           // this.Option={...titles}
           console.log("opt",)
           
@@ -185,7 +186,7 @@ export class CreateProPopupComponent implements OnInit {
     const selectedSprintId = this.registerProject.get('sprint')?.value;
 
     const activeProject = this.projects.find((project) => project.isSelected);
-    console.log('yy', activeProject);
+ 
     if (activeProject) {
       const sprint = activeProject.sprints.find(
         (sprint) => sprint.sprintId == selectedSprintId
@@ -230,6 +231,11 @@ export class CreateProPopupComponent implements OnInit {
     } else {
       this.toast.error('No active project selected.');
     }
+      // Reload the HomeComponent
+  this.router.navigate(['/dashboard/board']).then(() => {
+    window.location.reload();
+  });
+
   }
 
 

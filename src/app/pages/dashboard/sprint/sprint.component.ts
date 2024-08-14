@@ -104,7 +104,6 @@ export class SprintComponent implements OnInit {
         console.log("Same Sprint id Generated")
       }
 
-      this.openEditDialog(newSprint);
 
       // this.saveToLocalStorage(newSprint)
     } else {

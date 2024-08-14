@@ -1,15 +1,13 @@
-<div class="outer-container"
-[class.full-screen]="isFullScreen"
- >
+<div class="outer-container" [class.full-screen]="isFullScreen">
   <header>
     <nav class="container-fluid p-0" aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0 px-3" style="background-color: transparent;">
+      <ol class="breadcrumb mb-0 px-3" style="background-color: transparent">
         <li class="breadcrumb-item"><a href="#">Projects</a></li>
         <li class="breadcrumb-item active" aria-current="page">Board</li>
       </ol>
     </nav>
     <div class="px-3 text-bg-dark">
-      <div class="container-fluid ">
+      <div class="container-fluid">
         <div
           class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
         >
@@ -35,13 +33,17 @@
             </li>
             <li>
               <a class="nav-link text-secondary">
-                <i 
-                (click)="toggleFullScreen()"
-                matTooltipPosition="above"
-                [matTooltip]="iconChange ? 'Exit full Screen' : 'Enter full Screen'"
-               
-                [class]="iconChange ? 'fa-solid fa-down-left-and-up-right-to-center' : 'fa-solid fa-up-right-and-down-left-from-center'"
-                
+                <i
+                  (click)="toggleFullScreen()"
+                  matTooltipPosition="above"
+                  [matTooltip]="
+                    iconChange ? 'Exit full Screen' : 'Enter full Screen'
+                  "
+                  [class]="
+                    iconChange
+                      ? 'fa-solid fa-down-left-and-up-right-to-center'
+                      : 'fa-solid fa-up-right-and-down-left-from-center'
+                  "
                 ></i>
               </a>
             </li>
@@ -56,10 +58,12 @@
     </div>
     <div class="px-3 py-2 mb-3">
       <div class="container-fluid d-flex flex-wrap justify-content-between">
-        <div class="row w-100 sub-heading" style="align-items: center;">
-          <form class="col-2" role="search" style="    border: 1px solid gray;
-          height: 34px;
-          border-radius: 4px;">
+        <div class="row w-100 sub-heading" style="align-items: center">
+          <form
+            class="col-2"
+            role="search"
+            style="border: 1px solid gray; height: 34px; border-radius: 4px"
+          >
             <i
               class="fa-solid fa-magnifying-glass d-flex justify-content-center align-item-center"
               style="align-items: center"
@@ -69,17 +73,16 @@
               class="form-control border-0"
               placeholder="Search..."
               aria-label="Search"
-              style="background: transparent;"
+              style="background: transparent"
             />
           </form>
           <div
             class="drop-down_container col-5 d-flex align-item-center justify-content-center"
             style="align-items: center"
           >
-          <div class="outer-profile-container">
             <div class="c-profile__list">
               <a
-                *ngFor="let person of peopleList"
+                *ngFor="let person of peopleList.slice(0, 3)"
                 class="c-profile"
                 [ngStyle]="{
                   display: 'flex',
@@ -92,17 +95,40 @@
                 {{ person.nameEmail | initial }}
               </a>
             </div>
-          </div>
+
+            <div class="dropdown" *ngIf="peopleList.length >= 3">
+              <button
+                class="btn dropdown-toggle btn-light text-dark"
+                type="button"
+                matTooltip="Type"
+                matTooltipPosition="below"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                +{{ peopleList.length - 3 }} more
+              </button>
+              <ul class="dropdown-menu">
+                <li *ngFor="let person of peopleList">
+                  <span
+                    (click)="filterByAssignee(person.nameEmail)"
+                    class="dropdown-item"
+                    style="cursor: pointer;"
+                    >{{ person.nameEmail }}</span
+                  >
+                </li>
+              </ul>
+            </div>
             <div
               class="user-circle btn-light text-dark"
               (click)="addPeople()"
               matTooltip="Add people"
               matTooltipPosition="below"
+              style="padding: 4px;margin: 0px 4px 0px 4px;"
             >
               <i class="fa-solid fa-user-plus"></i>
             </div>
             <div class="dropdown">
-              <button
+              <button disabled
                 class="btn dropdown-toggle btn-light text-dark"
                 type="button"
                 matTooltip="Type"
@@ -131,10 +157,11 @@
           <div
             class="text-end col-5 d-flex align-item-center justify-content-center"
           >
-            <button type="button" class="btn btn-light text-dark me-2">
+            <button disabled type="button" class="btn btn-light text-dark me-2">
               <i class="fa-solid fa-cloud-arrow-up"></i>Import work
             </button>
             <button
+            disabled
               type="button"
               class="btn btn-light text-dark me-2"
               matTooltip="Insights"
@@ -142,7 +169,7 @@
             >
               <i class="fa-solid fa-chart-line"></i>Insights
             </button>
-            <button type="button" class="btn btn-light text-dark me-2">
+            <button type="button" disabled class="btn btn-light text-dark me-2">
               <i class="fa-solid fa-sliders"></i>View setting
             </button>
           </div>
@@ -160,7 +187,7 @@
         "
         class="example-container"
       >
-        <p>{{ column.title }}</p>
+        <p style="margin: 9px 0px 0px 8px;">{{ column.title }}</p>
         <div
           cdkDropList
           [cdkDropListData]="column.tasks"
@@ -172,17 +199,18 @@
             class="example-box"
             cdkDrag
           >
-            <div style="width: 88%;">
-              <div class="task" (click)="openDialog(item)">
+            <div style="width: 88%">
+              <div class="task">
                 <span
                   >{{ item.summary
                   }}<i
-                    class="fa-solid fa-pencil ml-2" style="cursor: pointer;"
-                    
+                    (click)="openDialog(item)"
+                    class="fa-solid fa-pencil ml-2"
+                    style="cursor: pointer"
                   ></i
                 ></span>
                 <div>
-                  <button mat-button [matMenuTriggerFor]="animals">
+                  <button mat-button [matMenuTriggerFor]="animals" style="margin-bottom: 5px;">
                     <i class="fa-solid fa-ellipsis m-0"></i>
                   </button>
                   <mat-menu #animals="matMenu">
@@ -201,32 +229,12 @@
                   </mat-menu>
                 </div>
               </div>
-              <div class="project">
+              <div class="project" style="height: 20px; padding-right: 14px;">
                 {{ item.Assign }}
-                <span>{{ item.Assign! | initial }}</span>
+                <span *ngIf="item.Assign">{{ item.Assign | initial }}</span>
               </div>
             </div>
           </div>
-          <!-- <div class="createIssue">
-            <button class="" style="border: none" (click)="create_issue(i)">
-              Create issue
-            </button>
-            <div class="issueForm" *ngIf="column.showInput">
-              <input type="text" style="width: 100%" />
-
-              <div class="actionArea d-flex justify-content-between">
-                <select class="form-select" style="width: 62px">
-                  <option><i class="fa-solid fa-xmark"></i></option>
-                  <option><img src="google.svg" alt="" /></option>
-                  <option>😊</option>
-                  <option>4</option>
-                </select>
-                <button type="button" style="border: none" (click)="create()">
-                  Create
-                </button>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
       <button
@@ -241,17 +249,17 @@
           border: none;
         "
       >
-        <i matTooltipPosition="above"
-        matTooltip="Create column" class="fa-solid fa-plus"></i>
+        <i
+          matTooltipPosition="above"
+          matTooltip="Create column"
+          class="fa-solid fa-plus"
+        ></i>
       </button>
       <div *ngIf="add" class="column-name d-flex flex-column align-items-end">
-        <input
-          type="text"
-          [(ngModel)]="titleInput"
-        />
+        <input type="text" [(ngModel)]="titleInput" />
         <div *ngIf="errorMessage" class="text-danger">
           {{ errorMessage }}
-      </div>
+        </div>
         <div class="action-btn d-flex">
           <button
             (click)="saveColumn()"
@@ -303,9 +311,4 @@
     <button mat-menu-item>Item 1</button>
     <button mat-menu-item>Item 2</button>
   </mat-menu> -->
-  
-  
 </div>
-
-
-
