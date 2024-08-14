@@ -27,10 +27,16 @@ export interface Task {
     endDate:Date;
     summary:string;
     isSprintSelected:boolean;
+    pipelines: Pipeline[];
+  }
+  export interface Pipeline {
+    title: string;
+    showInput: boolean;
     tasks: Task[];
   }
   
   export interface Project {
+    [x: string]: any;
     projectId: number;
     projectName: string;
     projectKey: string;

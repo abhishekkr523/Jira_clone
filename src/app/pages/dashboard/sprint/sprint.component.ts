@@ -59,8 +59,6 @@ export class SprintComponent implements OnInit {
   ];
   sprints: Sprint[] = [];
   selectProject!: Project;
-  // projects: { sprints: Sprint[], [key: string]: any } = { sprints: [] };
-  // importantProjects: { sprints: Sprint[], [key: string]: any } = { sprints: [] };
 
   ngOnInit(): void {
     if (typeof Storage !== 'undefined') {
@@ -96,7 +94,7 @@ export class SprintComponent implements OnInit {
         duration: 0,
         endDate: new Date(),
         summary: '',
-        tasks: [],
+        pipelines:this.columns,
         isSprintSelected: false,
       };
 

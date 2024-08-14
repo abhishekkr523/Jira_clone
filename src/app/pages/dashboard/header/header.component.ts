@@ -65,7 +65,6 @@ export class HeaderComponent implements OnInit {
     // Retrieve selectedProject from local storage
     console.log("HEllo world",this.selectedProject)
 
-    // Check if sprints array in selectedProject is empty
     if (
       this.selectedProject &&
       this.selectedProject.sprints &&

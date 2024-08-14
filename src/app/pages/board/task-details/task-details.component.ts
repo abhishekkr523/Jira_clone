@@ -53,56 +53,6 @@ export class TaskDetailsComponent implements OnInit {
     }
   }
 
-  // onSubmit(): void {
-  //   if (this.taskForm.valid) {
-  //     const formData = this.taskForm.value;
-  //     console.log('Form Dddata:', formData);
-  //     const getdata = localStorage.getItem('selectedSprint');
-  //     if (getdata) {
-  //       const hh = JSON.parse(getdata);
-  //       const idoftask = this.data.taskId;
-  //       console.log(idoftask);
-  //       console.log(hh);
-  //     }
-  //     // You can now use formData for further processing, like sending to an API
-  //   } else {
-  //     console.log('Form is invalid');
-  //   }
-  // }
-
-  // onSubmit(): void {
-  //   if (this.taskForm.valid) {
-  //     const formData = this.taskForm.value;
-  //     console.log('Form Data:', formData);
-  
-  //     const getdata = localStorage.getItem('selectedSprint');
-  //     if (getdata) {
-  //       const hh = JSON.parse(getdata);
-  //       const idoftask = this.data.taskId;
-  //       console.log('Task ID:', idoftask);
-  //       console.log('Sprint Data:', hh);
-  
-  //       // Loop through the pipelines
-  //       for (let pipeline of hh[0].pipelines) {
-  //         // Loop through the tasks in each pipeline
-  //         for (let taskGroup of pipeline.tasks) {
-  //           for (let i = 0; i < taskGroup.length; i++) {
-  //             if (taskGroup[i].taskId === idoftask) {
-  //               // Update the task with the new formData
-  //               taskGroup[i] = { ...taskGroup[i], ...formData };
-  //               console.log('Updated Task:', taskGroup[i]);
-  //               break;
-  //             }
-  //           }
-  //         }
-  //       }
-  
-  //       // Save the updated data back to local storage
-  //       localStorage.setItem('selectedSprint', JSON.stringify(hh));
-  //       console.log('Updated Sprint Data Saved to Local Storage:', hh);
-  //     }
-  //   }
-  // }
   onSubmit(): void {
     if (this.taskForm.valid) {
       const formData = this.taskForm.value;
@@ -145,8 +95,6 @@ export class TaskDetailsComponent implements OnInit {
           }
         }
   
-        // Save the updated project back to local storage
-        // localStorage.setItem('selectedProject', JSON.stringify({selectedProject}));
         console.log('Updated Project Data Saved to Local Storage:', selectedProject);
       }
     }

@@ -175,7 +175,7 @@
             <div style="width: 88%;">
               <div class="task" (click)="openDialog(item)">
                 <span
-                  >{{ item[0].summary
+                  >{{ item.summary
                   }}<i
                     class="fa-solid fa-pencil ml-2" style="cursor: pointer;"
                     
@@ -202,8 +202,8 @@
                 </div>
               </div>
               <div class="project">
-                {{ item[0].Assign }}
-                <span>{{ item[0].Assign! | initial }}</span>
+                {{ item.Assign }}
+                <span>{{ item.Assign! | initial }}</span>
               </div>
             </div>
           </div>
