@@ -10,6 +10,7 @@ import { Console } from 'console';
 export class DataServiceService {
   peoples = new BehaviorSubject<any[]>([]);
   columns = new BehaviorSubject<any[]>([]);
+  storePipeline = new BehaviorSubject<any[]>([]);
   isVisible = new BehaviorSubject<boolean>(false);
 
   isLoggedin = new BehaviorSubject<boolean>(false);
@@ -31,7 +32,7 @@ export class DataServiceService {
   {
     
    const local= localStorage.getItem('projects')
-   console.log('bat',local)
+   
    if(local)
    {
      let projects = JSON.parse(local);
@@ -140,5 +141,8 @@ export class DataServiceService {
 
   setFullScreen(isFullScreen: boolean) {
     this.isFullScreenSubject.next(isFullScreen);
+  }
+  updatePipeline(){
+    localStorage.setItem('pipelines',JSON.stringify(this.columns))
   }
 }

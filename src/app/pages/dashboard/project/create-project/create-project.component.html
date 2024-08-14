@@ -17,22 +17,23 @@
 
 
                 </span>
-                <p><strong>Access:</strong> Anyone with access to <span>{{leader}}</span> can access and administer this
+                <p><strong>Access:</strong> Anyone with access to <span>{{email}}</span> can access and administer this
                     project. <span class="Upgrad">Upgrade your plan</span> to customize project permissions.</p>
             </div>
 
             <div class="key">
-               <div class="key-inner">
-                <label for="">Key </label>
-                <button mat-button [matMenuTriggerFor]="menu">
-                    <i class="fa-solid fa-circle-info" matTooltip="Information"
-                        matTooltipPosition="above"></i><span>*</span></button>
-                <mat-menu #menu="matMenu">
-                    <p mat-menu-item>Choose a descriptive prefix for your project’s issue keys to recognize work
-                        from this project.</p>
+                <div class="key-inner">
+                    <label for="">Key </label>
 
-                </mat-menu>
-               </div>
+                    <i mat-button [matMenuTriggerFor]="menu" class="fa-solid fa-circle-info" matTooltip="Information"
+                        matTooltipPosition="above"></i><span>*</span>
+
+                    <mat-menu #menu="matMenu">
+                        <p mat-menu-item>Choose a descriptive prefix for your project’s issue keys to recognize work
+                            from this project.</p>
+
+                    </mat-menu>
+                </div>
 
 
                 <input type="text" [(ngModel)]="keyValue" (ngModelChange)="manualKeyUpdate = true">

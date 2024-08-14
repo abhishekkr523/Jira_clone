@@ -13,6 +13,7 @@ import { EditdialogComponent } from './editdialog/editdialog.component';
 import { DeletedialogComponent } from './deletedialog/deletedialog.component';
 import { DataServiceService } from '../../../service/data-service.service';
 import { StorageService } from '../../../service/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sprint',
@@ -20,19 +21,44 @@ import { StorageService } from '../../../service/storage.service';
   styleUrl: './sprint.component.scss',
 })
 export class SprintComponent implements OnInit {
+  project: any;
+  selectedSprintIds: any;
+  IdOfSelectedProject: any;
   constructor(
     private dialog: MatDialog,
     private toast: ToastrService,
     private dataService: DataServiceService,
-    private storeService: StorageService
+    private storeService: StorageService,
+    private router: Router
   ) {
     this.dataService.isFullScreen$.subscribe((isFullScreen) => {
       this.isFullScreen = isFullScreen;
     });
   }
-
+  columns: any = [
+    {
+      title: 'TO DO',
+      showInput: false,
+      tasks: [],
+    },
+    {
+      title: 'IN PROGRESS',
+      showInput: false,
+      tasks: [],
+    },
+    {
+      title: 'DONE',
+      showInput: false,
+      tasks: [],
+    },
+    {
+      title: 'READY FOR DEPLOY',
+      showInput: false,
+      tasks: [],
+    },
+  ];
   sprints: Sprint[] = [];
-  selectProject!: Project
+  selectProject!: Project;
   // projects: { sprints: Sprint[], [key: string]: any } = { sprints: [] };
   // importantProjects: { sprints: Sprint[], [key: string]: any } = { sprints: [] };
 
@@ -43,13 +69,12 @@ export class SprintComponent implements OnInit {
       const projects = JSON.parse(
         localStorage.getItem('projects') || '[]'
       ) as Project[];
-      
+
       // if (saveSprint)
-  
+
       // Merge the found project data into selectProject
-     
     }
-    this.getSprint()
+    this.getSprint();
   }
 
   getNextSprintName(): string {
@@ -57,7 +82,9 @@ export class SprintComponent implements OnInit {
     return `Sprint ${sprintCount}`;
   }
   createSprint() {
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
+    const projects = JSON.parse(
+      localStorage.getItem('projects') || '[]'
+    ) as Project[];
 
     // const sprint = projects
 
@@ -70,27 +97,25 @@ export class SprintComponent implements OnInit {
         endDate: new Date(),
         summary: '',
         tasks: [],
-        isSprintSelected:false
+        isSprintSelected: false,
       };
 
-      this.openEditDialog(newSprint)
-      
-      
+      this.openEditDialog(newSprint);
+
       // this.saveToLocalStorage(newSprint)
     } else {
-
       this.toast.error('Please select a project');
     }
-
   }
-  getSprint(){
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
-  // console.log(projects.find((p:Project)=> p.isSelected))
-  let SelectedProject=projects.find((p:Project)=> p.isSelected)
-  if(SelectedProject){
-    this.selectProject=SelectedProject
-
-  }
+  getSprint() {
+    const projects = JSON.parse(
+      localStorage.getItem('projects') || '[]'
+    ) as Project[];
+    // console.log(projects.find((p:Project)=> p.isSelected))
+    let SelectedProject = projects.find((p: Project) => p.isSelected);
+    if (SelectedProject) {
+      this.selectProject = SelectedProject;
+    }
   }
 
   openEditDialog(sprint: Sprint) {
@@ -100,11 +125,10 @@ export class SprintComponent implements OnInit {
       data: { sprint: { ...sprint } },
     });
     // conssole.log(sprint)
-    
+
     dialogRef.afterClosed().subscribe((result) => {
       // this.saveToLocalStorage(sprint)
-this.getSprint()
-      
+      this.getSprint();
     });
   }
 
@@ -128,27 +152,51 @@ this.getSprint()
     // this.saveToLocalStorage();
   }
 
-  //save local storage
+  saveToLocalStorage(sprint: Sprint) {
+    const projects = JSON.parse(
+      localStorage.getItem('projects') || '[]'
+    ) as Project[];
 
-  saveToLocalStorage(sprint:Sprint) {
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
-
-projects.forEach(project => {
-  // Check if the project is selected
-  if (project.isSelected) {
-    // Push the new sprint object to the sprints array
-    project.sprints.push(sprint);
-
+    projects.forEach((project) => {
+      // Check if the project is selected
+      if (project.isSelected) {
+        // Push the new sprint object to the sprints array
+        project.sprints.push(sprint);
+      }
+    });
+    localStorage.setItem('projects', JSON.stringify(projects));
+    this.getSprint();
   }
-});
-localStorage.setItem('projects',JSON.stringify(projects))
-this.getSprint()
-  }
-
-  // sprint bacllock to board
 
   startSprint(sprint: any) {
-    this.storeService.setSprint(sprint);
+    const projects = localStorage.getItem('projects');
+    if (projects) {
+      let parsedProjects = JSON.parse(projects);
+      // console.log('sprint', sprint);
+      // console.log('parsedProjects (before)', parsedProjects);
+
+      let activeProject = parsedProjects.find(
+        (project: Project) => project.isSelected == true
+      );
+
+      if (activeProject) {
+        // Set isSprintSelected of all sprints to false
+        activeProject.sprints.forEach((spri: Sprint) => {
+          spri.isSprintSelected = false;
+        });
+
+        // Find the sprint that matches the given sprintId and set isSprintSelected to true
+        let selectedSprint = activeProject.sprints.find(
+          (spri: Sprint) => spri.sprintId === sprint.sprintId
+        );
+
+        if (selectedSprint) {
+          selectedSprint.isSprintSelected = true;
+        }
+        localStorage.setItem('projects', JSON.stringify(parsedProjects));
+        // this.dataService.getActiveProject()
+      }
+    }
   }
 
   isFullScreen = false;

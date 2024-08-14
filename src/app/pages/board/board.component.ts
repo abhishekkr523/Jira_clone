@@ -11,7 +11,10 @@ import { AddPeopleDialogComponent } from './add-people-dialog/add-people-dialog.
 import { DataServiceService } from '../../service/data-service.service';
 import { DateAdapter } from '@angular/material/core';
 import { StorageService } from '../../service/storage.service';
-import { Sprint } from '../../user.interface';
+import { Project, Sprint } from '../../user.interface';
+import { filter, from, map, switchMap, take, toArray } from 'rxjs';
+import { pipeline } from 'stream';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-board',
@@ -28,30 +31,13 @@ export class BoardComponent implements OnInit {
   isFullScreen = false;
 
   iconChange: boolean = false;
-
-
-
-   columns = [
+  pipeLine: any;
+  selectProject: { sprints: Sprint[]; [key: string]: any } = { sprints: [] };
+  columns: any = [
     {
       title: 'TO DO',
       showInput: false,
-      tasks: [
-        {
-          taskName: 'ui design',
-          project_name: 'Jira_clone',
-          assignee: 'Tarun pareta',
-        },
-        {
-          taskName: 'use reactive form',
-          project_name: 'Jira_clone',
-          assignee: 'Abhishek kumar',
-        },
-        {
-          taskName: 'filter implementation',
-          project_name: 'Jira_clone',
-          assignee: 'Krishna rai',
-        },
-      ],
+      tasks: [],
     },
     {
       title: 'IN PROGRESS',
@@ -71,33 +57,48 @@ export class BoardComponent implements OnInit {
   ];
 
   peopleList: any[] = [];
-  sprintData: any[]=[];
+  sprintData: any[] = [];
+  ss: any[] = [];
+  errorMessage = '';
+  sprints: any;
   constructor(
+    private route: ActivatedRoute,
     public dialog: MatDialog,
     private router: Router,
-    private srv: DataServiceService,private fullScreenService:DataServiceService, private storageSrv:StorageService
-  ) {this.srv.peoples.subscribe((people) => {
-    this.peopleList = people.map((person) => ({
-      ...person,
-      color: this.getRandomColor(),
-    }));
-  });
-  this.fullScreenService.isFullScreen$.subscribe(isFullScreen => {
-    this.isFullScreen = isFullScreen;
-  });
-}
- 
+    private srv: DataServiceService,
+    private fullScreenService: DataServiceService,
+    private storageSrv: StorageService
+  ) {
+    this.srv.peoples.subscribe((people) => {
+      this.peopleList = people.map((person) => ({
+        ...person,
+      }));
+    });
+    this.fullScreenService.isFullScreen$.subscribe((isFullScreen) => {
+      this.isFullScreen = isFullScreen;
+    });
+  }
+
   // sprint: Sprint | null = null;
   ngOnInit(): void {
-    console.log("bee",this.srv.isLoggedin.value)
-    this.loadColumnsFromLocalStorage();
-    // this.filteredColumns = [...this.columns]; // Initialize filteredColumns
-    // this.srv.peoples.subscribe((people) => {
-    //   this.peopleList = people.map((person) => ({
-    //     ...person,
-    //     color: this.getRandomColor(),
-    //   }));
-    // });
+
+    
+    console.log('bee', this.srv.isLoggedin.value);
+    // this.loadColumnsFromLocalStorage();
+    this.getPipelinesToLocalStorage();
+    const saveSprint = localStorage.getItem('selectedProject');
+    if (saveSprint) {
+      this.selectProject = JSON.parse(saveSprint);
+    }
+    const selectproj = localStorage.getItem('selectedProject');
+    console.log('selectedproject', selectproj);
+    const getSelectedSprint = localStorage.getItem('selectedSprint');
+
+    this.srv.storePipeline.next(this.columns);
+    const storedPipelines = localStorage.getItem('pipelines');
+    if (storedPipelines) {
+      this.columns = JSON.parse(storedPipelines);
+    }
 
     const savedPeopleList = localStorage.getItem('addPeopleList');
     if (savedPeopleList) {
@@ -105,29 +106,56 @@ export class BoardComponent implements OnInit {
     }
 
     this.srv.columns.next(this.columns);
-    console.log("ngColumns",this.columns)
-    // this.storeDataService.sprintSource.subscribe((sprint) => {
-    //   // this.sprint = sprint;
-    //   if(sprint){
-    //     console.log('Sprint received in SprintDetailsComponent:', sprint);
-    //   }
-      
-    // })
-    const getSprintData =this.storageSrv.sprintSource.value
-    console.log("o",this.sprintData)
-    this.sprintData!=getSprintData?.tasks;
-    console.log("oo",this.sprintData)
+    console.log('ngColumns', this.columns);
+
+    const getSprintData1 = this.storageSrv.sprintSource.value;
+    const getSprintData2 = getSprintData1?.tasks || []; // Ensure it's an array even if undefined
+    console.log('gg', getSprintData2);
+
+    // Log all tasks and their statuses
+    getSprintData2.forEach((task) =>
+      console.log('Task Status:', task.status, 'Task Name:', task.taskName)
+    );
+
+    // Function to filter tasks by status
+    const filterTasksByStatus = (status: string) =>
+      from(getSprintData2).pipe(
+        filter((task) => task.status === status),
+        toArray()
+      );
+
+    // Filter and assign tasks for "TO DO"
+    filterTasksByStatus('To Do').subscribe((res) => {
+      console.log('TO DO tasks', res);
+      this.columns[0].tasks = [...this.columns[0].tasks, ...res]; // Assign to TO DO column
+    });
+
+    // Filter and assign tasks for "IN PROGRESS"
+    filterTasksByStatus('In Progress').subscribe((res) => {
+      console.log('IN PROGRESS tasks', res);
+      this.columns[1].tasks = [...this.columns[1].tasks, ...res]; // Assign to IN PROGRESS column
+    });
+
+    // Filter and assign tasks for "DONE"
+    filterTasksByStatus('Done').subscribe((res) => {
+      console.log('DONE tasks', res);
+      this.columns[2].tasks = [...this.columns[2].tasks, ...res]; // Assign to DONE column
+    });
+
+    // Filter and assign tasks for "READY FOR DEPLOY"
+    filterTasksByStatus('Ready to Deploy').subscribe((res) => {
+      console.log('READY FOR DEPLOY tasks', res);
+      this.columns[3].tasks = [...this.columns[3].tasks, ...res]; // Assign to READY FOR DEPLOY column
+    });
+
+    // update pipenine after create issue
+    this.storageSrv.flag.subscribe((res) => {
+      if (res) {
+        this.getPipelinesToLocalStorage();
+      }
+    });
   }
 
-  getRandomColor(): string {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-  
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
@@ -143,7 +171,59 @@ export class BoardComponent implements OnInit {
         event.currentIndex
       );
     }
-    this.saveColumnsToLocalStorage();
+    // this.saveColumnsToLocalStorage();
+    console.log('Itemsa:', this.pipeLine);
+    this.pipeLine = this.pipeLine.map((column: { tasks: any[] }) => {
+      if (!Array.isArray(column.tasks)) {
+        // If tasks is not an array, convert it to an array
+        column.tasks = [column.tasks];
+      }
+      return column;
+    });
+    console.log('Itemsb:', this.pipeLine);
+
+    const getSelectedSprint = localStorage.getItem('selectedSprint');
+    if (getSelectedSprint) {
+      const parseSelectedSprint = JSON.parse(getSelectedSprint);
+      console.log('Items1', parseSelectedSprint[0].pipelines);
+      if (parseSelectedSprint) {
+        console.log('hii', this.pipeLine);
+        parseSelectedSprint[0].pipelines = this.pipeLine;
+        console.log('Items2:', parseSelectedSprint[0].pipelines);
+        console.log('Items2..:', parseSelectedSprint);
+        const a = parseSelectedSprint[0].pipelines;
+        localStorage.setItem(
+          'selectedSprint',
+          JSON.stringify(parseSelectedSprint)
+        );
+
+        const getSelectedSprint = localStorage.getItem('selectedSprint');
+        if (getSelectedSprint) {
+          const parse = JSON.parse(getSelectedSprint);
+          console.log('fff', parse);
+          const sprintid = parse[0].sprintId;
+          const getSelectedProject = localStorage.getItem('selectedProject');
+          if (getSelectedProject) {
+            let selectedProject = JSON.parse(getSelectedProject);
+
+            // Use map to create a new array with the updated sprint
+            selectedProject.sprints = selectedProject.sprints.map(
+              (sprint: any) => {
+                if (sprint.sprintId === sprintid) {
+                  return { ...parse[0] }; // Replace the sprint with the new data
+                }
+                return sprint; // Return the sprint unchanged if the ID does not match
+              }
+            );
+            console.log('Updated Pproject:', selectedProject);
+            localStorage.setItem(
+              'selectedProject',
+              JSON.stringify(selectedProject)
+            );
+          }
+        }
+      }
+    }
   }
 
   moveToTop(task: any, column: any) {
@@ -152,16 +232,17 @@ export class BoardComponent implements OnInit {
       column.tasks.splice(index, 1);
       column.tasks.unshift(task);
     }
-    this.saveColumnsToLocalStorage();
+    // this.saveColumnsToLocalStorage();
   }
 
   moveToBottom(task: any, column: any) {
     const index = column.tasks.indexOf(task);
     if (index > -1) {
       column.tasks.splice(index, 1);
+
       column.tasks.push(task);
     }
-    this.saveColumnsToLocalStorage();
+    // this.saveColumnsToLocalStorage();
   }
 
   trackByFn(index: number, item: any): any {
@@ -175,78 +256,202 @@ export class BoardComponent implements OnInit {
   cancelColumn() {
     this.add = false;
     this.plus = true;
+    this.titleInput = '';
+    this.errorMessage = '';
+  }
+  saveToLocalStorage() {
+    const projects = JSON.parse(
+      localStorage.getItem('projects') || '[]'
+    ) as Project[];
+    const importantProjects = JSON.parse(
+      localStorage.getItem('importantProjects') || '[]'
+    ) as Project[];
+    const projectId = this.selectProject['projectId']; // Use bracket notation
+
+    // Update the `projects` and `importantProjects` arrays
+    const updatedProjects = projects.map((p) =>
+      p.projectId === projectId
+        ? { ...p, sprints: this.selectProject.sprints }
+        : p
+    );
+
+    const updatedImportantProjects = importantProjects.map((p) =>
+      p.projectId === projectId
+        ? { ...p, sprints: this.selectProject.sprints }
+        : p
+    );
+
+    // Save updated arrays back to local storage
+    localStorage.setItem('projects', JSON.stringify(updatedProjects));
+    localStorage.setItem(
+      'importantProjects',
+      JSON.stringify(updatedImportantProjects)
+    );
+    localStorage.setItem('selectedProject', JSON.stringify(this.selectProject));
   }
 
   saveColumn() {
-    if (this.titleInput.trim()) {
-      this.columns.push({
-        title: this.titleInput,
-        showInput: false,
-        tasks: [],
-      });
-      this.titleInput = '';
-      this.add = false;
+    if (!this.titleInput || this.titleInput.trim() === '') {
+      // If no input, do not proceed with saving the column
+      this.errorMessage = 'Name cannot be empty.';
+      return;
     }
+    console.log('selected project', this.selectProject);
+    const getSprint = localStorage.getItem('selectedSprint');
+    if (getSprint) {
+      const parseSprints = JSON.parse(getSprint);
+      // console.log('parseSprints', parseSprints);
+
+      parseSprints[0].pipelines.push({ title: this.titleInput, tasks: [] });
+      // console.log('pipelines', pipelines);
+      // pipelines.push({ title: 'abhi', task: [] });
+      // this.pipeLine = pipelines[0];
+      // console.log('gg', parseSprints[0]);
+      const getSelectedProject = localStorage.getItem('selectedProject');
+      if (getSelectedProject) {
+        const parsepro = JSON.parse(getSelectedProject);
+        const parseSprints = JSON.parse(getSprint);
+        // console.log('parseSprints', parseSprints[0].sprintId);
+        const getSprintInfo = parsepro.sprints.map((sprint: any) => {
+          // console.log("hh",sprint)
+          if (sprint.sprintId === parseSprints[0].sprintId) {
+            console.log('hh', sprint);
+            return {
+              ...sprint,
+              pipelines: [
+                ...sprint.pipelines,
+                { title: this.titleInput, tasks: [] },
+              ],
+            };
+          }
+          return sprint;
+        });
+        let data = { ...parsepro, sprints: getSprintInfo };
+        console.log('hh', data);
+
+        localStorage.setItem('selectedProject', JSON.stringify(data));
+      }
+      localStorage.setItem('selectedSprint', JSON.stringify(parseSprints));
+      this.getPipelinesToLocalStorage();
+    }
+    // Reset the input field after saving the column
+    this.titleInput = '';
+    this.errorMessage = '';
+    this.add = false;
     this.plus = true;
-    this.srv.columns.next(this.columns);
-    this.srv.columns.subscribe((abc) => {
-      console.log('oo', abc);
-    });
+  }
+  // getPipelinesToLocalStorage() {
+  //   const projects = localStorage.getItem('projects');
+
+  //   console.log('aa',projects);
+  //   if (projects) {
+  //     console.log('ss',projects);
+  //     let activeProject = projects.find(
+  //       (project: Project) => project.isSelected ===true
+  //     );
+  //     this.sprints = activeProject.sprints;
+
+  //     console.log('x', this.sprints);
+  //     this.pipeLine = this.sprints;
+  //     console.log('xxx', this.pipeLine);
+  //   }
+  // }
+  getPipelinesToLocalStorage() {
+    const projects = localStorage.getItem('projects');
+
+    console.log('aa', projects);
+
+    if (projects) {
+      const parsedProjects = JSON.parse(projects);
+      let activeProject = parsedProjects.find(
+        (project: Project) => project.isSelected === true
+      );
+
+      if (activeProject) {
+        // this.sprints = activeProject.sprints;
+        if (activeProject) {
+          this.sprints = activeProject.sprints;
+
+          console.log('x', this.sprints);
+
+          const selectedSprint = this.sprints
+            .map((sprint: any) => {
+              if (sprint.isSprintSelected) {
+                return sprint;
+              }
+              return null; // Return null for non-matching items
+            })
+            .filter((sprint: null) => sprint !== null); // Filter out null values
+
+          this.pipeLine = selectedSprint;
+          console.log('xxxpp', this.pipeLine);
+        }
+
+        // console.log('x', this.sprints);
+        // this.pipeLine = this.sprints;
+        // console.log('xxx', this.pipeLine);
+      } else {
+        console.log('No active project found');
+      }
+    } else {
+      console.log('No projects found in localStorage');
+    }
   }
 
   create_issue(i: number) {
-    this.columns.forEach((item, ind) => {
+    this.columns.forEach((item: any, ind: any) => {
       item.showInput = ind === i;
     });
   }
 
-  create() {
-    this.createIssue = false;
-  }
+  // create() {
+  //   this.createIssue = false;
+  // }
 
+  //   filterByAssignee(assignee: string) {
+  //     console.log('assignee', assignee);
+  //     const normalizedAssignee = assignee.trim().toLowerCase();
+  // console.log("jjjpp",this.pipeLine)
+  //     this.filteredColumns = this.pipeLine.map((column: any) => ({
+  //       ...column,
+  //       tasks: column.tasks.filter(
+  //         (task: any) => task.assignee.trim().toLowerCase() === normalizedAssignee
+  //       ),
+  //     }));
+  //     console.log('filtcol', this.filteredColumns);
+  //     console.log('columns', this.columns);
+  //     // this.columns=this.filteredColumns
+  //     this.flag = false;
+  //   }
   filterByAssignee(assignee: string) {
-    console.log("assignee",assignee);
+    console.log('assignee', assignee);
     const normalizedAssignee = assignee.trim().toLowerCase();
+    console.log('jjjpp', this.pipeLine);
 
-    this.filteredColumns = this.columns.map((column) => ({
-      ...column,
-      tasks: column.tasks.filter(
-        (task) => task.assignee.trim().toLowerCase() === normalizedAssignee
-      ),
-    }));
-    console.log("filtcol",this.filteredColumns);
-    console.log("columns",this.columns);
-    // this.columns=this.filteredColumns
+    this.filteredColumns = this.pipeLine.map((column: any) => {
+      const filteredTasks = column.tasks
+        .flat()
+        .filter(
+          (task: any) => task.Assign.trim().toLowerCase() === normalizedAssignee
+        );
+
+      return {
+        ...column,
+        tasks: filteredTasks.length > 0 ? [filteredTasks] : [],
+      };
+    });
+
+    console.log('filtcol', this.filteredColumns);
+    console.log('columns', this.columns);
+    // this.columns = this.filteredColumns;
     this.flag = false;
   }
+
   clearFilter() {
     this.flag = true;
     console.log('lll');
-    this.loadColumnsFromLocalStorage();
+    // this.loadColumnsFromLocalStorage();
   }
-
-  saveColumnsToLocalStorage() {
-    localStorage.setItem('columns', JSON.stringify(this.columns));
-  }
-
-  loadColumnsFromLocalStorage() {
-    if (typeof Storage !== 'undefined') {
-      const savedColumns = localStorage.getItem('columns');
-      if (savedColumns) {
-        this.columns = JSON.parse(savedColumns);
-        this.filteredColumns = [...this.columns]; // Initialize filteredColumns
-        if (typeof Storage !== 'undefined') {
-          const savedColumns = localStorage.getItem('columns');
-          if (savedColumns) {
-            this.columns = JSON.parse(savedColumns);
-          }
-        }
-        console.log('ll', this.columns);
-      }
-    }
-  }
-
-
 
   openDialog(data: any) {
     const dialogRef = this.dialog.open(TaskDetailsComponent, {
@@ -266,23 +471,15 @@ export class BoardComponent implements OnInit {
       maxWidth: '26vw',
       height: '58vh',
       panelClass: 'custom-dialog-container',
-      // data: data,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
- 
-//full screen
 
-  //full screen
-
- 
-
-toggleFullScreen() {
-  this.iconChange = !this.iconChange;
+  toggleFullScreen() {
+    this.iconChange = !this.iconChange;
     this.fullScreenService.setFullScreen(!this.isFullScreen);
- 
   }
 }

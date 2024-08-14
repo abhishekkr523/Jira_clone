@@ -28,7 +28,6 @@ export interface Task {
     summary:string;
     isSprintSelected:boolean;
     tasks: Task[];
-    
   }
   
   export interface Project {

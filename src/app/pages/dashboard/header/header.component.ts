@@ -42,31 +42,27 @@ export class HeaderComponent implements OnInit {
       .filter((project) => project.isStar && !project.isMoveToTrash)
       .slice(0, 2); // Limit to 2 important projects
     });
-    this.getActiveProject()
+    this.getProject()
 
-
+  
   }
- 
 
  
 
-  getActiveProject(){
+  getProject(){
     this.projectService.getActiveProject();
         
     this.projectService.selectedProjectSubject.subscribe((project:Project | null) => {
       if (project && project.isSelected) {
         this.selectedProject = project;
       }
-      console.log('tarun',project);
+      // console.log('tarun',project);
      
     })
   }
   openDialog(): void {
-    this.getActiveProject()
-    // Retrieve selectedProject from local storage
-    console.log("HEllo world",this.selectedProject)
-
-    // Check if sprints array in selectedProject is empty
+    this.getProject()
+    
     if (
       this.selectedProject &&
       this.selectedProject.sprints &&

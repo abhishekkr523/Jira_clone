@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class AllTrashProjectComponent implements OnInit {
   projects: Project[] = [];
   leader: string | null = '';
+  email: string | null = '';
 
   constructor( private dataService:DataServiceService,
     private toaster:ToastrService,
@@ -59,6 +60,7 @@ export class AllTrashProjectComponent implements OnInit {
     if (typeof Storage !== 'undefined') {
       this.leader = localStorage.getItem('userLogin');
       if (this.leader) {
+        this.email= this.leader.split(',')[0].split(':')[1].split('"')[1];
         console.log('Retrieved email from local storage:', this.leader);
       } else {
         console.log('No email found in local storage');
