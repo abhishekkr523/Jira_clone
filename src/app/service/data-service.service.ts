@@ -58,6 +58,7 @@ export class DataServiceService {
 
   // Method to update important projects
 
+
   // Add a new sprint to a specific project
   addSprintToProject(projectId: number, newSprint: Sprint): void {
     // Retrieve the existing projects from local storage
@@ -77,36 +78,36 @@ export class DataServiceService {
       console.error(`Project with ID ${projectId} not found.`);
     }
   }
-  addTaskToSprint(projectId: number, sprintId: number, newTask: Task): void {
-    // Retrieve the existing projects from local storage
-    const projects: Project[] = JSON.parse(
-      localStorage.getItem('projects') || '[]'
-    );
+  // addTaskToSprint(projectId: number, sprintId: number, newTask: Task): void {
+  //   // Retrieve the existing projects from local storage
+  //   const projects: Project[] = JSON.parse(
+  //     localStorage.getItem('projects') || '[]'
+  //   );
 
-    // Find the project by ID
-    const project = projects.find((proj) => proj.projectId === projectId);
+  //   // Find the project by ID
+  //   const project = projects.find((proj) => proj.projectId === projectId);
 
-    if (project) {
-      // Find the sprint by ID within the project
-      const sprint = project.sprints.find(
-        (sprint) => sprint.sprintId === sprintId
-      );
+  //   if (project) {
+  //     // Find the sprint by ID within the project
+  //     const sprint = project.sprints.find(
+  //       (sprint) => sprint.sprintId === sprintId
+  //     );
 
-      if (sprint) {
-        // Push the new task into the sprint's tasks array
-        sprint.tasks.push(newTask);
+  //     if (sprint) {
+  //       // Push the new task into the sprint's tasks array
+  //       sprint.pipelines.tasks.push(newTask);
 
-        // Save the updated projects array back to local storage
-        localStorage.setItem('projects', JSON.stringify(projects));
-      } else {
-        console.error(
-          `Sprint with ID ${sprintId} not found in project ${projectId}.`
-        );
-      }
-    } else {
-      console.error(`Project with ID ${projectId} not found.`);
-    }
-  }
+  //       // Save the updated projects array back to local storage
+  //       localStorage.setItem('projects', JSON.stringify(projects));
+  //     } else {
+  //       console.error(
+  //         `Sprint with ID ${sprintId} not found in project ${projectId}.`
+  //       );
+  //     }
+  //   } else {
+  //     console.error(`Project with ID ${projectId} not found.`);
+  //   }
+  // }
 
   // Get sprints for a specific project
   getSprintsByProjectId(projectId: number): Sprint[] | null {
@@ -120,21 +121,21 @@ export class DataServiceService {
 
   // for zoom the screen
   // private isFullScreenSubject = new BehaviorSubject<boolean>(false);
-  getTasksBySprintId(projectId: number, sprintId: number): Task[] | null {
-    const projects: Project[] = JSON.parse(
-      localStorage.getItem('projects') || '[]'
-    );
-    const project = projects.find((proj) => proj.projectId === projectId);
+  // getTasksBySprintId(projectId: number, sprintId: number): Task[] | null {
+  //   const projects: Project[] = JSON.parse(
+  //     localStorage.getItem('projects') || '[]'
+  //   );
+  //   const project = projects.find((proj) => proj.projectId === projectId);
 
-    if (project) {
-      const sprint = project.sprints.find(
-        (sprint) => sprint.sprintId === sprintId
-      );
-      return sprint ? sprint.tasks : null;
-    }
+  //   if (project) {
+  //     const sprint = project.sprints.find(
+  //       (sprint) => sprint.sprintId === sprintId
+  //     );
+  //     return sprint ? sprint.tasks : null;
+  //   }
 
-    return null;
-  }
+  //   return null;
+  // }
   // for zoom the screen
   private isFullScreenSubject = new BehaviorSubject<boolean>(false);
   isFullScreen$ = this.isFullScreenSubject.asObservable();

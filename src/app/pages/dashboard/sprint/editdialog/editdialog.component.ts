@@ -11,12 +11,13 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EditdialogComponent implements OnInit,AfterViewInit {
   weeks = [1, 2, 3, 4];
-  selectedWeeks: number | Date|string = 1;
+  selectedWeeks!: number | Date|string ;
   customWeeks: number | null = null;
   startDate!: Date | number;
-  endDate: Date | string = '';
+  endDate!: Date |null
   registerProject!: FormGroup;
   sprint: Sprint;
+  goal!:string
 
   constructor(
     private dialogRef: MatDialogRef<EditdialogComponent>,
@@ -25,16 +26,19 @@ export class EditdialogComponent implements OnInit,AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.sprint = data.sprint;
-    console.log(data,"data")
+    console.log(this.sprint.endDate,"data")
+    this.endDate=this.sprint.endDate
+    this.selectedWeeks=this.sprint.duration
+    this.goal=this.sprint.summary
   }
 
   ngOnInit(): void {
     this.registerProject = this.fb.group({
       sprintName: [this.sprint.sprintName, [Validators.required]],
-      // startDate: ['', [Validators.required]],
-      // customWeeks: [this.sprint.startDate, [Validators.required]],
-      // duration: [this.sprint.duration, [Validators.required]],
-      // endDate: [this.sprint.endDate, [Validators.required]],
+      startDate: [this.sprint.startDate, [Validators.required]],
+      customWeeks: [this.sprint.startDate, [Validators.required]],
+      duration: [this.sprint.duration, [Validators.required]],
+      endDate: [this.sprint.endDate, [Validators.required]],
       summary: [this.sprint.summary]
     });
 
@@ -47,17 +51,20 @@ export class EditdialogComponent implements OnInit,AfterViewInit {
   }
 
   calculateEndDate(): void {
-    if (!this.startDate) {
-      this.endDate = 'Enter the starting date.';
-      return;
-    }
+    // if (!this.startDate) {
+    //   this.endDate = 'Enter the starting date.';
+    //   return;
+    // }
+   let startDate= this.registerProject.value.startDate
+   let selectedWeeks= this.registerProject.value.duration
+   let customWeeks= this.registerProject.value.customWeeks
 
-    let weeksToAdd = this.selectedWeeks === 'custom' && this.customWeeks ? this.customWeeks : this.selectedWeeks;
+    let weeksToAdd = this.selectedWeeks === 'custom' && customWeeks ? customWeeks : selectedWeeks;
     if (typeof weeksToAdd === 'number' && weeksToAdd > 0) {
-      this.endDate = new Date(this.startDate);
+      this.endDate = new Date(startDate);
       this.endDate.setDate(this.endDate.getDate() + weeksToAdd * 7);
     } else {
-      this.endDate = 'Enter the starting date.';
+      this.endDate = null;
     }
   }
 
@@ -80,27 +87,27 @@ export class EditdialogComponent implements OnInit,AfterViewInit {
         ...this.registerProject.value,
         endDate: this.endDate
       };
-      this.saveToLocalStoage(updatedSprint)
-      this.toast.success('Sprint Created successfully')
+
+      // this.saveToLocalStoage(updatedSprint)
       this.dialogRef.close(updatedSprint);
       
+      
     }
-    console.log(this.registerProject.value,"Updated")
   }
-  saveToLocalStoage(sprint:Sprint){
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
+  // saveToLocalStoage(sprint:Sprint){
+  //   const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
 
-    projects.forEach(project => {
-      // Check if the project is selected
-      if (project.isSelected) {
-        // Push the new sprint object to the sprints array
-        project.sprints.push(sprint);
+  //   projects.forEach(project => {
+  //     // Check if the project is selected
+  //     if (project.isSelected) {
+  //       // Push the new sprint object to the sprints array
+  //       project.sprints.push(sprint);
     
-      }
-    });
-    localStorage.setItem('projects',JSON.stringify(projects))
-    // this.getSprint(
-  }
+  //     }
+  //   });
+  //   localStorage.setItem('projects',JSON.stringify(projects))
+  //   // this.getSprint(
+  // }
  
 
   onCancel(): void {

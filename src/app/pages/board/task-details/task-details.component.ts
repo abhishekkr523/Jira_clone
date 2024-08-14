@@ -2,6 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataServiceService } from '../../../service/data-service.service';
+import { Project } from '../../../user.interface';
+import { parse } from 'path';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-details',
@@ -14,13 +17,16 @@ export class TaskDetailsComponent implements OnInit {
   columnTitle: any[] = [];
   isDropdownOpen = false;
   peopleList: any;
-  // taskDetails: any[]=[];
+  pipelines: any;
 
   constructor(
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private srv: DataServiceService
-  ) {}
+    private srv: DataServiceService,
+    private router:Router
+  ) {
+    console.log('cc', data);
+  }
 
   ngOnInit(): void {
     this.taskForm = this.fb.group({
@@ -32,7 +38,8 @@ export class TaskDetailsComponent implements OnInit {
       sprint: [''],
       Time: [''],
       Reporter: [''],
-      taskId:['']
+      taskId: [''],
+      status: [''],
     });
 
     this.getTaskDetails();
@@ -41,7 +48,7 @@ export class TaskDetailsComponent implements OnInit {
     if (this.data) {
       console.log('dataa', this.data);
 
-      this.taskForm.patchValue(this.data[0]);
+      this.taskForm.patchValue(this.data);
       console.log('dataaa', this.taskForm.value);
     }
 
@@ -51,109 +58,114 @@ export class TaskDetailsComponent implements OnInit {
       this.peopleList = JSON.parse(getPeopleList);
       console.log('kik', this.peopleList);
     }
+    this.loadProjects();
   }
 
-  // onSubmit(): void {
-  //   if (this.taskForm.valid) {
-  //     const formData = this.taskForm.value;
-  //     console.log('Form Dddata:', formData);
-  //     const getdata = localStorage.getItem('selectedSprint');
-  //     if (getdata) {
-  //       const hh = JSON.parse(getdata);
-  //       const idoftask = this.data.taskId;
-  //       console.log(idoftask);
-  //       console.log(hh);
-  //     }
-  //     // You can now use formData for further processing, like sending to an API
-  //   } else {
-  //     console.log('Form is invalid');
-  //   }
-  // }
+  loadProjects(): void {
+    const local = localStorage.getItem('projects');
+    if (local) {
+      let projects = JSON.parse(local);
+      let activeProject = projects.find(
+        (project: Project) => project.isSelected === true
+      );
+      // sprints = activeProject.sprints;
+      if (activeProject) {
+        const selectedSprint = activeProject.sprints
+          .map((sprint: any) => {
+            if (sprint.isSprintSelected) {
+              return sprint;
+            }
+            return null;
+          })
+          .filter((sprint: null) => sprint !== null);
+        console.log('aaaaaa', selectedSprint);
+        if (selectedSprint.length > 0) {
+          const status = selectedSprint[0].pipelines;
 
-  // onSubmit(): void {
-  //   if (this.taskForm.valid) {
-  //     const formData = this.taskForm.value;
-  //     console.log('Form Data:', formData);
-  
-  //     const getdata = localStorage.getItem('selectedSprint');
-  //     if (getdata) {
-  //       const hh = JSON.parse(getdata);
-  //       const idoftask = this.data.taskId;
-  //       console.log('Task ID:', idoftask);
-  //       console.log('Sprint Data:', hh);
-  
-  //       // Loop through the pipelines
-  //       for (let pipeline of hh[0].pipelines) {
-  //         // Loop through the tasks in each pipeline
-  //         for (let taskGroup of pipeline.tasks) {
-  //           for (let i = 0; i < taskGroup.length; i++) {
-  //             if (taskGroup[i].taskId === idoftask) {
-  //               // Update the task with the new formData
-  //               taskGroup[i] = { ...taskGroup[i], ...formData };
-  //               console.log('Updated Task:', taskGroup[i]);
-  //               break;
-  //             }
-  //           }
-  //         }
-  //       }
-  
-  //       // Save the updated data back to local storage
-  //       localStorage.setItem('selectedSprint', JSON.stringify(hh));
-  //       console.log('Updated Sprint Data Saved to Local Storage:', hh);
-  //     }
-  //   }
-  // }
+          this.pipelines = status.map((pipeline: any) => pipeline.title);
+          console.log('Pipelineeee Titlessss:', this.pipelines);
+          // this.Option={...titles}
+          console.log('opt');
+        }
+      }
+    }
+  }
+
   onSubmit(): void {
     if (this.taskForm.valid) {
       const formData = this.taskForm.value;
       console.log('Form Data:', formData);
-  
-      const getSelectedSprint = localStorage.getItem('selectedSprint');
-      const getSelectedProject = localStorage.getItem('selectedProject');
-  
-      if (getSelectedSprint && getSelectedProject) {
-        const hh = JSON.parse(getSelectedSprint);
-        const selectedProject = JSON.parse(getSelectedProject);
-        const idoftask = this.data[0].taskId;
-        console.log('Task ID:', idoftask);
-        console.log('Sprint Data:', hh);
-  
-        // Updating the task within the sprint
-        for (let pipeline of hh[0].pipelines) {
-          for (let taskGroup of pipeline.tasks) {
-            for (let i = 0; i < taskGroup.length; i++) {
-              if (taskGroup[i].taskId === idoftask) {
-                taskGroup[i] = {...formData };
-                console.log('Updated Task:', taskGroup[i]);
-                console.log('Updated Task:', hh[0]);
-                 localStorage.setItem('selectedSprint', JSON.stringify([hh[0]]));
-                break;
+
+      const local = localStorage.getItem('projects');
+      if (local) {
+        let projects = JSON.parse(local);
+        let activeProject = projects.find(
+          (project: Project) => project.isSelected === true
+        );
+
+        if (activeProject) {
+          const selectedSprint = activeProject.sprints
+            .map((sprint: any) => {
+              if (sprint.isSprintSelected) {
+                return sprint;
               }
+              return null;
+            })
+            .filter((sprint: any) => sprint !== null);
+
+          if (selectedSprint.length > 0) {
+            const pipeline = selectedSprint[0].pipelines;
+            console.log('xxx', pipeline);
+            // Find the pipeline that contains the task with the same taskId
+            const previousPipeline = pipeline.find((pipe: any) =>
+              pipe.tasks.some((task: any) => task.taskId === formData.taskId)
+            );
+
+            if (previousPipeline) {
+              // Remove the previous task from its original pipeline
+              previousPipeline.tasks = previousPipeline.tasks.filter(
+                (task: any) => task.taskId !== formData.taskId
+              );
+            }
+
+            // Find the pipeline matching the new status
+            const matchingPipeline = pipeline.find(
+              (pipe: any) =>
+                pipe.title.toUpperCase() === formData.status.toUpperCase()
+            );
+
+            if (matchingPipeline) {
+              // Add the edited task to the matching pipeline
+              matchingPipeline.tasks.push({
+                taskId: formData.taskId, // Keep the original taskId
+                summary: formData.summary,
+                description: formData.description,
+                Assign: formData.Assign,
+                Label: formData.Label,
+                Parent: formData.Parent,
+                Reporter: formData.Reporter,
+                Time: formData.Time,
+                status: formData.status,
+                sprint: formData.sprint,
+              });
+
+              // Save the updated projects back to localStorage
+              localStorage.setItem('projects', JSON.stringify(projects));
+
+              console.log('Updated Pipeline:', matchingPipeline);
+            } else {
+              console.log('No matching pipeline found for the given status.');
             }
           }
         }
-  
-        // Finding and updating the sprint in selectedProject
-        for (let i = 0; i < selectedProject.sprints.length; i++) {
-          if (selectedProject.sprints[i].sprintId === hh[0].sprintId) {
-            selectedProject.sprints[i] = hh[0];
-            console.log('Updated Sprint in Project:', selectedProject.sprints[i]);
-            console.log('Updated Sprint in Projecttt:', selectedProject);
-                    localStorage.setItem('selectedProject', JSON.stringify(selectedProject));
-
-            break;
-          }
-        }
-  
-        // Save the updated project back to local storage
-        // localStorage.setItem('selectedProject', JSON.stringify({selectedProject}));
-        console.log('Updated Project Data Saved to Local Storage:', selectedProject);
       }
     }
+     // Reload the HomeComponent
+  this.router.navigate(['/dashboard/board']).then(() => {
+    window.location.reload();
+  });
   }
-  
-  
-  
+
   getTaskDetails() {
     const taskData = localStorage.getItem('taskData');
     if (taskData) {

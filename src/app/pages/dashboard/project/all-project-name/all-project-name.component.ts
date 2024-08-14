@@ -15,8 +15,7 @@ import { Router } from '@angular/router';
   styleUrl: './all-project-name.component.scss',
 })
 export class AllProjectNameComponent implements OnInit {
-  // showTrashDiv: boolean = false;
-
+ 
   showTrashDiv: boolean = false;
   selectedProjectIndex: number | null = null;
   projects: Project[] = [];

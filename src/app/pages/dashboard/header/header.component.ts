@@ -1,3 +1,4 @@
+
 import { MatDialog } from '@angular/material/dialog';
 import { CreateProPopupComponent } from '../create-project/create-pro-popup/create-pro-popup.component';
 import { DataServiceService } from '../../../service/data-service.service';
@@ -19,8 +20,7 @@ export class HeaderComponent implements OnInit {
 
   Normalprojects: Project[] = [];
   importantProjects: Project[] = [];
-  selectedProject!:Project
-
+selectedProject!:Project
   constructor(
     private projectService: DataServiceService,
     private toster: ToastrService,
@@ -34,13 +34,9 @@ export class HeaderComponent implements OnInit {
 
     this.projectService.projectsSubject.subscribe((projects: Project[]) => {
 
-      this.Normalprojects = projects
-      .filter((project) => !project.isStar && !project.isMoveToTrash)
-      .slice(0, 2); // Limit to 2 normal projects
-
-  this.importantProjects = projects
-      .filter((project) => project.isStar && !project.isMoveToTrash)
-      .slice(0, 2); // Limit to 2 important projects
+    
+      this.Normalprojects = projects.filter((project) => !project.isStar && !project.isMoveToTrash);
+      this.importantProjects = projects.filter((project) => project.isStar && !project.isMoveToTrash);
     });
     this.getProject()
 
@@ -60,6 +56,8 @@ export class HeaderComponent implements OnInit {
      
     })
   }
+
+ 
   openDialog(): void {
     this.getProject()
     
@@ -89,7 +87,6 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  //
   // logout
 
   logOut() {
@@ -125,7 +122,6 @@ export class HeaderComponent implements OnInit {
     this.projectService.getActiveProject()
 
 
-    //  console.log('bahubali',project)
     this.router.navigate(['/dashboard']);
     this.toster.success('Project Selected');
 
