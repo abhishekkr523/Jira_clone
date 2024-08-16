@@ -1,5 +1,6 @@
 <div class="edit">
-    <h3>Edit Sprint</h3>
+    <h3 *ngIf="actionButton==false">Edit Sprint</h3>
+    <h3 *ngIf="actionButton==true">Create Sprint</h3>
     <p>Required fields are marked with an asterisk <span style="color: red;">*</span></p>
   
    <div>
@@ -14,18 +15,12 @@
       </div>
       <div class="input">
         <label for="start">Start Date</label>
-        <input type="date" formControlName="startDate" [value]="sprint.startDate" (ngModelChange)="calculateEndDate()">
+        <input type="date" formControlName="startDate" [min]="today | date:'yyyy-MM-dd'"  [value]="sprint.startDate" (ngModelChange)="calculateEndDate()">
         <div *ngIf=" registerProject.get('startDate')!.invalid && (registerProject.get('startDate')?.touched || registerProject.get('startDate')?.dirty )">
           <span *ngIf="registerProject.get('startDate')?.errors!['required']" style="color: red;">Field is
             required</span>
         </div>
-        <!-- <mat-form-field appearance="fill">
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker>{{startDate|date}}</mat-datepicker>
-        </mat-form-field> -->
-        <!-- <input type="text" ngbDatepicker #d="ngbDatepicker"/> -->
+       
       </div>
       <div class="input">
         <label for="duration">Duration (Weeks)</label>
@@ -58,7 +53,8 @@
   
     <div class="action">
       <button class="but" (click)="onCancel()">Cancel</button>
-      <button (click)="onSave(registerProject.value)" mat-dialog-close class="but" style="background-color: #0052CC; color: white;" >Update</button>
+      <button  *ngIf="actionButton==false" (click)="onSave(registerProject.value)" mat-dialog-close class="but" style="background-color: #0052CC; color: white;" >Update</button>
+      <button *ngIf="actionButton==true" (click)="onSave(registerProject.value)" mat-dialog-close class="but" style="background-color: #0052CC; color: white;" >Create</button>
     </div>
    </div>
   </div>

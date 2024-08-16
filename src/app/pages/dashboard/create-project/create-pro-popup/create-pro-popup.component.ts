@@ -45,8 +45,6 @@ export class CreateProPopupComponent implements OnInit {
   registerProject!: FormGroup;
   // projects: string[] = []
   editorContent: string = '';
-  isMinimized: boolean = false;
-  reporter = ['krishna', 'tarun', 'abhishek'];
   issueArray: any[] = [];
   projects: Project[] = [];
   importantProjects: Project[] = [];
@@ -56,11 +54,11 @@ export class CreateProPopupComponent implements OnInit {
   tasks: Task[] = [];
   selectedSprintId: number | null = null;
   findproject: Project | null = null;
-  selectSprint: { task: Task[]; [key: string]: any } = { task: [] };
+  selectSprint: { task: Task[];[key: string]: any } = { task: [] };
   selectedProject!: Project;
-  pipelines: any[]=[];
-  selectedSprint:Sprint[]=[]
-  Team:string[]=[]
+  pipelines: any[] = [];
+  selectedSprint: Sprint[] = []
+  Team: string[] = []
   constructor(
     private dialog: MatDialogRef<CreateProPopupComponent>,
     private toast: ToastrService,
@@ -97,17 +95,17 @@ export class CreateProPopupComponent implements OnInit {
     this.loadProjects();
   }
   loadProjects(): void {
-    this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
+    this.projects = this.localStorageService.getProjects()
     let addPeople = JSON.parse(localStorage.getItem('addPeopleList') || '[]');
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
+    const projects = this.localStorageService.getProjects()
     // console.log(projects.find((p:Project)=> p.isSelected))
     let SelectedProject = projects.find((p: Project) => p.isSelected)
-    let SelectedSprint=SelectedProject?.sprints.find((s:Sprint)=>s.isSprintSelected===true)
+    let SelectedSprint = SelectedProject?.sprints.find((s: Sprint) => s.isSprintSelected === true)
     console.log([SelectedSprint])
-    if(SelectedSprint){
-      this.selectedSprint=[SelectedSprint]
+    if (SelectedSprint) {
+      this.selectedSprint = [SelectedSprint]
     }
-    this.Team=addPeople.map((p:Team)=>p.nameEmail)
+    this.Team = addPeople.map((p: Team) => p.nameEmail)
 
     this.serv.getActiveProject();
 
@@ -133,16 +131,12 @@ export class CreateProPopupComponent implements OnInit {
             return null;
           })
           .filter((sprint: null) => sprint !== null);
-          console.log("aaaaaa",selectedSprint)
         if (selectedSprint.length > 0) {
           this.Option = selectedSprint[0].pipelines;
-         
-          this.pipelines=this.Option.map((pipeline: any) => pipeline.title);
-          console.log("Pipeline Titles:",this.pipelines);
-          // this.Option={...titles}
-          console.log("opt",)
-          
-    
+
+          this.pipelines = this.Option.map((pipeline: any) => pipeline.title);
+
+
         }
       }
 
@@ -205,11 +199,9 @@ export class CreateProPopupComponent implements OnInit {
       if (sprint) {
         // Find the corresponding pipeline column based on the task status
         const taskStatus = newTask.status.trim();
-        console.log('Task Status:', taskStatus);
 
         // Log all pipeline titles to see if there's a matching one
         sprint.pipelines.forEach((column: { title: string }) => {
-          console.log('Pipeline Title:', column.title.trim());
         });
 
         // Find the pipeline column that matches the task status
@@ -226,9 +218,7 @@ export class CreateProPopupComponent implements OnInit {
 
           // Add the new task to the corresponding column
           pipelineColumn.tasks.push(newTask);
-          console.log('Updated Sprint:', sprint);
-          console.log('Updated Sprint:', this.projects);
-          localStorage.setItem('projects', JSON.stringify(this.projects));
+          this.localStorageService.setProjects(this.projects)
 
           // Optional: Refresh the UI or show a success message
           this.toast.success('Task added successfully!');
@@ -246,14 +236,14 @@ export class CreateProPopupComponent implements OnInit {
 
 
   updateLocalStorage(): void {
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]');
+    const projects = this.localStorageService.getProjects()
     const projectIndex = projects.findIndex(
       (project: Project) => project.projectId === this.selectedProject.projectId
     );
 
     if (projectIndex !== -1) {
       projects[projectIndex].sprints = this.sprints;
-      localStorage.setItem('projects', JSON.stringify(projects));
+      this.localStorageService.setProjects(projects)
     }
   }
 

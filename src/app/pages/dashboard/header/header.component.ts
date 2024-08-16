@@ -8,6 +8,7 @@ import { Toast, ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LogoutPopUpComponent } from './logout-pop-up/logout-pop-up.component';
 import { Router } from '@angular/router';
+import { StorageService } from '../../../service/storage.service';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +27,7 @@ selectedProject!:Project
     private toster: ToastrService,
     private dialog: MatDialog,
     private router: Router,
+    private storeSrv:StorageService
   ) {}
 
 
@@ -52,7 +54,6 @@ selectedProject!:Project
       if (project && project.isSelected) {
         this.selectedProject = project;
       }
-      // console.log('tarun',project);
      
     })
   }
@@ -67,9 +68,9 @@ selectedProject!:Project
       this.selectedProject.sprints.length > 0
     ) {
 
-       const projects = JSON.parse(localStorage.getItem('projects') || '[]')
+       const projects = this.storeSrv.getProjects()
       let SelectedProject = projects.find((p: Project) => p.isSelected==true)
-      let check = SelectedProject.sprints.find((s: Sprint) => s.isSprintSelected == true)
+      let check = SelectedProject?.sprints.find((s: Sprint) => s.isSprintSelected == true)
       if(check){
          // If sprints array is not empty, open the dialog
       const dialogRef = this.dialog.open(CreateProPopupComponent, {
@@ -80,10 +81,7 @@ selectedProject!:Project
         data: { name: '', email: '' },
       });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        console.log('The dialog was closed');
-        console.log('Form data:', result);
-      });
+      
       }
       else{
         this.toster.error("Please start the sprint")
@@ -115,7 +113,7 @@ selectedProject!:Project
 
   // select project
   selectProject(project: Project) {
-    const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+    const allProjects = this.storeSrv.getProjects()
     
     allProjects.forEach((proj: Project) => proj.isSelected = false);
 
@@ -126,7 +124,7 @@ selectedProject!:Project
     }
 
 
-    localStorage.setItem('projects', JSON.stringify(allProjects));
+    this.storeSrv.setProjects(allProjects)
     
     this.projectService.getActiveProject()
 

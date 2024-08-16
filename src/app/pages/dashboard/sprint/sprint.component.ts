@@ -16,6 +16,8 @@ import { DeletedialogComponent } from './deletedialog/deletedialog.component';
 import { DataServiceService } from '../../../service/data-service.service';
 import { StorageService } from '../../../service/storage.service';
 import { Router } from '@angular/router';
+import { AddPeopleDialogComponent } from '../../board/add-people-dialog/add-people-dialog.component';
+import { profileEnd } from 'console';
 
 @Component({
   selector: 'app-sprint',
@@ -63,7 +65,7 @@ export class SprintComponent implements OnInit {
   selectProject!: Project;
 
   ngOnInit(): void {
-   
+
     this.getSprint();
   }
 
@@ -72,7 +74,7 @@ export class SprintComponent implements OnInit {
     return `Sprint ${sprintCount}`;
   }
   createSprint() {
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]')
+    const projects = this.storeService.getProjects()
     let SelectedProject = projects.find((p: Project) => p.isSelected)
 
     if (SelectedProject) {
@@ -84,12 +86,12 @@ export class SprintComponent implements OnInit {
         endDate: new Date(),
         summary: '',
         isSprintSelected: false,
-        pipelines:this.columns,
-        
+        pipelines: this.columns,
+
       };
-      const projects = JSON.parse(localStorage.getItem('projects') || '[]')
-      let SelectedProject = projects.find((p: Project) => p.isSelected==true)
-      let check = SelectedProject.sprints.find((s: Sprint) => s.sprintId == newSprint.sprintId)
+      const projects = this.storeService.getProjects()
+      let SelectedProject = projects.find((p: Project) => p.isSelected == true)
+      let check = SelectedProject?.sprints.find((s: Sprint) => s.sprintId == newSprint.sprintId)
       if (!check) {
         this.openEditDialog(newSprint)
         // this.saveToLocalStorage(newSprint)
@@ -108,21 +110,45 @@ export class SprintComponent implements OnInit {
   }
 
   openEditDialog(sprint: Sprint) {
-    const dialogRef = this.dialog.open(EditdialogComponent, {
-      width: '500px',
-      height: '500px',
-      data: { sprint: { ...sprint } },
-    });
+    const projects = this.storeService.getProjects()
+    let SelectedProject = projects.find((p: Project) => p.isSelected)
+    let check = SelectedProject?.sprints.some((s: Sprint) => s.sprintId == sprint.sprintId)
+    // console.log(check)
+    if (check) {
+      const dialogRef = this.dialog.open(EditdialogComponent, {
+        width: '500px',
+        height: '500px',
+        data: { sprint: { ...sprint }, isTrue: false },
+      });
 
 
-    dialogRef.afterClosed().subscribe((result) => {
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.saveToLocalStorage(result)
+          this.getSprint()
+        }
 
-      // if(SelectedProject.sprints.sprintId)
-      this.saveToLocalStorage(result)
-      this.toast.success('Sprint Updated successfully')
-      this.getSprint()
 
-    });
+      });
+    }
+    else {
+      const dialogRef = this.dialog.open(EditdialogComponent, {
+        width: '500px',
+        height: '500px',
+        data: { sprint: { ...sprint }, isTrue: true },
+      });
+
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.saveToLocalStorage(result)
+          this.getSprint()
+        }
+
+
+      });
+    }
+
   }
 
   openDeleteDialog(sprint: Sprint) {
@@ -134,12 +160,23 @@ export class SprintComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteSprint(sprint);
+        this.toast.success('Sprint deleted')
+
+      }
+      else{
+        this.toast.info('Sprint is not deleted.')
       }
     });
   }
+  addTeam() {
+    this.dialog.open(AddPeopleDialogComponent, {
+      data: {},
+    });
+
+  }
 
   deleteSprint(sprint: Sprint) {
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]');
+    const projects = this.storeService.getProjects()
     projects.forEach((project: { isSelected: boolean; sprints: Sprint[] }) => {
       // Check if the project is selected
       if (project.isSelected) {
@@ -151,26 +188,24 @@ export class SprintComponent implements OnInit {
 
         // If the sprint exists, remove it
         if (sprintIndex !== -1) {
-          this.selectProject.sprints=[
+          this.selectProject.sprints = [
             ...this.selectProject.sprints.slice(0, sprintIndex),
             ...this.selectProject.sprints.slice(sprintIndex + 1)
           ];
-          // console.log(this.selectProject.sprints[sprintIndex])
+
         }
-        
-        // project.sprints =this.selectProject.sprints.filter((sprint) => sprint.sprintId !== sprint.sprintId);
+
         // Update the project in the projects array
         project.sprints = this.selectProject.sprints;
 
-        localStorage.setItem('projects', JSON.stringify(projects));
+        this.storeService.setProjects(projects)
       }
     });
 
   }
 
   getSprint() {
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
-    // console.log(projects.find((p:Project)=> p.isSelected))
+    const projects = this.storeService.getProjects()
     let SelectedProject = projects.find((p: Project) => p.isSelected)
     if (SelectedProject) {
       this.selectProject = SelectedProject
@@ -182,7 +217,7 @@ export class SprintComponent implements OnInit {
   //save local storage
 
   saveToLocalStorage(sprint: Sprint) {
-    const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
+    const projects = this.storeService.getProjects()
 
     projects.forEach(project => {
       // Check if the project is selected
@@ -193,26 +228,30 @@ export class SprintComponent implements OnInit {
         if (existingSprintIndex !== -1) {
           // Update the existing sprint
           project.sprints[existingSprintIndex] = { ...project.sprints[existingSprintIndex], ...sprint };
+          this.storeService.setProjects(projects)
+          this.toast.success('Sprint Updated successfully')
+
         } else {
           // Push the new sprint object to the sprints array
           project.sprints.push(sprint);
+          this.storeService.setProjects(projects)
+          this.toast.success('Sprint Created successfully')
+
         }
       }
     });
-    localStorage.setItem('projects', JSON.stringify(projects))
     this.getSprint()
   }
 
   // sprint bacllock to board
 
   startSprint(sprint: any) {
-    const projects = localStorage.getItem('projects');
-    if (projects) {
-      let parsedProjects = JSON.parse(projects);
-      console.log('sprint', sprint);
-      console.log('parsedProjects (before)', parsedProjects);
+    const projects = this.storeService.getProjects()
 
-      let activeProject = parsedProjects.find(
+    if (projects) {
+
+
+      let activeProject = projects.find(
         (project: Project) => project.isSelected === true
       );
 
@@ -230,9 +269,11 @@ export class SprintComponent implements OnInit {
         if (selectedSprint) {
           selectedSprint.isSprintSelected = true;
         }
-        localStorage.setItem('projects', JSON.stringify(parsedProjects));
+        this.storeService.setProjects(projects)
         this.getSprint()
         this.toast.success("Sprint started")
+        // const projects = JSON.parse(localStorage.getItem('projects') || '[]')
+
       }
     }
   }

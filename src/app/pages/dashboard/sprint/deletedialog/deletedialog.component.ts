@@ -17,13 +17,12 @@ export class DeletedialogComponent {
   ) {}
 
   onConfirm(): void {
-    this.toast.warning('Sprint deleted')
     this.dialogRef.close(true);
    
   }
 
   onCancel(): void {
-    this.toast.error('Sprint is not deleted.')
+    
     this.dialogRef.close(false);
     
   }

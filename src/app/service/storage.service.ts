@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Sprint } from '../user.interface';
+import { Project, Sprint } from '../user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,12 @@ export class StorageService {
    
 
   }
-
+getProjects(){
+  return JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
+}
+setProjects(project:Project[]){
+  return localStorage.setItem('projects',JSON.stringify(project))
+}
   getSelectedSprintFromLocalStorage() {
     if (typeof Storage !== 'undefined') {
       {

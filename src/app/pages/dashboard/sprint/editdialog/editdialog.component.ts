@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Project, Sprint } from '../../../../user.interface';
 import { ToastrService } from 'ngx-toastr';
+import { StorageService } from '../../../../service/storage.service';
 
 @Component({
   selector: 'app-editdialog',
@@ -18,18 +19,21 @@ export class EditdialogComponent implements OnInit,AfterViewInit {
   registerProject!: FormGroup;
   sprint: Sprint;
   goal!:string
+  today: Date = new Date();
+  actionButton!:boolean
 
   constructor(
     private dialogRef: MatDialogRef<EditdialogComponent>,
     private fb: FormBuilder,
     private toast:ToastrService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private storeServ:StorageService
   ) {
     this.sprint = data.sprint;
-    console.log(this.sprint.endDate,"data")
     this.endDate=this.sprint.endDate
     this.selectedWeeks=this.sprint.duration
     this.goal=this.sprint.summary
+this.actionButton=data.isTrue
   }
 
   ngOnInit(): void {
@@ -41,9 +45,6 @@ export class EditdialogComponent implements OnInit,AfterViewInit {
       endDate: [this.sprint.endDate, [Validators.required]],
       summary: [this.sprint.summary]
     });
-
-    // this.selectedWeeks = this.sprint.duration;
-    // this.startDate = this.sprint.startDate ? new Date(this.sprint.startDate) : null;
     this.calculateEndDate();
   }
   ngAfterViewInit(): void {
@@ -51,10 +52,7 @@ export class EditdialogComponent implements OnInit,AfterViewInit {
   }
 
   calculateEndDate(): void {
-    // if (!this.startDate) {
-    //   this.endDate = 'Enter the starting date.';
-    //   return;
-    // }
+    
    let startDate= this.registerProject.value.startDate
    let selectedWeeks= this.registerProject.value.duration
    let customWeeks= this.registerProject.value.customWeeks
@@ -81,9 +79,9 @@ export class EditdialogComponent implements OnInit,AfterViewInit {
 
   // save data
       onSave(sprint:Sprint){
-        const projects = JSON.parse(localStorage.getItem('projects') || '[]')
+        const projects = this.storeServ.getProjects()
         let SelectedProject = projects.find((p: Project) => p.isSelected==true)
-        let check = SelectedProject.sprints.find((s: Sprint) => s.sprintId == sprint.sprintId)
+        let check = SelectedProject?.sprints.find((s: Sprint) => s.sprintId == sprint.sprintId)
     if (this.registerProject.valid || !check) {
       const updatedSprint = {
         ...this.sprint,
@@ -97,20 +95,6 @@ export class EditdialogComponent implements OnInit,AfterViewInit {
       
     }
   }
-  // saveToLocalStoage(sprint:Sprint){
-  //   const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
-
-  //   projects.forEach(project => {
-  //     // Check if the project is selected
-  //     if (project.isSelected) {
-  //       // Push the new sprint object to the sprints array
-  //       project.sprints.push(sprint);
-    
-  //     }
-  //   });
-  //   localStorage.setItem('projects',JSON.stringify(projects))
-  //   // this.getSprint(
-  // }
  
 
   onCancel(): void {
