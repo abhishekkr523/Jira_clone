@@ -106,7 +106,7 @@
     </header>
 
 
-    <div class="sprintList" *ngFor="let sprint of selectProject.sprints">
+    <div class="sprintList" *ngFor="let sprint of selectProject?.sprints">
         <div class="title">
             <div class="sprint" (click)="openEditDialog(sprint)">
                <div class="sprintName">

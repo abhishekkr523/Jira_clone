@@ -15,6 +15,7 @@ import { Project, Sprint } from '../../user.interface';
 import { filter, from, map, switchMap, take, toArray } from 'rxjs';
 import { pipeline } from 'stream';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-board',
@@ -65,6 +66,7 @@ export class BoardComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private router: Router,
+    private toast: ToastrService,
     private srv: DataServiceService,
     private fullScreenService: DataServiceService,
     private storageSrv: StorageService
@@ -228,14 +230,14 @@ export class BoardComponent implements OnInit {
   saveColumn() {
     // Check if the title input is empty
     if (!this.titleInput || this.titleInput.trim() === '') {
-      this.errorMessage = 'Column title cannot be empty';
+      this.toast.error('Column title cannot be empty');
       return;
     }
   
     // Check for duplicate column titles
     const isDuplicate = this.pipeLine.some((col: { title: any; }) => col.title === this.titleInput.trim());
     if (isDuplicate) {
-      this.errorMessage = 'Column title already exists';
+      this.toast.error('Column title already exists');
       return;
     }
   
@@ -253,7 +255,6 @@ export class BoardComponent implements OnInit {
   
     // Update the pipeline
     this.pipeLine = [...this.pipeLine];
-    console.log("ppppipeLine",this.pipeLine)
     // Save the updated columns to local storage
     this.saveColumnsToLocalStorage();
 

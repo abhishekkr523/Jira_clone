@@ -30,7 +30,7 @@
         <i id="uparrow" class="fa fa-angle-up" aria-hidden="true"></i>
       </label>
       <ul class="drop">
-        <li>
+        <li class="disabled" >
           <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
             <path
               d="M6 2h10a3 3 0 010 6H6a3 3 0 110-6zm0 2a1 1 0 100 2h10a1 1 0 000-2H6zm4 5h8a3 3 0 010 6h-8a3 3 0 010-6zm0 2a1 1 0 000 2h8a1 1 0 000-2h-8zm-4 5h6a3 3 0 010 6H6a3 3 0 010-6zm0 2a1 1 0 000 2h6a1 1 0 000-2H6z"
@@ -38,9 +38,9 @@
               fill-rule="evenodd"
             ></path>
           </svg>
-          <label for="regularchat"> Timeline </label>
+          <label class="text-muted" for="regularchat"> Timeline </label>
         </li>
-        <li routerLink="backlog">
+        <li routerLink="backlog" routerLinkActive="active">
           <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
             <g fill="currentColor">
               <path
@@ -55,9 +55,9 @@
               ></path>
             </g>
           </svg>
-          <a routerLink="backlog"> <label for="chatbox"> Backlock </label></a>
+           <label for="chatbox"> Backlog</label>
         </li>
-        <li>
+        <li routerLink="board" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
             <g fill="currentColor">
               <path
@@ -66,7 +66,7 @@
               <path d="M8 6v12h2V6zm6 0v12h2V6z"></path>
             </g>
           </svg>
-          <label for="chatbox"  routerLink="board"> Board </label>
+          <label for="chatbox" > Board </label>
         </li>
         <li>
           <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
@@ -76,7 +76,7 @@
               fill-rule="evenodd"
             ></path>
           </svg>
-          <label for="chatbox"> Calendar </label>
+          <label class="text-muted" for="chatbox"> Calendar </label>
         </li>
         <li>
           <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
@@ -90,7 +90,7 @@
             </g>
           </svg>
 
-          <label for="chatbox"> List </label>
+          <label class="text-muted" for="chatbox"> List </label>
         </li>
         <li>
           <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
@@ -104,16 +104,16 @@
               ></path>
             </g>
           </svg>
-          <label for="chatbox"> Issue </label>
+          <label class="text-muted" for="chatbox"> Issue </label>
         </li>
       </ul>
     </li>
     <!-- End Planning Dropdown -->
 
     <!-- Start Development Dropdown -->
-    <li>
-      <input type="checkbox" id="forms" name="dropdowns" />
-      <label for="forms">
+    <li >
+      <input type="checkbox" id="forms" name="dropdowns" disabled/>
+      <label for="forms" class="text-muted">
         <i id="downarrow" class="fa fa-angle-down" aria-hidden="true"></i>
         <i id="uparrow" class="fa fa-angle-up" aria-hidden="true"></i>
         DEVELOPMENT

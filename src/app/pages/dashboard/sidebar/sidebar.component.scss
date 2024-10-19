@@ -61,7 +61,7 @@ input[type=radio]:checked ~ label > i:first-child {
 }
 
 input:not(checked) ~ label {
-   color: rgb(60, 33, 33);
+   color: rgb(19 11 11);
    padding-left: 35px;
 }
 /* End Radio inputs */
@@ -186,3 +186,9 @@ a lable{
    display: flex;
    align-items: center;
 }
+
+.active {
+   color: #007bff; /* Example of custom active style */
+   font-weight: bold;
+ }
+ 

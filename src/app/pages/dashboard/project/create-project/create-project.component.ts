@@ -102,7 +102,7 @@ export class CreateProjectComponent implements OnInit {
       this.dataService.projectsSubject.next(existingProjects);
       this.dataService.updateProjects(existingProjects);
 
-      this.toast.success('Successfully Add Project');
+      this.toast.success('Project Created Successfully');
 
       this.router.navigate(['showAllProjects']);
     } else {

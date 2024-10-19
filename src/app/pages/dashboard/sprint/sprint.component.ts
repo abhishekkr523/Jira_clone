@@ -117,7 +117,7 @@ export class SprintComponent implements OnInit {
 
       // if(SelectedProject.sprints.sprintId)
       this.saveToLocalStorage(result)
-      this.toast.success('Sprint Updated successfully')
+      this.toast.success('Sprint Created successfully')
       this.getSprint()
 
     });
@@ -168,7 +168,7 @@ export class SprintComponent implements OnInit {
 
   getSprint() {
     const projects = JSON.parse(localStorage.getItem('projects') || '[]') as Project[];
-    // console.log(projects.find((p:Project)=> p.isSelected))
+    console.log("kk",projects.find((p:Project)=> p.isSelected))
     let SelectedProject = projects.find((p: Project) => p.isSelected)
     if (SelectedProject) {
       this.selectProject = SelectedProject

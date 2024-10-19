@@ -41,15 +41,8 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,canActivate: [authGuard],
     children: [
-      {
-        path: '',
-        component: BoardComponent,canActivate: [authGuard],
-      },
-      {
-        path: 'board',
-        component: BoardComponent,
-        canActivate: [authGuard],
-      },
+      { path: '', redirectTo: 'board', pathMatch: 'full' }, // This makes /dashboard redirect to /dashboard/board
+      { path: 'board', component: BoardComponent, canActivate: [authGuard] },
       {
         path: 'backlog',
         component:BacklogComponent,
