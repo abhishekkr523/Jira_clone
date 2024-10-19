@@ -18,58 +18,76 @@ import { loginGuard } from './login.guard';
 import { Error404Component } from './pages/error-404/error-404.component';
 import { SprintComponent } from './pages/dashboard/sprint/sprint.component';
 import { AllTrashProjectComponent } from './pages/dashboard/project/all-trash-project/all-trash-project.component';
-// import { TaskDetailsComponent } from './pages/task-details/task-details.component';
-// import { TaskDetailsComponent } from './pages/task-details/task-details.component';
-
-// import { WelcomePageComponent } from './userAuth/welcome-page/welcome-page.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/user-login', pathMatch: 'full' },
-  { path: 'user-login', component: UserLoginComponent,canActivate:[loginGuard] },
-
+  { path: '', redirectTo: '/user-login', pathMatch: 'full', data: { breadcrumb: 'Login' } },
+  { path: 'user-login', component: UserLoginComponent, canActivate: [loginGuard], data: { breadcrumb: 'User Login' } },
   {
     path: 'popup',
-    component: PopupDialogComponent,canActivate: [authGuard],
+    component: PopupDialogComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Popup' },
   },
-  { path: 'template', component: ChooseTempletComponent ,canActivate: [authGuard],},
+  {
+    path: 'template',
+    component: ChooseTempletComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Choose Template' },
+  },
   {
     path: 'create',
     component: CreateProject,
-    children: [{ path: '', component: CreateProPopupComponent,canActivate: [authGuard], }],
+    children: [
+      {
+        path: '',
+        component: CreateProPopupComponent,
+        canActivate: [authGuard],
+        data: { breadcrumb: 'Create Project' },
+      },
+    ],
+    data: { breadcrumb: 'Create' },
   },
   {
     path: 'dashboard',
-    component: DashboardComponent,canActivate: [authGuard],
+    component: DashboardComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Dashboard' },
     children: [
-      { path: '', redirectTo: 'board', pathMatch: 'full' }, // This makes /dashboard redirect to /dashboard/board
-      { path: 'board', component: BoardComponent, canActivate: [authGuard] },
+      { path: '', redirectTo: 'board', pathMatch: 'full' },
+      { path: 'board', component: BoardComponent, canActivate: [authGuard], data: { breadcrumb: 'Board' } },
       {
         path: 'backlog',
-        component:BacklogComponent,
+        component: BacklogComponent,
         canActivate: [authGuard],
+        data: { breadcrumb: 'Backlog' },
       },
       {
         path: 'sprint',
         component: SprintComponent,
+        data: { breadcrumb: 'Sprint' },
       },
     ],
   },
   {
     path: 'create-project',
     component: CreateProjectComponent,
+    data: { breadcrumb: 'Create Project' },
   },
   {
     path: 'showAllProjects',
     component: AllProjectNameComponent,
-  },{
-path:'allTrashProjects',
-component:AllTrashProjectComponent
+    data: { breadcrumb: 'All Projects' },
   },
-  { path: 'taskDetails', component: TaskDetailsComponent },
-  { path: 'addPeople', component: AddPeopleDialogComponent },
-  {path:"error",component:Error404Component},
-  // { path: '**', redirectTo: '/error' },
+  {
+    path: 'allTrashProjects',
+    component: AllTrashProjectComponent,
+    data: { breadcrumb: 'Trash Projects' },
+  },
+  { path: 'taskDetails', component: TaskDetailsComponent, data: { breadcrumb: 'Task Details' } },
+  { path: 'addPeople', component: AddPeopleDialogComponent, data: { breadcrumb: 'Add People' } },
+  { path: 'error', component: Error404Component, data: { breadcrumb: 'Error 404' } },
 ];
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

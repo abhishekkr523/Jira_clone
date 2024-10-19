@@ -62,6 +62,7 @@ export class BoardComponent implements OnInit {
   ss: any[] = [];
   errorMessage = '';
   sprints: any;
+  
   constructor(
     private route: ActivatedRoute,
     public dialog: MatDialog,

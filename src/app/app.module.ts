@@ -64,6 +64,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Error404Component } from './pages/error-404/error-404.component';
 import { AllTrashProjectComponent } from './pages/dashboard/project/all-trash-project/all-trash-project.component';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     LogoutPopUpComponent,
     Error404Component,
     AllTrashProjectComponent,
+    BreadcrumbComponent,
   
    
    
