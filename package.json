@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+     "build:ssr": "ng build && ng run Jira_clone:server",
+    "build:static": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:Jira_clone": "node dist/jira-clone/server/server.mjs"
